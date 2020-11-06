@@ -1,5 +1,3 @@
-# frupal_g4
-
 ---
 CS300 Group Project: Group 4
 ---
