@@ -7,6 +7,8 @@ Scrum Master: TBD
 Product Owner: Jeremy Vonderfect  
 
 
-Style:
--snake case
--in line {}
+Style:  
+-snake_case  
+-in line()
+{
+}
