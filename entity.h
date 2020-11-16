@@ -12,37 +12,46 @@ using namespace std;
 
 class entity{
 
-  string name;
-  int * location;
-  char type;
+  public:
+    entity();
+    ~entity();
+
+  private:
+    string name;
+    int entity_x;
+    int entity_y;
+   // int * location;
+    char type;
 
 };
 class player:public entity{
 
-  int my_whiffles;
-  int my_energy;
-  item * my_items;
+  public: 
+    player();
+    ~player();
+
+  private:
+    int my_whiffles;
+    int my_energy;
+    item * my_items;
 
 }
 class object:public entity{
 
-  int energy_needed;
+  private:
+    int energy_needed;
 
 };
 class royal_diamonds:public entity{
 
-  string something;
-  bool game_end;
+  private:
+    string something;
+    bool game_end;
 
 };
-class item:public entity{
-
-  int whiffles;
-  int owned;
-
-}
 class clue:public entity{
 
-  String sentence;
+  private:
+    String sentence;
 
 };
