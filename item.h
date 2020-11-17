@@ -1,22 +1,31 @@
-// Lawrence Scroggs -- Frupal--
-// Wanted to break down the items in a seperate .h file to 
-// avoid clutter
-
 #include "entity.h"
 
 
-class treasure:public item{
+class Item: public Entity{
+	public:
+		Item();
+	protected:
+		int whiffles;
+		int isOwned;
+};
 
-  char * treas_type;
+class Treasure: public Item{
+	public:
+		Treasure();
+	protected:
+};
 
-}
-class tools:public item{
+class Tools: public Item{
+	public:
+		Tools();
+	protected:
+		int rating;
+};
 
-  int power_lvl;
+class Food: public Item{
+	public:
+		Food();
+	protected:
+		int energy;
+};
 
-}
-class food:public item{
-
-  int energy_provided;
-
-}
