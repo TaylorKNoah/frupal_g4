@@ -24,19 +24,7 @@ class entity{
     char type;
 
 };
-class player:public entity{
-
-  public: 
-    player();
-    ~player();
-
-  private:
-    int my_whiffles;
-    int my_energy;
-    item * my_items;
-
-}
-class object:public entity{
+class obstacle:public entity{
 
   private:
     int energy_needed;
