@@ -7,7 +7,7 @@
 //  Grovnik
 //  Map
 
-#include "Player.h"
+#include "player.h"
 
 //type 0-3 = visable, 4-7 = invisible
 enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WATER_INV, WALL_INV};
