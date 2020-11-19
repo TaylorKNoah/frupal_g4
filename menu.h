@@ -11,12 +11,10 @@ class Menu
 {
     private:
 
-        //2D pointers for flexible size
-        int** map;
         String filename;
 
     public:
 
-        map();
-        ~map();
+        Menu();
+        ~Menu();
 }
