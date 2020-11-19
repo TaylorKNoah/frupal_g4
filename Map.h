@@ -2,19 +2,26 @@
 //CS300, Group Project: Land of Frupal
 //Group 4 et al
 
+//This is the Mpa header file
+//It contains the classes:
+//  Grovnik
+//  Map
+
 #include "Player.h"
 
+//type 0-3 = visable, 4-7 = invisible
+enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WATER_INV, WALL_INV};
 class Grovnik
 {
     private:
         
+        //still need bool since enum change?
         bool isVisable;
-        //could be obj, item, etc.
         Entity* entity;
 
     public:
         
-        enum type {meadow = 0, swamp = 1, water = 2, wall = 3, diamond = 4};
+        Type type;
 
         //Grovnik();
         //~Grovnik();
@@ -29,7 +36,6 @@ class Map
     private:
 
         Grovnik** map;
-        //player???
         Entity* ent;
 
     public:
@@ -37,5 +43,4 @@ class Map
         //Map();
         //~Map();
 
-        //initMap1();
 };
