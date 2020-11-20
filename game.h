@@ -12,9 +12,11 @@ public:
   ~Game();
 
 private:
+
+  String filename;
   int x;
   int y;
-  int ** cells;
+  int menu_start;
   Map map;
   Menu menu;
   Player player;

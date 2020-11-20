@@ -7,25 +7,29 @@
 
 #include "game.h"
 
-game::game():map(),menu(),player(){
+int game::draw()
+{
+  x = COLS;
+  y = LINES;
+  filename = "map_1";
 
-  initscr();
-  x = 128;
-  y = 128;
+  map.draw(x,y,filename);
 
-  cells = new int* [x];
-  for(int i = 0; i < x; ++i)
-    cells[i] = new int[y];
+  menu_start = (x - 25);
 
+  if(menu_start < 129)
+  {
+    printf("Terminal too small please enlarge");
+    return -1;
+  }
+  else
+    menu.draw(menu_start);
+
+  return 0;
+}
+game::game(){
 
 }
 game::~game(){
-
-  //delete array
-  for(int i = 0; i < x; ++i)
-    delete [] cells[i];
-
-  delete [] cells;
-
   
 }
