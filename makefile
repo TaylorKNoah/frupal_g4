@@ -30,9 +30,6 @@ player.o: player.cpp player.h item.h entity.h
 item.o: item.cpp item.h interactables.h entity.h
 	$(CC) $(CFLAGS) item.cpp -c
 
-interactables.o: interactables.cpp interactables.h entity.h
-	$(CC) $(CFLAGS) interactables.cpp -c
-
 entity.o: entity.cpp entity.h
 	$(CC) $(CFLAGS) entity.cpp -c
 
