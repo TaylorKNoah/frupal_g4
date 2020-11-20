@@ -33,7 +33,7 @@ class obstacle:public entity{
 class royal_diamonds:public entity{
 
   private:
-    string something;
+    String something;
     bool game_end;
 
 };
