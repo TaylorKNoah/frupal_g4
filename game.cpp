@@ -9,6 +9,7 @@
 
 int game::draw()
 {
+  initscr();
   x = COLS;
   y = LINES;
   filename = "map_1";

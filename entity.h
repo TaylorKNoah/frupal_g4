@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-
+#include <ncurses.h> 
 
 using namespace std;
 

@@ -13,6 +13,7 @@ public:
 
 private:
 
+  WINDOW * window;
   String filename;
   int x;
   int y;
