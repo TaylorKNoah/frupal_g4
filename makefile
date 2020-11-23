@@ -2,7 +2,7 @@
 # This makefile will ideally compile the whole program
 
 CC=g++
-CFLAGS=-Wall -Werror -g
+CFLAGS=-Wall -Werror -lncurses -g
 OBJECTS=frupal_main.o game.o menu.o map.o player.o item.o entity.o
 
 frupal: $(OBJECTS)
