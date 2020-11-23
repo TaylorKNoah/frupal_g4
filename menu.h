@@ -11,10 +11,12 @@ class Menu
 {
     private:
 
-        String filename;
+        WINDOW* win;
 
     public:
 
         Menu();
         ~Menu();
+
+        void draw(int menu_start, WINDOW* game_win);
 }
