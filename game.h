@@ -1,9 +1,7 @@
 // Carl Knori -- 11/16/2020 -- CS300:Frupal:Group 4
 // This .h file will hold the game class
 
-#include "map.h"
 #include "menu.h"
-#include "player.h"
 
 class Game{
 
@@ -14,6 +12,12 @@ public:
   ~Game();
 
 private:
+
+  WINDOW * window;
+  String filename;
+  int x;
+  int y;
+  int menu_start;
   Map map;
   Menu menu;
   Player player;
