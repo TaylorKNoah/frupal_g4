@@ -27,6 +27,9 @@ int Game::draw() {
   return 0;
 }
 
+void Game::update(int key) {
+  
+}
 
 Game::Game(){
 
