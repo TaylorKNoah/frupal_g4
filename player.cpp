@@ -1,4 +1,4 @@
-// Lawrence Scroggs -- 11/17/2020 -- CS300:Frupal:Group 4
+// Lawrence Scroggs, Carl Knori -- 11/17/2020 -- CS300:Frupal:Group 4
 // This will be the player.cpp file where we will implement
 // the functions for the player class
 
@@ -11,10 +11,10 @@
 /***************PLAYER*************************/
 
 //constructor
-player::player():my_whiffles(1000),my_energy(100),my_items(NULL){}
+Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){}
 
 //destructor
-player::~player(){
+Player::~Player(){
 
   my_whiffles = 0;
   my_energy = 0;
@@ -26,4 +26,8 @@ player::~player(){
     delete temp;
   }
 
+}
+
+int Player::get_energy() {
+  return my_energy();
 }
