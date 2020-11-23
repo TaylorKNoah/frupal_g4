@@ -16,23 +16,13 @@ int main() {
 
   while (running) {
     int key = getch();
-
-    switch (key) {
-    case 'w':
+    
+    if (key != ERR) {
+      game.update(key);
       
-      break;
-
-    case 'a':
-
-      break;
-
-    case 's':
-
-      break;
-
-    case 'd':
-
-      break;
+      if (game.get_player().get_energy() <= 0)
+        running = false;
+    }
   }
 
   return 0;
