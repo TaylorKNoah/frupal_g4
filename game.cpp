@@ -28,7 +28,35 @@ int Game::draw() {
 }
 
 void Game::update(int key) {
-  
+  switch (key) {
+  //Move player up
+  case 'w':
+    if (player.entity_y != 0) { //If player is not at the top of the map
+      
+    }
+    break;
+
+  //Move player left
+  case 'a':
+    if (player.entity_x != 0) { //If player is not at left of map
+      
+    }
+    break;
+
+  //Move player down
+  case 's':
+    if (player.entity_y != 127) { //If player is not at bottom of map
+      
+    }
+    break;
+
+  //Move player right
+  case 'd':
+    if (player.entity_x != 127) { //If player is not at right of map
+      
+    }
+    break;
+  }
 }
 
 Game::Game(){
