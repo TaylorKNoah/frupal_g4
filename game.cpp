@@ -65,3 +65,7 @@ Game::Game(){
 Game::~Game(){
   
 }
+
+Player Game::get_player() {
+  return player();
+}

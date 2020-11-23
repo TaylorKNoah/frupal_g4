@@ -11,6 +11,7 @@ public:
   // case?
   ~Game();
   void update(int key);
+  Player get_player();
 
 private:
 
