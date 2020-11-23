@@ -7,8 +7,7 @@
 
 #include "game.h"
 
-int game::draw()
-{
+int Game::draw() {
   initscr();
   x = COLS;
   y = LINES;
@@ -18,8 +17,7 @@ int game::draw()
 
   menu_start = (x - 25);
 
-  if(menu_start < 129)
-  {
+  if(menu_start < 129) {
     printf("Terminal too small please enlarge");
     return -1;
   }
@@ -28,9 +26,11 @@ int game::draw()
 
   return 0;
 }
-game::game(){
+
+
+Game::Game(){
 
 }
-game::~game(){
+Game::~Game(){
   
 }
