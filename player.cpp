@@ -27,3 +27,26 @@ player::~player(){
   }
 
 }
+
+void player::draw(int menu_start, WINDOW* &gaem_win)
+{
+    //init if needed
+    if(game_win = NULL)
+        win = game_win;
+
+    mvprint(win, 5, menu_start+1, "Energy: ");
+    mvprint(win, 5, menu_start+10, my_energy);
+
+    mvprint(win, 6, menu_start+1, "Whiffles: ");
+    mvprint(win, 6, menu_start+12, my_whiffles);
+
+
+    wrefresh(win);
+}
+
+//give negative ints to reduce energy
+//positive to inc energy
+void player::change_energy(int change)
+{
+    my_energy += loss;
+}
