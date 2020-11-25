@@ -12,9 +12,12 @@ class Player:public entity{
     int get_energy();
     void add_energy(int energy);
 
+    void draw(WINDOW* win);
+
   private:
     int my_whiffles;
     int my_energy;
     item * my_items;
+    WINDOW* win;
 
 };
