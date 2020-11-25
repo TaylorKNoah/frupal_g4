@@ -28,7 +28,7 @@ item.o: item.cpp item.h entity.o
 	$(CC) $(CFLAGS) item.cpp -c
 
 entity.o: entity.cpp entity.h
-	$(CC) $(CFLAGS) entity.cpp -c
+	$(CC) $(LIBS) $(CFLAGS) entity.cpp -c
 
 clean:
 	rm *.o *.plist frupal
