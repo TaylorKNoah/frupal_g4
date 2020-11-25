@@ -12,6 +12,7 @@ public:
   ~Game();
   void update(int key);
   Player get_player();
+  void move_player(int to_x, int to_y);
 
 private:
 
