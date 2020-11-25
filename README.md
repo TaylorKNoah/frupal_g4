@@ -22,8 +22,8 @@ Style:
 -ex class showcasing all conventions:  
 class **Room**  
 **{**  
-  **public**:
-     Room();  
+  **public**:  
+     Room();   
      ~Room();  
      
   **private**:
