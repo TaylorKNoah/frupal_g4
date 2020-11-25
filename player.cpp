@@ -1,4 +1,4 @@
-// Lawrence Scroggs -- 11/17/2020 -- CS300:Frupal:Group 4
+// Lawrence Scroggs, Carl Knori -- 11/17/2020 -- CS300:Frupal:Group 4
 // This will be the player.cpp file where we will implement
 // the functions for the player class
 
@@ -28,7 +28,14 @@ player::~player(){
 
 }
 
-void player::draw(int menu_start, WINDOW* &gaem_win)
+int player::get_energy() {
+  return my_energy();
+}
+
+void player::add_energy(int energy) {
+  my_energy += energy;
+}
+void player::draw(int menu_start, WINDOW* &game_win)
 {
     //init if needed
     if(game_win = NULL)
@@ -49,4 +56,5 @@ void player::draw(int menu_start, WINDOW* &gaem_win)
 void player::change_energy(int change)
 {
     my_energy += loss;
+
 }

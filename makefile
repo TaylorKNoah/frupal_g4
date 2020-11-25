@@ -3,38 +3,32 @@
 
 CC=g++
 CFLAGS=-Wall -Werror -g
-OBJECTS=frupal_main.o game.o menu.o map.o player.o item.o interactables.o \
-	entity.o
+LIBS=-lncurses
+OBJECTS=frupal_main.o game.o menu.o map.o player.o item.o entity.o
 
 frupal: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o frupal
+	$(CC) $(LIBS) $(CFLAGS) $(OBJECTS) -o frupal
 
-# I am unsure what exactly our file containing main will actually include. This
-# was not outlined in our diagram.
-frupal_main.o: frupal_main.cpp game.h menu.h map.h player.h item.h \
-	interactables.h entity.h
-	$(CC) $(CFLAGS) frupal_main.cpp -c
+frupal_main.o: frupal_main.cpp game.o
+	$(CC) $(LIBS) $(CFLAGS) frupal_main.cpp -c
 
-game.o: game.cpp game.h menu.h map.h player.h
-	$(CC) $(CFLAGS) game.cpp -c
+game.o: game.cpp game.h menu.o
+	$(CC) $(LIBS) $(CFLAGS) game.cpp -c
 
-menu.o: menu.cpp menu.h map.h
-	$(CC) $(CFLAGS) menu.cpp -c
+menu.o: menu.cpp menu.h map.o
+	$(CC) $(LIBS) $(CFLAGS) menu.cpp -c
 
-map.o: map.cpp map.h player.h entity.h
-	$(CC) $(CFLAGS) map.cpp -c
+map.o: map.cpp map.h player.o
+	$(CC) $(LIBS) $(CFLAGS) map.cpp -c
 
-player.o: player.cpp player.h item.h entity.h
-	$(CC) $(CFLAGS) player.cpp -c
+player.o: player.cpp player.h item.o
+	$(CC) $(LIBS) $(CFLAGS) player.cpp -c
 
-item.o: item.cpp item.h interactables.h entity.h
+item.o: item.cpp item.h entity.o
 	$(CC) $(CFLAGS) item.cpp -c
 
-interactables.o: interactables.cpp interactables.h entity.h
-	$(CC) $(CFLAGS) interactables.cpp -c
-
 entity.o: entity.cpp entity.h
-	$(CC) $(CFLAGS) entity.cpp -c
+	$(CC) $(LIBS) $(CFLAGS) entity.cpp -c
 
 clean:
 	rm *.o *.plist frupal
