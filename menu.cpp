@@ -19,7 +19,10 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
 {
     //set menu's WINDOW pointer
     // to use in other funcs
-    win = game_win;
+
+    //init if needed
+    if(win == NULL)
+        win = game_win;
 
     //create a column of #
     for(int i=0; i<LINES; ++i)

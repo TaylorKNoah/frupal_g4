@@ -10,9 +10,12 @@ class player:public entity{
     player();
     ~player();
 
+    void draw(WINDOW* win);
+
   private:
     int my_whiffles;
     int my_energy;
     item * my_items;
+    WINDOW* win;
 
 };
