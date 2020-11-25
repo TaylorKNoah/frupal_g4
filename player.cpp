@@ -31,3 +31,7 @@ Player::~Player(){
 int Player::get_energy() {
   return my_energy();
 }
+
+void Player::add_energy(int energy) {
+  my_energy += energy;
+}

@@ -10,6 +10,7 @@ class Player:public entity{
     Player();
     ~Player();
     int get_energy();
+    void add_energy(int energy);
 
   private:
     int my_whiffles;
