@@ -12,3 +12,8 @@ Style:
 -in line()  
 {  
 }  
+
+-class names shouldbe capitolized  
+-ex: class Game  
+
+-class sections should in in the following order: public, protected, private  
