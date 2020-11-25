@@ -27,5 +27,5 @@ class **Room**
      ~Room();  
      
   **private**:
-     int **num_doors**;
+     int **num_doors**;  
 **}**;
