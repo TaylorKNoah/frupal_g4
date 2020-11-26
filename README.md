@@ -22,10 +22,10 @@ Style:
 -ex class showcasing all conventions:  
 >class **Room**  
 >**{**  
->>  **public**:  
->>      Room();   
->>      ~Room();  
+>  **public**:  
+>     Room();   
+>      ~Room();  
 >     
->>  **private**:  
->>      int **num_doors**;  
+>  **private**:  
+>      int **num_doors**;  
 >**}**;
