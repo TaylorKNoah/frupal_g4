@@ -7,7 +7,7 @@ Scrum Master: Taylor Noah
 Product Owner: Jeremy Vonderfect  
 :octocat: :octocat: :octocat:
 
-Style:  
+Conventions and style requirements:  
 - snake case  
 >ex: int function_name()  
 >ex: int variable_name
