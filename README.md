@@ -22,7 +22,7 @@ Style:
 -ex class showcasing all conventions:  
 >class **Room**  
 >**{**  
->  **public**:  
+>>  **public**:  
 >     Room();   
 >      ~Room();  
 >     
