@@ -3,19 +3,18 @@
 
 
 #include <iostream>
-//#include <cstring>
-#include <string>
+#include <cstring>
 #include <cstdlib>
 #include <ncurses.h> 
 
 using namespace std;
 
 
-class Entity{
+class entity{
 
   public:
-    Entity();
-    ~Entity();
+    entity();
+    ~entity();
 
   private:
     string name;
@@ -25,22 +24,22 @@ class Entity{
     char type;
 
 };
-class Obstacle:public Entity{
+class obstacle:public entity{
 
   private:
     int energy_needed;
 
 };
-class Royal_diamonds:public Entity{
+class royal_diamonds:public entity{
 
   private:
-    string something;
+    String something;
     bool game_end;
 
 };
-class Clue:public Entity{
+class clue:public entity{
 
   private:
-    string sentence;
+    String sentence;
 
 };
