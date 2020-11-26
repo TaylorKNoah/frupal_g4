@@ -23,9 +23,9 @@ Style:
 >class **Room**  
 >**{**  
 >>  **public**:  
->>    Room();   
->>    ~Room();  
+>>       Room();   
+>>       ~Room();  
 >     
 >>  **private**:  
->>     int **num_doors**;  
+>>        int **num_doors**;  
 >**}**;
