@@ -18,14 +18,15 @@ class Grovnik
         //still need bool since enum change?
         bool isVisable;
         Entity* entity;
+        Type type;
 
     public:
         
-        Type type;
 
         //Grovnik();
         //~Grovnik();
         
+        Type get_type();
 
 
 };
@@ -35,12 +36,15 @@ class Map
 {
     private:
 
-        Grovnik** map;
+        Grovnik** game_map;
         Entity* ent;
 
     public:
 
         //Map();
         //~Map();
+        Type get_grov_type(int x, int y);
+        void draw(int x, int y, string filename);
+        void reveal(int x, int y);
 
 };

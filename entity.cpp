@@ -10,8 +10,8 @@
 /*****************ENTITY************************/
 
 //constructor
-entity::entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
+Entity::Entity():entity_x(0),entity_y(0),type(' '){}
 
 //destructor
-entity::~entity(){}
+Entity::~Entity(){}
 
