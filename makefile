@@ -3,14 +3,14 @@
 
 CC=g++
 CFLAGS=-Wall -Werror -g
-LIBS=-lncurses
+LIBS=-lncurses 
 OBJECTS=frupal_main.o game.o menu.o map.o player.o item.o entity.o
 
 frupal: $(OBJECTS)
-	$(CC) $(LIBS) $(CFLAGS) $(OBJECTS) -o frupal
+	$(CC) $(CFLAGS) $(OBJECTS) -o frupal $(LIBS)
 
 frupal_main.o: frupal_main.cpp game.o
-	$(CC) $(LIBS) $(CFLAGS) frupal_main.cpp -c
+	$(CC)  $(CFLAGS) frupal_main.cpp -c $(LIBS)
 
 game.o: game.cpp game.h menu.o
 	$(CC) $(LIBS) $(CFLAGS) game.cpp -c
