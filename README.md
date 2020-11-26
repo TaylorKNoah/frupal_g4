@@ -26,6 +26,7 @@ Style:
 >     Room();   
 >      ~Room();  
 >     
->  **private**:  
+>>  **private**:  
 >      int **num_doors**;  
+>
 >**}**;
