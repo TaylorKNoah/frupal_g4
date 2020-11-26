@@ -9,7 +9,7 @@ Product Owner: Jeremy Vonderfect
 
 Style:  
 - snake case  
->ex: int function_name()
+>ex: int function_name()  
 >ex: int variable_name
 
 - in line()  
