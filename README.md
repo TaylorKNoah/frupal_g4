@@ -10,11 +10,11 @@ Product Owner: Jeremy Vonderfect
 Style:  
 -snake_case  
 -in line()  
-{  
-}  
+>>{  
+>>}  
 
 -class names should be capitolized  
--ex: class Game  
+>>ex: class Game  
 
 -class sections should in in the following order: public, protected, private
 
