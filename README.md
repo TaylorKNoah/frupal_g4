@@ -10,8 +10,8 @@ Product Owner: Jeremy Vonderfect
 Style:  
 -snake_case  
 -in line()  
->>{  
->>}  
+>>>{  
+>>>}  
 
 -class names should be capitolized  
 >>ex: class Game  
