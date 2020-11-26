@@ -20,12 +20,12 @@ Style:
 
 
 -ex class showcasing all conventions:  
-class **Room**  
-**{**  
-  **public**:  
-     Room();   
-     ~Room();  
-     
-  **private**:  
-     int **num_doors**;  
-**}**;
+>class **Room**  
+>**{**  
+>>  **public**:  
+>>>     Room();   
+>>>     ~Room();  
+>     
+>>  **private**:  
+>>>     int **num_doors**;  
+>**}**;
