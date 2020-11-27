@@ -7,24 +7,22 @@
 //  Grovnik
 //  Map
 
-//#include "player.h"
-
-//TODO remove thess includes, they are only for testing purposes
-#include <stdlib.h>
-#include <ncurses.h>
+#include "player.h"
 
 //type 0-3 = visable, 4-7 = invisible
 enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WATER_INV, WALL_INV};
+string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unkown","Unkown","Unkown"};
 
 //These are used to control color pairs
 #define MEADOW  1
 #define SWAMP   2
 #define WATER   3
 #define WALL    4
+#define HERO    5
 
 //Definitions for entities on map
 #define EMPTY       ' '
-#define HERO        '@'
+#define PLAYER      '@'
 #define FOOD        'F'
 #define TOOL        'T'
 #define OBSTACLE    '!'
@@ -35,30 +33,25 @@ enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WA
 
 class Grovnik
 {
-    private:
-        
-      //Entity* entity;
-	    int *entity;  			//Filler for testing
-	    Type type;
+  public:
+    Grovnik(Type new_type);		//TODO add entity creation to constructor
+    Type get_type();
+    ~Grovnik();
 
-    public:
-
-      Grovnik(int new_type);		//TODO add entity creation to constructor
-	    Type get_type();
-      ~Grovnik();
+  private:
+    Entity* entity;
+    Type type;
 };
 
 class Map
 {
-    private:
+  public:
+    Map(string file_name);              //constructor take filename to load map info
+    void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    void update(int play_x,int play_y,bool binocs);
+    Type info(int x, int y);
+    ~Map();
 
-      Grovnik*** map;
-
-    public:
-
-	    Map();				            //default constructor makes grovniks for map
-      //Map(string file_name);  //constructor take filename to load map info
-	    void draw(int size[]);		//draw uses terminal size to leave room for menu
-	    Grovnik info(int loc[]);	//returns info for cursor/comparison
-      ~Map();
+  private:
+    Grovnik*** map;     //This is a 2D Array of the form map[y][x]
 };
