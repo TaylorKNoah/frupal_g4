@@ -48,7 +48,7 @@ void Tool::init(int i)
     {
         rating = 3;
         whiffles = 40;
-        name = "Hammer"
+        name = "Hammer";
     }
 }
 

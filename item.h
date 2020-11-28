@@ -24,12 +24,16 @@ class Tools: public Item
 {
 	public:
 		Tools();
+        ~Tools();
+
+
+        //creates a tool based off arg
+        void init(int i);
+
 	protected:
 
 		int rating;
 
-        //creates a tool based off arg
-        void init(int i);
 };
 
 
