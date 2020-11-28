@@ -4,20 +4,21 @@
 
 #include "item.h"
 
-class Player:public entity{
+class Player:public Entity{
 
   public: 
     Player();
     ~Player();
     int get_energy();
     void add_energy(int energy);
+    void change_energy(int change);
 
-    void draw(WINDOW* win);
+    void draw(int menu_start, WINDOW*& win);
 
-  private:
+  protected:
     int my_whiffles;
     int my_energy;
-    item * my_items;
+    Item * my_items;
     WINDOW* win;
 
 };

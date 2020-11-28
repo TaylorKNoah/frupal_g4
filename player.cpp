@@ -11,38 +11,39 @@
 /***************PLAYER*************************/
 
 //constructor
-player::player():my_whiffles(1000),my_energy(100),my_items(NULL){}
+Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){}
 
 //destructor
-player::~player(){
+Player::~Player(){
 
   my_whiffles = 0;
   my_energy = 0;
 
   while(my_items->next != NULL)
   {
-    items * temp = my_items;
+    Item * temp = my_items;
     my_items = my_items->next;
     delete temp;
   }
 
 }
 
-int player::get_energy() {
-  return my_energy();
+int Player::get_energy() {
+  return my_energy;
 }
 
-void player::add_energy(int energy) {
+void Player::add_energy(int energy) {
   my_energy += energy;
 }
-void player::draw(int menu_start, WINDOW* &game_win)
+void Player::draw(int menu_start, WINDOW* &game_win)
 {
+    initscr(); 
     //init if needed
-    if(game_win = NULL)
+    if(game_win == NULL)
         win = game_win;
 
-    mvprint(win, 5, menu_start+1, "Energy: ");
-    mvprint(win, 5, menu_start+10, my_energy);
+    wmvprint(win, 5, menu_start+1, "Energy: ");
+    wmvprint(win, 5, menu_start+10, my_energy);
 
     mvprint(win, 6, menu_start+1, "Whiffles: ");
     mvprint(win, 6, menu_start+12, my_whiffles);
@@ -53,8 +54,8 @@ void player::draw(int menu_start, WINDOW* &game_win)
 
 //give negative ints to reduce energy
 //positive to inc energy
-void player::change_energy(int change)
+void Player::change_energy(int change)
 {
-    my_energy += loss;
+    my_energy += change;
 
 }
