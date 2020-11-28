@@ -10,11 +10,11 @@
 using namespace std;
 
 
-class entity{
+class Entity{
 
   public:
-    entity();
-    ~entity();
+    Entity();
+    ~Entity();
 
   private:
     string name;
@@ -24,22 +24,29 @@ class entity{
     char type;
 
 };
-class obstacle:public entity{
+class Obstacle:public Entity{
+
+  public:
+    Obstacle();
+    ~Obstacle();
+
+    //creats an obstacle
+    void init(int i);
 
   private:
     int energy_needed;
 
 };
-class royal_diamonds:public entity{
+class Royal_diamonds:public Entity{
 
   private:
-    String something;
+    string something;
     bool game_end;
 
 };
-class clue:public entity{
+class Clue:public Entity{
 
   private:
-    String sentence;
+    string sentence;
 
 };
