@@ -18,6 +18,15 @@ Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
 //destructor
 Entity::~Entity(){}
 
+int* get_loc()
+{
+    int* loc[2];
+
+    loc[0] = entity_x;
+    loc[1] = entity_y;
+
+    return loc;
+}
 
 
 //////////////////////////////////////////////////////////

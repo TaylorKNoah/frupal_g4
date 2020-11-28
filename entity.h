@@ -13,12 +13,15 @@ using namespace std;
 class Entity{
 
   public:
-    Entity();
-    ~Entity();
+    Entity();  
+    ~Entity();  
+    int* get_loc();  
+
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
   protected:
+ 
     string name;
 
   private:
