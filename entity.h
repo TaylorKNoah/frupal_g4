@@ -16,6 +16,8 @@ class Entity{
     Entity();
     ~Entity();
 
+    int* get_loc();
+
   private:
     string name;
     int entity_x;
