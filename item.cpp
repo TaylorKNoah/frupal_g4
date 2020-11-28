@@ -24,16 +24,16 @@ Item::~Item()
 ////////////////////////////////////////////////////////////////////
 
 
-Tool::Tool(): rating(0) {}
+Tools::Tools(): rating(0) {}
 
-Tool::~Tool()
+Tools::~Tools()
 {
-    rating(0);
+    rating = 0;
 }
 
 
 //initializes a tool
-void Tool::init(int i)
+void Tools::init(int i)
 {
     //create Axe
     if( i == 0)

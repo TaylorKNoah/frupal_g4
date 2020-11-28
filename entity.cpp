@@ -29,7 +29,10 @@ Entity::~Entity(){}
 Obstacle::Obstacle(): energy_needed(0) {}
 
 //destructor
-Obstacle::~Obstacle(): energy_needed(0) {}
+Obstacle::~Obstacle()
+{
+    energy_needed = 0;
+}
 
 void Obstacle::init(int i)
 {

@@ -34,6 +34,6 @@ class Tools: public Item{
 class Food: public Item{
 	public:
 		Food();
-	protected:
+	private:
 		int energy;
 };

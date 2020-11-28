@@ -16,8 +16,12 @@ class Entity{
     Entity();
     ~Entity();
 
-  private:
+  //set protoc so derived classes can set themselves
+  // but clients can't touch
+  protected:
     string name;
+
+  private:
     int entity_x;
     int entity_y;
    // int * location;
