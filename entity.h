@@ -10,23 +10,32 @@
 using namespace std;
 
 
-class Entity{
+class Entity
+{
 
   public:
-    Entity();
-    ~Entity();
+    Entity();  
+    ~Entity();  
+    int* get_loc();  
 
-    int* get_loc();
+
+  //set protoc so derived classes can set themselves
+  // but clients can't touch
+  protected:
+ 
+    string name;
 
   private:
-    string name;
     int entity_x;
     int entity_y;
    // int * location;
     char type;
 
 };
-class Obstacle:public Entity{
+
+
+class Obstacle:public Entity
+{
 
   public:
     Obstacle();
@@ -39,14 +48,20 @@ class Obstacle:public Entity{
     int energy_needed;
 
 };
-class Royal_diamonds:public Entity{
+
+
+class Royal_diamonds:public Entity
+{
 
   private:
     string something;
     bool game_end;
 
 };
-class Clue:public Entity{
+
+
+class Clue:public Entity
+{
 
   private:
     string sentence;
