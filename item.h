@@ -12,16 +12,14 @@ class Item: public Entity
 };
 
 
-class Treasure: public Item
-{
+class Treasure: public Item{
 	public:
 		Treasure();
 	//protected:
 };
 
 
-class Tools: public Item
-{
+class Tools: public Item{
 	public:
 		Tools();
         ~Tools();
@@ -37,8 +35,7 @@ class Tools: public Item
 };
 
 
-class Food: public Item
-{
+class Food: public Item{
 	public:
 		Food();
 	protected:
