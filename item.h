@@ -5,10 +5,12 @@ class Item: public Entity
 {
 	public:
 		Item();
+        ~Item();
 	protected:
 		int whiffles;
 		int isOwned;
 };
+
 
 class Treasure: public Item
 {
@@ -17,13 +19,19 @@ class Treasure: public Item
 	//protected:
 };
 
+
 class Tools: public Item
 {
 	public:
 		Tools();
 	protected:
+
 		int rating;
+
+        //creates a tool based off arg
+        void init(int i);
 };
+
 
 class Food: public Item
 {
