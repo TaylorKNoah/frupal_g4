@@ -2,7 +2,7 @@
 //CS300, Group Project: Land of Frupal
 //Group 4 et al
 
-//This is the Mpa header file
+//This is the Map header file
 //It contains the classes:
 //  Grovnik
 //  Map
@@ -11,40 +11,47 @@
 
 //type 0-3 = visable, 4-7 = invisible
 enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WATER_INV, WALL_INV};
+string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unkown","Unkown","Unkown"};
+
+//These are used to control color pairs
+#define MEADOW  1
+#define SWAMP   2
+#define WATER   3
+#define WALL    4
+#define HERO    5
+
+//Definitions for entities on map
+#define EMPTY       ' '
+#define PLAYER      '@'
+#define FOOD        'F'
+#define TOOL        'T'
+#define OBSTACLE    '!'
+#define TREASURE    '$'
+#define CLUE        '?'
+#define SHIP        'S'
+#define BINOCULARS  'B'
+
 class Grovnik
 {
-    private:
-        
-        //still need bool since enum change?
-        bool isVisable;
-        Entity* entity;
-        Type type;
+  public:
+    Grovnik(Type new_type);		//TODO add entity creation to constructor
+    Type get_type();
+    ~Grovnik();
 
-    public:
-        
-
-        //Grovnik();
-        //~Grovnik();
-        
-        Type get_type();
-
-
+  private:
+    Entity* entity;
+    Type type;
 };
-
 
 class Map
 {
-    private:
+  public:
+    Map(string file_name);              //constructor take filename to load map info
+    void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    void update(int play_x,int play_y,bool binocs);
+    Type info(int x, int y);
+    ~Map();
 
-        Grovnik** game_map;
-        Entity* ent;
-
-    public:
-
-        //Map();
-        //~Map();
-        Type get_grov_type(int x, int y);
-        void draw(int x, int y, string filename);
-        void reveal(int x, int y);
-
+  private:
+    Grovnik*** map;     //This is a 2D Array of the form map[y][x]
 };

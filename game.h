@@ -13,12 +13,11 @@ public:
   void update(int key);
   Player get_player();
   void move_player(int to_x, int to_y);
-  int draw();
 
 private:
 
   WINDOW * window;
-  string filename;
+  String filename;
   int x;
   int y;
   int menu_start;

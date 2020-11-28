@@ -1,8 +1,7 @@
 #include "entity.h"
 
 
-class Item: public Entity
-{
+class Item: public Entity{
 	public:
 		Item();
         ~Item();
@@ -15,23 +14,20 @@ class Item: public Entity
 class Treasure: public Item{
 	public:
 		Treasure();
-	//protected:
+	protected:
 };
 
 
 class Tools: public Item{
 	public:
 		Tools();
-        ~Tools();
+    ~Tools();
 
-
-        //creates a tool based off arg
-        void init(int i);
+    //creates a tool based off arg
+    void init(int i);
 
 	protected:
-
 		int rating;
-
 };
 
 
@@ -41,4 +37,3 @@ class Food: public Item{
 	protected:
 		int energy;
 };
-
