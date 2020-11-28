@@ -10,7 +10,8 @@
 using namespace std;
 
 
-class Entity{
+class Entity
+{
 
   public:
     Entity();  
@@ -31,7 +32,10 @@ class Entity{
     char type;
 
 };
-class Obstacle:public Entity{
+
+
+class Obstacle:public Entity
+{
 
   public:
     Obstacle();
@@ -44,14 +48,20 @@ class Obstacle:public Entity{
     int energy_needed;
 
 };
-class Royal_diamonds:public Entity{
+
+
+class Royal_diamonds:public Entity
+{
 
   private:
     string something;
     bool game_end;
 
 };
-class Clue:public Entity{
+
+
+class Clue:public Entity
+{
 
   private:
     string sentence;
