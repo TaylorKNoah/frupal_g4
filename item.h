@@ -19,15 +19,15 @@ class Treasure: public Item{
 
 
 class Tools: public Item{
-	public:
-		Tools();
-    ~Tools();
+  public:
+    Tools();  
+    ~Tools();  
 
-    //creates a tool based off arg
-    void init(int i);
+    //creates a tool based off arg  
+    void init(int i);  
 
-	protected:
-		int rating;
+  protected:  
+    int rating;  
 };
 
 
