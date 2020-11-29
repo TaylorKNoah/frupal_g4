@@ -7,11 +7,7 @@
 #include "entity.h"
 
 
-
-//////////////////////////////////////////////////////////
-//                      Entity
-//////////////////////////////////////////////////////////
-
+/**************Entity*************************/
 //constructor
 Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
 <<<<<<< HEAD
@@ -19,32 +15,7 @@ Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
 //destructor
 Entity::~Entity(){}
 
-
-/**************OBSTACLE*************************/
-Obstacle::Obstacle():energy_needed(0){}
-Obstacle::Obstacle(int obs_type):energy_needed(obs_type){}
-
-Obstacle::~Obstacle(){}
-
-/***********ROYAL_DIAMOND**********************/
-Royal_Diamond::Royal_Diamond():something(NULL),game_end(false){}
-Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}
-
-Royal_Diamond::~Royal_Diamond(){}
-
-
-/****************CLUES**************************/
-Clue::Clue():clue_type(0),sentence(NULL){}
-Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
-
-Clue::~Clue(){}
-  
-=======
-
-//destructor
-Entity::~Entity(){}
-
-int* get_loc()
+int* Entity::get_loc()
 {
     int* loc[2];
 
@@ -55,19 +26,12 @@ int* get_loc()
 }
 
 
-//////////////////////////////////////////////////////////
-//                      Obstacle
-//////////////////////////////////////////////////////////
 
+/**************OBSTACLE*************************/
+Obstacle::Obstacle():energy_needed(0){}
+Obstacle::Obstacle(int obs_type):energy_needed(obs_type){}
 
-//consturctor
-Obstacle::Obstacle(): energy_needed(0) {}
-
-//destructor
-Obstacle::~Obstacle()
-{
-    energy_needed = 0;
-}
+Obstacle::~Obstacle(){}
 
 void Obstacle::init(int i)
 {
@@ -88,4 +52,24 @@ void Obstacle::init(int i)
     }
 
 }
+
+
+
+/***********ROYAL_DIAMOND**********************/
+Royal_Diamond::Royal_Diamond():something(NULL),game_end(false){}
+Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}
+
+Royal_Diamond::~Royal_Diamond(){}
+
+
+/****************CLUES**************************/
+Clue::Clue():clue_type(0),sentence(NULL){}
+Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
+
+Clue::~Clue(){}
+  
+=======
+
+
+
 >>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
