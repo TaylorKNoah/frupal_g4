@@ -4,9 +4,9 @@
 class Item: public Entity{
 	public:
 		Item();
-    ~Item();
-    Item * next;
-  protected:
+    		~Item();
+   
+  	protected:
 		int whiffles;
 		int isOwned;
 };
@@ -16,19 +16,19 @@ class Treasure: public Item{
 	public:
 		Treasure();
 	protected:
-  private:
+  	private:
 };
 
 
 class Tools: public Item{
-  public:
-    Tools();  
-    ~Tools();  
+	public:
+    	Tools();  
+    	~Tools();  
 
-  protected:
-    //creates a tool based off arg  
-    void init(int i);  
-    int rating;  
+  	protected:
+    	//creates a tool based off arg  
+    	void init(int i);  
+    	int rating;  
 };
 
 
@@ -36,10 +36,10 @@ class Food: public Item{
 	public:
 		Food();
 <<<<<<< HEAD
-    ~Food();
+    		~Food();
 	protected:
     // make food based on arg
-    int make_food(int i);
+    		int make_food(int i);
 		int food_energy;
 =======
 	private:
