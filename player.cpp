@@ -11,7 +11,7 @@
 /***************PLAYER*************************/
 
 //constructor
-Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){
+Player::Player(){
 
   my_whiffles = 1000;
   my_energy = 100;
