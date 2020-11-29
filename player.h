@@ -18,7 +18,7 @@ class Player:public Entity{
   protected:
     int my_whiffles;
     int my_energy;
-    Item * my_items;
+    Item ** my_items;
     WINDOW* win;
 
 };
