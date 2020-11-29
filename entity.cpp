@@ -7,10 +7,14 @@
 #include "entity.h"
 
 
-/*****************ENTITY************************/
+
+//////////////////////////////////////////////////////////
+//                      Entity
+//////////////////////////////////////////////////////////
 
 //constructor
 Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
+<<<<<<< HEAD
 
 //destructor
 Entity::~Entity(){}
@@ -35,3 +39,53 @@ Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
   
+=======
+
+//destructor
+Entity::~Entity(){}
+
+int* get_loc()
+{
+    int* loc[2];
+
+    loc[0] = entity_x;
+    loc[1] = entity_y;
+
+    return loc;
+}
+
+
+//////////////////////////////////////////////////////////
+//                      Obstacle
+//////////////////////////////////////////////////////////
+
+
+//consturctor
+Obstacle::Obstacle(): energy_needed(0) {}
+
+//destructor
+Obstacle::~Obstacle()
+{
+    energy_needed = 0;
+}
+
+void Obstacle::init(int i)
+{
+    //create tree
+    // axe will divide eng_need by 2 (5)
+    if(i==0)
+    {
+        name = "Tree";
+        energy_needed = 10;
+    }
+
+    //create boulder
+    //  hammer will divide energy by 3 (7)
+    else if(i==1)
+    {
+        name = "Boulder";
+        energy_needed = 21;
+    }
+
+}
+>>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
