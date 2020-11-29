@@ -11,7 +11,6 @@ class Player:public Entity{
     ~Player();
     int get_energy();
     void add_energy(int energy);
-    void change_energy(int change);
 
     void draw(int menu_start, WINDOW*& win);
 
