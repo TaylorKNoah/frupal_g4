@@ -19,12 +19,7 @@ Player::~Player(){
   my_whiffles = 0;
   my_energy = 0;
 
-  while(my_items->next != NULL)
-  {
-    Item * temp = my_items;
-    my_items = my_items->next;
-    delete temp;
-  }
+  delete [] my_items;
 
 }
 
