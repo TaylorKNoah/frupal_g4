@@ -11,7 +11,18 @@
 /***************PLAYER*************************/
 
 //constructor
-Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){}
+Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){
+
+  my_whiffles = 1000;
+  my_energy = 100;
+  my_items = new Item* [10];
+  
+  for(int i = 0; i < 10; ++i)
+  {
+    my_items[i] = NULL;
+  }
+
+}
 
 //destructor
 Player::~Player(){
