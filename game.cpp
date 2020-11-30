@@ -7,13 +7,15 @@
 
 #include "game.h"
 
-int Game::draw() {
+int Game::draw(WINDOW * window) {
   initscr();
   x = COLS;
   y = LINES;
-  filename = "map_1";
+  filename = "map1.txt";
 
-  map.draw(x,y,filename);
+
+  Map map(filename);
+  map.draw(x,y,x,y,x,y);
 
   menu_start = (x - 25);
 
@@ -22,7 +24,10 @@ int Game::draw() {
     return -1;
   }
   else
-    menu.draw(menu_start);
+  {
+    window = new WINDOW; 
+    menu.draw(menu_start,window);
+  }
 
   return 0;
 }
@@ -59,7 +64,7 @@ void Game::update(int key) {
   }
 }
 
-Game::Game(){
+Game::Game(WINDOW * window){
 
 }
 Game::~Game(){
@@ -67,11 +72,11 @@ Game::~Game(){
 }
 
 Player Game::get_player() {
-  return player();
+  return player;
 }
 
 void Game::move_player(int to_x, int to_y) {
-  switch (map.map[to_x][to_y]) { //Need access to map information
+  switch (map[to_x][to_y]) { //Need access to map information
   case MEADOW_VIS:
     player.add_energy(-1);
     player.entity_x = to_x;

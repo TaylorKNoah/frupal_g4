@@ -9,9 +9,6 @@
 
 class Menu
 {
-    private:
-
-        WINDOW* win;
 
     public:
 
@@ -19,4 +16,7 @@ class Menu
         ~Menu();
 
         void draw(int menu_start, WINDOW* game_win);
-}
+    private:
+
+        WINDOW* win;
+};

@@ -5,7 +5,9 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <cstdio>
 #include <ncurses.h> 
+#include <curses.h>
 
 using namespace std;
 
@@ -21,11 +23,10 @@ class Entity
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
-  protected:
 
     string name;
 
-  private:
+  //private:
     int entity_x;
     int entity_y;
    // int * location;

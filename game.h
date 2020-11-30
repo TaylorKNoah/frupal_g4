@@ -3,26 +3,28 @@
 
 #include "menu.h"
 
-class Game{
+class Game:public Entity{
 
 public:
   Game();
+  Game(Window * window);
   // I don't foresee the Game class ever being dynamically allocated but just in
   // case?
   ~Game();
+
   void update(int key);
   Player get_player();
+  int draw(WINDOW * window);
   void move_player(int to_x, int to_y);
 
 private:
 
-  WINDOW * window;
-  String filename;
+  string filename;
   int x;
   int y;
   int menu_start;
-  Map map;
   Menu menu;
+  Map map(string filename);
   Player player;
 
 };

@@ -4,10 +4,11 @@
 #include "game.h"
 
 int main() {
-  Game game;
   bool running = true;
 
   initscr();
+  WINDOW * window = new WINDOW(128,128);
+  Game game(window);
   clear();
   noecho();
   keypad(stdscr, true);

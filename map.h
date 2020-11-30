@@ -38,7 +38,6 @@ class Grovnik
     Type get_type();
     ~Grovnik();
 
-  private:
     Entity* entity;
     Type type;
 };
@@ -50,6 +49,7 @@ class Map
     void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
     void update(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
+    
     ~Map();
 
   private:

@@ -33,7 +33,9 @@ Grovnik::~Grovnik()
 //Lines 129+ contain the item infromation
 Map::Map(string file_name)
 {
-  int x = 0, grov_count = 0, new_type = 0;
+  int x = 0, y = 0;
+  char * grov_count;
+  char * new_type;
   ifstream in;
 
   in.open(file_name);
@@ -41,39 +43,41 @@ Map::Map(string file_name)
   
   if(!in)   //Check if file exists, exit if not
   {
-    mvprintw(0,0,%s,"NO MAP FILE FOUND");
+    mvprintw(0,0,"NO MAP FILE FOUND");
     getch();
     endwin();
-    exit;
+    exit(-1);
   } 
 
   else
   {
     map = new Grovnik**[128];
+    grov_count = new char[128];
+    new_type = new char[128];
 
-    in.get(grov_count,3,',');
-    in.ignore(100,'\n')       //Ignore player spawn
+    in.get(grov_count,128,',');
+    in.ignore(100,'\n');       //Ignore player spawn
     
     while(in && !in.eof() && y < 128)
     {
       map[y] = new Grovnik*[128];
       while(x < 128)
       {
-        in.get(grov_count,3,',');
+        in.get(grov_count,128,',');
         in.ignore(3,',');
         in.get(new_type,1,':');
         in.ignore(1,':');
         
-        for(x; x < (x + grov_count); x++)
+        for(int x = 0; x < 129; x++)
         {
           if(x > 127)   //Bounds check
           {
-            mvprintw(0,0,%s,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);
+            mvprintw(0,0,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);
             getch();
             endwin();
-            exit;
+            exit(-1);
           } 
-          map[y][x] = new Grovnik(static_cast<Type>(new_type));
+         // map[y][x] = (static_cast<Type>(new_type));
         }
       }
       in.ignore(100,'\n'); 
@@ -115,14 +119,14 @@ void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_
       //Draws any out of bounds as invisible
       if(0 > (y + offset_y) || 127 < (y + offset_y) || 0 > (x + offset_x) || 127 < (x + offset_x))
       {
-        grov = MEADOW_INV
-        ent = EMPTY
+        grov = MEADOW_INV;
+        ent = EMPTY;
       }
         
       else
       {
       grov = map[y + offset_y][x + offset_x]->get_type();
-      ent = EMPTY     //TODO add entity checker to find what character to draw
+      ent = EMPTY;     //TODO add entity checker to find what character to draw
       }
 
       switch(grov)
@@ -158,9 +162,9 @@ void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_
   }
 
   //Draws the player center screen
-  attron(COLOR_PAIR(HERO);
+  attron(COLOR_PAIR(HERO));
   mvaddch((play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);
-  attroff(COLOR_PAIR(HERO);
+  attroff(COLOR_PAIR(HERO));
 
   grov = map[cur_y][cur_x]->get_type();
   mvprintw(1,(size_x + 2),"Type: %s",name_type[(int)grov]);
@@ -187,16 +191,16 @@ void Map::update(int play_x, int play_y, bool binocs)
         break;
 
       grov = (int)map[y][x]->get_type(); 
-      if(3 < grov);
+      if(3 < grov)
         grov -= 4;
     }
   }
 }
 
 //Returns grovnik type for provided coordinates
-Type map::info(int x, int y)
+Type Map::info(int x, int y)
 {
-  return map[y][x].get_type();
+  return map[x][y]->get_type();
 }
 
 Map::~Map()
@@ -209,7 +213,7 @@ Map::~Map()
       {
         if(map[x][y]->entity)
         {
-          delete map[x][y]->entity
+          delete map[x][y]->entity;
           map[x][y]->entity = NULL;
         }
 			  delete map[x][y];			
