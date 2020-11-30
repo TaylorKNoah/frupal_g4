@@ -5,6 +5,9 @@
 //It contains the menu class functions
 
 
+#include "menu.h"
+
+
 
 ///////////////////////////////////////////////////////////
 //                  MENU FUCNTIONS
@@ -13,7 +16,7 @@
 
 Menu::Menu() {};
 
-~Menu::Menu() {};
+Menu::~Menu() {};
 
 void Menu::draw(int menu_start, WINDOW* &game_win)
 {
