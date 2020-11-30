@@ -11,9 +11,8 @@ int Game::draw() {
   initscr();
   x = COLS;
   y = LINES;
-  filename = "map_1";
 
-  map.draw(x,y,filename);
+  map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
 
   menu_start = (x - 25);
 
@@ -59,8 +58,8 @@ void Game::update(int key) {
   }
 }
 
-Game::Game(){
-
+Game::Game(std::string file){
+  filename = file;
 }
 Game::~Game(){
   
