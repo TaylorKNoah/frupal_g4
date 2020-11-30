@@ -27,6 +27,17 @@ void Entity::set_loc(int x,  int y)
     entity_y = y;
 }
 
+int Entity::get_x()
+{
+    return entity_x;
+}
+
+
+int Entity::get_y()
+{
+    return entity_y;
+}
+
 
 
 /**************OBSTACLE*************************/
