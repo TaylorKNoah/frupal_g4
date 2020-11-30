@@ -58,11 +58,14 @@ void Player::draw(int menu_start, WINDOW* &game_win)
     if(game_win == NULL)
         win = game_win;
 
+    string energy = to_string(my_energy);
+    string whiffles = to_string(my_whiffles);
+
     mvwprintw(win, 5, menu_start+1, "Energy: ");
-    mvwprintw(win, 5, menu_start+10, my_energy);
+    mvwprintw(win, 5, menu_start+10, energy.data());
 
     mvwprintw(win, 6, menu_start+1, "Whiffles: ");
-    mvwprintw(win, 6, menu_start+12, my_whiffles);
+    mvwprintw(win, 6, menu_start+12, whiffles.data());
 
 
     wrefresh(win);
