@@ -10,6 +10,15 @@
 using namespace std;
 
 
+<<<<<<< HEAD
+class Entity{
+
+  public:
+    Entity();
+    ~Entity();
+
+  protected:
+=======
 class Entity
 {
 
@@ -23,6 +32,7 @@ class Entity
   // but clients can't touch
   protected:
  
+>>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
     string name;
 
   private:
@@ -32,6 +42,14 @@ class Entity
     char type;
 
 };
+<<<<<<< HEAD
+class Obstacle:public Entity{
+
+  public:
+    Obstacle();
+    Obstacle(int obs_type);
+    ~Obstacle();
+=======
 
 
 class Obstacle:public Entity
@@ -43,27 +61,49 @@ class Obstacle:public Entity
 
     //creats an obstacle
     void init(int i);
+>>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
 
   private:
     int energy_needed;
 
 };
+<<<<<<< HEAD
+class Royal_Diamond:public Entity{
+
+  public:
+    Royal_Diamond();
+    Royal_Diamond(string a_string,bool found_diamond);
+    ~Royal_Diamond();
+=======
 
 
 class Royal_diamonds:public Entity
 {
+>>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
 
   private:
     string something;
     bool game_end;
 
 };
+<<<<<<< HEAD
+class Clue:public Entity{
+
+  public:
+    Clue();
+    Clue(int type,string a_sentence);
+    ~Clue();
+
+  private:
+    int clue_type;  // 0 = false clue -- 1 = true clue
+=======
 
 
 class Clue:public Entity
 {
 
   private:
+>>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
     string sentence;
 
 };
