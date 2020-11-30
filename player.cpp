@@ -11,50 +11,62 @@
 /***************PLAYER*************************/
 
 //constructor
-player::player():my_whiffles(1000),my_energy(100),my_items(NULL){}
+Player::Player()
+{
 
-//destructor
-player::~player(){
-
-  my_whiffles = 0;
-  my_energy = 0;
-
-  while(my_items->next != NULL)
+  my_whiffles = 1000;
+  my_energy = 100;
+  my_items = new Item* [10];
+  
+  for(int i = 0; i < 10; ++i)
   {
-    items * temp = my_items;
-    my_items = my_items->next;
-    delete temp;
+    my_items[i] = NULL;
   }
 
 }
 
-int player::get_energy() {
-  return my_energy();
+//destructor
+Player::~Player()
+{
+
+  my_whiffles = 0;
+  my_energy = 0;
+
+  for(int i=0; i<10; ++i)
+  {
+    if(my_items[i])
+      delete my_items[i];
+  }
+  delete [] my_items;
+
 }
 
-void player::add_energy(int energy) {
+int Player::get_energy()
+{
+  return my_energy;
+}
+
+void Player::add_energy(int energy) 
+{
   my_energy += energy;
 }
-void player::draw(int menu_start, WINDOW* &game_win)
+
+void Player::draw(int menu_start, WINDOW* &game_win)
 {
+    initscr(); 
     //init if needed
-    if(game_win = NULL)
+    if(game_win == NULL)
         win = game_win;
 
-    mvprint(win, 5, menu_start+1, "Energy: ");
-    mvprint(win, 5, menu_start+10, my_energy);
+    string energy = to_string(my_energy);
+    string whiffles = to_string(my_whiffles);
 
-    mvprint(win, 6, menu_start+1, "Whiffles: ");
-    mvprint(win, 6, menu_start+12, my_whiffles);
+    mvwprintw(win, 5, menu_start+1, "Energy: ");
+    mvwprintw(win, 5, menu_start+10, energy.data());
+
+    mvwprintw(win, 6, menu_start+1, "Whiffles: ");
+    mvwprintw(win, 6, menu_start+12, whiffles.data());
 
 
     wrefresh(win);
-}
-
-//give negative ints to reduce energy
-//positive to inc energy
-void player::change_energy(int change)
-{
-    my_energy += loss;
-
 }

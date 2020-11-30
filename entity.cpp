@@ -7,11 +7,60 @@
 #include "entity.h"
 
 
-/*****************ENTITY************************/
-
+/**************Entity*************************/
 //constructor
-entity::entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
+Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
 
 //destructor
-entity::~entity(){}
+Entity::~Entity(){}
 
+//Takes int* and mods first two elements
+void Entity::get_loc(int* &loc)
+{
+    loc[0] = entity_x;
+    loc[1] = entity_y;
+}
+
+
+
+/**************OBSTACLE*************************/
+Obstacle::Obstacle():energy_needed(0){}
+Obstacle::Obstacle(int obs_type):energy_needed(obs_type){}
+
+Obstacle::~Obstacle(){}
+
+void Obstacle::init(int i)
+{
+    //create tree
+    // axe will divide eng_need by 2 (5)
+    if(i==0)
+    {
+        name = "Tree";
+        energy_needed = 10;
+    }
+
+    //create boulder
+    //  hammer will divide energy by 3 (7)
+    else if(i==1)
+    {
+        name = "Boulder";
+        energy_needed = 21;
+    }
+
+}
+
+
+
+/***********ROYAL_DIAMOND**********************/
+Royal_Diamond::Royal_Diamond():something(NULL),game_end(false){}
+Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}
+
+Royal_Diamond::~Royal_Diamond(){}
+
+
+/****************CLUES**************************/
+Clue::Clue():clue_type(0),sentence(NULL){}
+Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
+
+Clue::~Clue(){}
+  

@@ -7,8 +7,29 @@ Scrum Master: Taylor Noah
 Product Owner: Jeremy Vonderfect  
 :octocat: :octocat: :octocat:
 
-Style:  
--snake_case  
--in line()  
-{  
-}  
+Conventions and style requirements:  
+- snake case  
+>ex: int function_name()  
+>ex: int variable_name
+
+- in line()  
+>{  
+>}  
+
+-class names should be capitolized  
+>ex: class Game  
+
+- class sections should in in the following order: public, protected, private
+
+
+- ex class showcasing all conventions:  
+>class **Room**  
+>**{**  
+>>  **public**:  
+>     Room();   
+>      ~Room();  
+>     
+>>  **private**:  
+>      int **num_doors**;  
+>
+>**}**;

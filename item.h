@@ -1,31 +1,51 @@
 #include "entity.h"
 
 
-class Item: public Entity{
+class Item: public Entity
+{
 	public:
 		Item();
-	protected:
+    		~Item();
+   
+  	protected:
 		int whiffles;
 		int isOwned;
 };
 
-class Treasure: public Item{
+
+class Treasure: public Item
+{
 	public:
 		Treasure();
 	protected:
+  	private:
 };
 
-class Tools: public Item{
+
+class Tools: public Item
+{
 	public:
-		Tools();
-	protected:
-		int rating;
+    	Tools();  
+    	~Tools();  
+
+  	protected:
+    	//creates a tool based off arg  
+    	void init(int i);  
+    	int rating;  
 };
 
-class Food: public Item{
+
+class Food: public Item
+{
 	public:
 		Food();
+    		~Food();
 	protected:
-		int energy;
-};
+    // make food based on arg
+    		int make_food(int i);
+		int food_energy;
 
+	private:
+		int energy;
+
+};

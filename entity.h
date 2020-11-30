@@ -10,36 +10,68 @@
 using namespace std;
 
 
-class entity{
+class Entity
+{
 
   public:
-    entity();
-    ~entity();
+    Entity();  
+    ~Entity();  
+    void get_loc(int* &loc);  
+
+
+  //set protoc so derived classes can set themselves
+  // but clients can't touch
+  protected:
+
+    string name;
 
   private:
-    string name;
     int entity_x;
     int entity_y;
    // int * location;
     char type;
 
 };
-class obstacle:public entity{
+
+class Obstacle:public Entity
+{
+
+  public:
+    Obstacle();
+    Obstacle(int obs_type);
+    ~Obstacle();
+
+    //creats an obstacle
+    void init(int i);
 
   private:
     int energy_needed;
 
 };
-class royal_diamonds:public entity{
 
+class Royal_Diamond: public Entity
+{
+
+  public:
+    Royal_Diamond();
+    Royal_Diamond(string a_string,bool found_diamond);
+    ~Royal_Diamond();
+  
   private:
-    String something;
+    string something;
     bool game_end;
 
 };
-class clue:public entity{
+
+class Clue: public Entity
+{
+
+  public:
+    Clue();
+    Clue(int type,string a_sentence);
+    ~Clue();
 
   private:
-    String sentence;
-
+    int clue_type;  // 0 = false clue -- 1 = true clue
+    string sentence;
 };
