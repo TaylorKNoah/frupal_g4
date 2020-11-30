@@ -21,6 +21,12 @@ void Entity::get_loc(int* &loc)
     loc[1] = entity_y;
 }
 
+void Entity::set_loc(int x,  int y) 
+{
+    entity_x = x;
+    entity_y = y;
+}
+
 
 
 /**************OBSTACLE*************************/
