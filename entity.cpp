@@ -10,17 +10,16 @@
 /**************Entity*************************/
 //constructor
 Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
-<<<<<<< HEAD
 
 //destructor
 Entity::~Entity(){}
 
-int* Entity::get_loc()
+int** Entity::get_loc()
 {
-    int* loc[2];
+    int** loc[2];
 
-    loc[0] = entity_x;
-    loc[1] = entity_y;
+    loc[0][0] = entity_x;
+    loc[1][0] = entity_y;
 
     return loc;
 }
@@ -68,8 +67,3 @@ Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
   
-=======
-
-
-
->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef
