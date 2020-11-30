@@ -16,7 +16,7 @@ class Entity
   public:
     Entity();  
     ~Entity();  
-    int* get_loc();  
+    void get_loc(int* &loc);  
 
 
   //set protoc so derived classes can set themselves
