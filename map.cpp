@@ -49,9 +49,6 @@ void Map::build(string file_name)
   if(!in)   //Check if file exists, exit if not
   {
     mvprintw(0,0,"NO MAP FILE FOUND");
-    getch();
-    endwin();
-    exit;
   } 
 
   else
@@ -74,13 +71,14 @@ void Map::build(string file_name)
         grov_count = stoi(tempg);
         new_type = atoi(tempt);
         
-        for(x; x < (x + grov_count); x++)
+        while(x < (x + grov_count))
         {
           if(x > 127)   //Bounds check
           {
             break;
           } 
           map[y][x] = new Grovnik(static_cast<Type>(new_type));
+          x++;
         }
       }
       in.ignore(100,'\n'); 
@@ -196,7 +194,7 @@ void Map::reveal(int play_x, int play_y, bool binocs)
         break;
 
       grov = (int)map[y][x]->get_type(); 
-      if(3 < grov);
+      if(3 < grov)
         grov -= 4;
     }
   }
