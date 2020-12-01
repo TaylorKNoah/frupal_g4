@@ -15,8 +15,8 @@ class Menu
         Menu();
         ~Menu();
 
-        void draw(int menu_start, WINDOW* game_win);
     private:
 
         WINDOW* win;
+        void draw(int menu_start, WINDOW* &game_win);
 };

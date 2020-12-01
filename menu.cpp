@@ -4,7 +4,10 @@
 //This is the Menu implementation file
 //It contains the menu class functions
 
+
 #include "menu.h"
+
+
 
 ///////////////////////////////////////////////////////////
 //                  MENU FUCNTIONS
@@ -15,15 +18,14 @@ Menu::Menu() {};
 
 Menu::~Menu() {};
 
-void Menu::draw(int menu_start, WINDOW* game_win)
+void Menu::draw(int menu_start, WINDOW*& game_win)
 {
     //set menu's WINDOW pointer
     // to use in other funcs
 
     //init if needed
     //if(win == NULL)
-  WINDOW * win = new WINDOW;
-        win = game_win;
+    win = game_win;
 
     //create a column of #
     for(int i=0; i<LINES; ++i)

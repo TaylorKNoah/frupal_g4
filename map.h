@@ -38,6 +38,7 @@ class Grovnik
     Type get_type();
     ~Grovnik();
 
+  private:
     Entity* entity;
     Type type;
 };
@@ -45,11 +46,11 @@ class Grovnik
 class Map
 {
   public:
-    Map(string file_name);              //constructor take filename to load map info
-    void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
-    void update(int play_x,int play_y,bool binocs);
+    Map();              //constructor take filename to load map info
+    void build(string filename);
+    void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
-    
     ~Map();
 
   private:

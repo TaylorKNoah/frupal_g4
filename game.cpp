@@ -7,7 +7,7 @@
 
 #include "game.h"
 
-int Game::draw(WINDOW * window) {
+int Game::draw(WINDOW *& window) {
   initscr();
   x = COLS;
   y = LINES;

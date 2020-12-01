@@ -27,15 +27,20 @@ Grovnik::~Grovnik()
 	}
 }
 
+Map::Map()
+{
+  map = NULL;
+}
+
 //Takes in the file name, opens an in file stream and populates the map
 //Expects the first line to be the player spawn in x,y
 //Map is lines 1-128, expected format #ofcells,Type:#ofcells,Type:etc, 128 cells per line
 //Lines 129+ contain the item infromation
-Map::Map(string file_name)
+void Map::build(string file_name)
 {
-  int x = 0, y = 0;
-  char * grov_count;
-  char * new_type;
+  int x = 0, y = 0, grov_count = 0, new_type = 0;
+  char tempg[3];
+  char tempt[1];
   ifstream in;
 
   in.open(file_name);
@@ -46,16 +51,14 @@ Map::Map(string file_name)
     mvprintw(0,0,"NO MAP FILE FOUND");
     getch();
     endwin();
-    exit(-1);
+    exit;
   } 
 
   else
   {
     map = new Grovnik**[128];
-    grov_count = new char[128];
-    new_type = new char[128];
 
-    in.get(grov_count,128,',');
+    in.get(tempg,3,',');
     in.ignore(100,'\n');       //Ignore player spawn
     
     while(in && !in.eof() && y < 128)
@@ -63,21 +66,21 @@ Map::Map(string file_name)
       map[y] = new Grovnik*[128];
       while(x < 128)
       {
-        in.get(grov_count,128,',');
+        in.get(tempg,3,',');
         in.ignore(3,',');
-        in.get(new_type,1,':');
+        in.get(tempt,1,':');
         in.ignore(1,':');
         
-        for(int x = 0; x < 129; x++)
+        grov_count = stoi(tempg);
+        new_type = atoi(tempt);
+        
+        for(x; x < (x + grov_count); x++)
         {
           if(x > 127)   //Bounds check
           {
-            mvprintw(0,0,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);
-            getch();
-            endwin();
-            exit(-1);
+            break;
           } 
-         // map[y][x] = (static_cast<Type>(new_type));
+          map[y][x] = new Grovnik(static_cast<Type>(new_type));
         }
       }
       in.ignore(100,'\n'); 
@@ -93,10 +96,12 @@ Map::Map(string file_name)
 //Uses the terminal size and player location to draw the map
 //so the player is always on screen
 //leaves a 25 char space on the right for the menu
-void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_y)
+void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 {
-  int size_x = win_x - 25;
-  int size_y = win_y;
+  int size_x;
+  int size_y;
+  getmaxyx(game_win,size_y,size_x);
+  size_x -= 26;
   int offset_x = 0, offset_y = 0;
   Type grov = MEADOW_INV;
   char ent = EMPTY;
@@ -133,25 +138,25 @@ void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_
       {
         case MEADOW_VIS:
           attron(COLOR_PAIR(MEADOW));
-          mvaddch(y,x, ent);
+          mvwaddch(game_win,y,x, ent);
           attroff(COLOR_PAIR(MEADOW));
           break;
 
         case SWAMP_VIS:
           attron(COLOR_PAIR(SWAMP));
-          mvaddch(y,x, ent);
+          mvwaddch(game_win,y,x, ent);
           attroff(COLOR_PAIR(SWAMP));
           break;        
 
         case WATER_VIS:
           attron(COLOR_PAIR(WATER));
-          mvaddch(y,x, ent);
+          mvwaddch(game_win,y,x, ent);
           attroff(COLOR_PAIR(WATER));
           break;        
 
         case WALL_VIS:
           attron(COLOR_PAIR(WALL));
-          mvaddch(y,x, ent);
+          mvwaddch(game_win,y,x, ent);
           attroff(COLOR_PAIR(WALL));
           break;        
 
@@ -163,18 +168,18 @@ void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_
 
   //Draws the player center screen
   attron(COLOR_PAIR(HERO));
-  mvaddch((play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);
+  mvwaddch(game_win,(play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);
   attroff(COLOR_PAIR(HERO));
 
   grov = map[cur_y][cur_x]->get_type();
-  mvprintw(1,(size_x + 2),"Type: %s",name_type[(int)grov]);
+  mvwprintw(game_win,6,(size_x + 2),"Type: %s",name_type[(int)grov]);
 
   //TODO add entity info to menu
 }
 
 //This update function will take the players location and binocular status
 //and turn any grovniks around them visible
-void Map::update(int play_x, int play_y, bool binocs)
+void Map::reveal(int play_x, int play_y, bool binocs)
 {
   int check = 1;
   int grov = 0;
@@ -191,7 +196,7 @@ void Map::update(int play_x, int play_y, bool binocs)
         break;
 
       grov = (int)map[y][x]->get_type(); 
-      if(3 < grov)
+      if(3 < grov);
         grov -= 4;
     }
   }
@@ -200,7 +205,7 @@ void Map::update(int play_x, int play_y, bool binocs)
 //Returns grovnik type for provided coordinates
 Type Map::info(int x, int y)
 {
-  return map[x][y]->get_type();
+  return map[y][x]->get_type();
 }
 
 Map::~Map()
@@ -211,16 +216,9 @@ Map::~Map()
 		{
       if(map[x][y])
       {
-        if(map[x][y]->entity)
-        {
-          delete map[x][y]->entity;
-          map[x][y]->entity = NULL;
-        }
 			  delete map[x][y];			
         map[x][y] = NULL;
       }
 		}
 	}
 }
-
-

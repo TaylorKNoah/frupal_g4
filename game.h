@@ -7,14 +7,14 @@ class Game:public Entity{
 
 public:
   Game();
-  Game(Window * window);
+  Game(Window *& window);
   // I don't foresee the Game class ever being dynamically allocated but just in
   // case?
   ~Game();
 
   void update(int key);
   Player get_player();
-  int draw(WINDOW * window);
+  int draw(WINDOW *& window);
   void move_player(int to_x, int to_y);
 
 private:
