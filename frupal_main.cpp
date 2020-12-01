@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
   //initscr();
   clear();
   noecho();
-  keypad(stdscr, true);
+  //keypad(stdscr, true);
   nodelay(stdscr, true);
   cbreak();
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     {
       game.update(key);
       
-      if (game.get_player().get_energy() <= 0)
+      if (game.get_energy() <= 0)
         running = false;
     }
   }

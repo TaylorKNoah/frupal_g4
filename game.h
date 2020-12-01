@@ -13,9 +13,10 @@ public:
   // case?
   ~Game();
   void update(int key);
-  Player get_player();
+  //Player get_player();
   void move_player(int to_x, int to_y);
   int draw();
+  int get_energy();
 
 private:
   WINDOW * window;
