@@ -3,7 +3,25 @@
 
 #include "game.h"
 
-int main() {
+int main(int argc, char* argv[]) 
+{
+  if(argc != 2)
+  {
+      cout<<"\nTo run: ./frupal <MAP.txt> where MAP is the name of your map file"<<endl;
+      exit(-1);
+  }
+
+  FILE* the_map = fopen(argv[1], "r");
+
+  if(the_map == NULL)
+  {
+      cout<<"\nFATAL ERROR: Could not find map file named "<<argv[1]<<".txt"<<endl;
+      exit(-1);
+  }
+
+  fclose(the_map);
+
+  Game game;
   bool running = true;
 
   initscr();
@@ -14,10 +32,12 @@ int main() {
   nodelay(stdscr, true);
   cbreak();
 
-  while (running) {
+  while (running) 
+  {
     int key = getch();
     
-    if (key != ERR) {
+    if (key != ERR) 
+    {
       game.update(key);
       
       if (game.get_player().get_energy() <= 0)

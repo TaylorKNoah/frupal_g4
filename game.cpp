@@ -7,20 +7,12 @@
 
 #include "game.h"
 
-int Game::draw(WINDOW *& window) {
+int Game::draw() {
   initscr();
   x = COLS;
   y = LINES;
-<<<<<<< HEAD
-  filename = "map1.txt";
-
-
-  Map map(filename);
-  map.draw(x,y,x,y,x,y);
-=======
 
   map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
->>>>>>> 53a4dd6049b159a4032427f08715e835dea61248
 
   menu_start = (x - 25);
 
@@ -29,14 +21,7 @@ int Game::draw(WINDOW *& window) {
     return -1;
   }
   else
-<<<<<<< HEAD
-  {
-    window = new WINDOW; 
-    menu.draw(menu_start,window);
-  }
-=======
     menu.draw(menu_start, window);
->>>>>>> 53a4dd6049b159a4032427f08715e835dea61248
 
   return 0;
 }
@@ -73,15 +58,11 @@ void Game::update(int key) {
   }
 }
 
-<<<<<<< HEAD
-Game::Game(WINDOW * window){
-=======
 Game::Game(string file){
   filename = file;
 }
 
 Game::Game(){
->>>>>>> 53a4dd6049b159a4032427f08715e835dea61248
 
 }
 
@@ -94,11 +75,7 @@ Player Game::get_player() {
 }
 
 void Game::move_player(int to_x, int to_y) {
-<<<<<<< HEAD
-  switch (map[to_x][to_y]) { //Need access to map information
-=======
   switch (map.info(to_x, to_y)) {
->>>>>>> 53a4dd6049b159a4032427f08715e835dea61248
   case MEADOW_VIS:
     player.add_energy(-1);
     player.set_loc(to_x, to_y);
