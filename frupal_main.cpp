@@ -21,18 +21,20 @@ int main(int argc, char* argv[])
 
   fclose(the_map);
 
-  Game game;
-  bool running = true;
 
-  initscr();
+  //initscr();
   clear();
   noecho();
   keypad(stdscr, true);
   nodelay(stdscr, true);
   cbreak();
 
+  Game game(argv[1]);
+  bool running = true;
+
   while (running) 
   {
+    game.draw();
     int key = getch();
     
     if (key != ERR) 
