@@ -6,7 +6,6 @@
 //an item
 
 #include "map.h"
-#include <fstream>
 
 Grovnik::Grovnik(Type new_type)
 {
