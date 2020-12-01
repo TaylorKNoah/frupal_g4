@@ -11,9 +11,8 @@ int Game::draw() {
   initscr();
   x = COLS;
   y = LINES;
-  filename = "map_1";
 
-  map.draw(x,y,filename);
+  map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
 
   menu_start = (x - 25);
 
@@ -22,7 +21,7 @@ int Game::draw() {
     return -1;
   }
   else
-    menu.draw(menu_start);
+    menu.draw(menu_start, window);
 
   return 0;
 }
@@ -31,59 +30,57 @@ void Game::update(int key) {
   switch (key) {
   //Move player up
   case 'w':
-    if (player.entity_y != 0) { //If player is not at the top of the map
-      move_player(player.entity_x, player.entity_y - 1);
+    if (player.get_y() != 0) { //If player is not at the top of the map
+      move_player(player.get_x(), player.get_y() - 1);
     }
     break;
 
   //Move player left
   case 'a':
-    if (player.entity_x != 0) { //If player is not at left of map
-      move_player(player.entity_x - 1, player.entity_y); 
+    if (player.get_x() != 0) { //If player is not at left of map
+      move_player(player.get_x() - 1, player.get_y()); 
     }
     break;
 
   //Move player down
   case 's':
-    if (player.entity_y != 127) { //If player is not at bottom of map
-      move_player(player.entity_x, player.entity_y + 1);
+    if (player.get_y() != 127) { //If player is not at bottom of map
+      move_player(player.get_x(), player.get_y() + 1);
     }
     break;
 
   //Move player right
   case 'd':
-    if (player.entity_x != 127) { //If player is not at right of map
-      move_player(player.entity_x + 1, player.entity_y);
+    if (player.get_x() != 127) { //If player is not at right of map
+      move_player(player.get_x() + 1, player.get_y());
     }
     break;
   }
 }
 
-Game::Game(){
-
+Game::Game(std::string file){
+  filename = file;
 }
 Game::~Game(){
   
 }
 
 Player Game::get_player() {
-  return player();
+  return player;
 }
 
 void Game::move_player(int to_x, int to_y) {
-  switch (map.map[to_x][to_y]) { //Need access to map information
+  switch (map.info(to_x, to_y)) {
   case MEADOW_VIS:
     player.add_energy(-1);
-    player.entity_x = to_x;
-    player.entity_y = to_y;
-    map.reveal(player.entity_x, player.entity_y);
+    player.set_loc(to_x, to_y);
+    map.reveal(player.get_x(), player.get_y(), false);
     break;
 
   case SWAMP_VIS:
     player.add_energy(-2);
-    player.entity_x = to_x;
-    player.entity_y = to_y;
-    map.reveal(player.entity_x, player.entity_y);
+    player.set_loc(to_x, to_y);
+    map.reveal(player.get_x(), player.get_y(), false);
     break;
 
   case WATER_VIS:
@@ -91,4 +88,8 @@ void Game::move_player(int to_x, int to_y) {
 
   case WALL_VIS:
     break;
+
+  default:
+    break;
+  }
 }
