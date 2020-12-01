@@ -45,6 +45,8 @@ int main(int argc, char* argv[])
         running = false;
     }
   }
+  clear();
+  endwin();
 
   return 0;
 }
