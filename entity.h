@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <string>
 #include <cstdlib>
 #include <ncurses.h> 
 

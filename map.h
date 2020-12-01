@@ -34,8 +34,10 @@ class Grovnik
 {
   public:
     Grovnik(Type new_type);		//TODO add entity creation to constructor
-    Type get_type();
     ~Grovnik();
+
+    Type get_type();
+    void toggle_vis(bool vis);
 
   private:
     Entity* entity;

@@ -7,21 +7,50 @@
 
 #include "game.h"
 
-int Game::draw() {
+
+Game::Game(string file)
+{
+  filename = file;
+  //window = newwin(128, 128+25, 0, 0);
   initscr();
+  window = stdscr;
+  map.build(file);
+  player.build(file);
+}
+
+Game::Game(){}
+
+Game::~Game(){}
+
+Player Game::get_player() {
+  return player;
+}
+
+int Game::draw() {
   x = COLS;
   y = LINES;
 
+  map.reveal(player.get_x(), player.get_y(), false);
   map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
 
   menu_start = (x - 25);
 
-  if(menu_start < 129) {
-    printf("Terminal too small please enlarge");
-    return -1;
+  if(COLS < 80 || LINES < 24) {
+    printf("\nTerminal too small please enlarge");
+    printf("\nmenu start = %i, x = %i", menu_start, x);
+    clear();
+    endwin();
+    exit(-1);
+    //return -1;
   }
   else
+  {
     menu.draw(menu_start, window);
+    player.draw(menu_start, window);
+  }
+
+  //wrefresh(window);
+  refresh();
 
   return 0;
 }
@@ -58,21 +87,6 @@ void Game::update(int key) {
   }
 }
 
-Game::Game(string file){
-  filename = file;
-}
-
-Game::Game(){
-
-}
-
-Game::~Game(){
-  
-}
-
-Player Game::get_player() {
-  return player;
-}
 
 void Game::move_player(int to_x, int to_y) {
   switch (map.info(to_x, to_y)) {
