@@ -3,7 +3,8 @@
 
 
 #include <iostream>
-#include <cstring>
+#include <fstream>
+#include <string>
 #include <cstdlib>
 #include <ncurses.h> 
 
@@ -16,7 +17,11 @@ class Entity
   public:
     Entity();  
     ~Entity();  
+
+    int get_x();
+    int get_y();
     void get_loc(int* &loc);  
+    void set_loc(int x, int y);
 
 
   //set protoc so derived classes can set themselves

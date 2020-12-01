@@ -10,15 +10,18 @@ class Player: public Entity
   public: 
     Player();
     ~Player();
+
     int get_energy();
     void add_energy(int energy);
+    void build(string file);
 
-    void draw(int menu_start, WINDOW*& win);
+    void draw(int menu_start, WINDOW* win);
 
   protected:
     int my_whiffles;
     int my_energy;
     Item ** my_items;
     WINDOW* win;
+    int ms; //menu_start.
 
 };

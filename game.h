@@ -6,23 +6,27 @@
 class Game{
 
 public:
+
   Game();
+  Game(std::string file);
   // I don't foresee the Game class ever being dynamically allocated but just in
   // case?
   ~Game();
   void update(int key);
   Player get_player();
   void move_player(int to_x, int to_y);
+  int draw();
 
 private:
-
   WINDOW * window;
-  String filename;
+  std::string filename;
   int x;
   int y;
   int menu_start;
   Map map;
   Menu menu;
   Player player;
+  int cursor_x;
+  int cursor_y;
 
 };

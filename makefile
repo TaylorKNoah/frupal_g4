@@ -4,31 +4,37 @@
 CC=g++
 CFLAGS=-Wall -Werror -g
 LIBS=-lncurses
-OBJECTS=frupal_main.o game.o menu.o map.o player.o item.o entity.o
+OBJECTS= frupal_main.o game.o menu.o map.o player.o item.o entity.o
 
 frupal: $(OBJECTS)
-	$(CC) $(LIBS) $(CFLAGS) $(OBJECTS) -o frupal
+	$(CC) $(CFLAGS) $(OBJECTS) -o frupal $(LIBS)
 
 frupal_main.o: frupal_main.cpp game.o
-	$(CC) $(LIBS) $(CFLAGS) frupal_main.cpp -c
+	$(CC) $(CFLAGS) frupal_main.cpp -c $(LIBS)
+
 
 game.o: game.cpp game.h menu.o
-	$(CC) $(LIBS) $(CFLAGS) game.cpp -c
+	$(CC) $(CFLAGS) game.cpp -c $(LIBS)
+
 
 menu.o: menu.cpp menu.h map.o
-	$(CC) $(LIBS) $(CFLAGS) menu.cpp -c
+	$(CC) $(CFLAGS) menu.cpp -c $(LIBS)
+
 
 map.o: map.cpp map.h player.o
-	$(CC) $(LIBS) $(CFLAGS) map.cpp -c
+	$(CC) $(CFLAGS) map.cpp -c $(LIBS)
+
 
 player.o: player.cpp player.h item.o
-	$(CC) $(LIBS) $(CFLAGS) player.cpp -c
+	$(CC) $(CFLAGS) player.cpp -c $(LIBS)
+
 
 item.o: item.cpp item.h entity.o
-	$(CC) $(CFLAGS) item.cpp -c
+	$(CC) $(CFLAGS) item.cpp -c $(LIBS)
 
 entity.o: entity.cpp entity.h
-	$(CC) $(LIBS) $(CFLAGS) entity.cpp -c
+	$(CC) $(CFLAGS) entity.cpp -c $(LIBS)
+
 
 clean:
 	rm *.o *.plist frupal
