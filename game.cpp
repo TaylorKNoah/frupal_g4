@@ -58,9 +58,14 @@ void Game::update(int key) {
   }
 }
 
-Game::Game(std::string file){
+Game::Game(string file){
   filename = file;
 }
+
+Game::Game(){
+
+}
+
 Game::~Game(){
   
 }

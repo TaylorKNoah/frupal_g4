@@ -6,7 +6,8 @@
 class Game{
 
 public:
-  Game(std::string file);
+  Game();
+  Game(string file);
   // I don't foresee the Game class ever being dynamically allocated but just in
   // case?
   ~Game();
