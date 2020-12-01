@@ -3,28 +3,30 @@
 
 #include "menu.h"
 
-class Game:public Entity{
+class Game{
 
 public:
+
   Game();
-  Game(Window *& window);
+  Game(std::string file);
   // I don't foresee the Game class ever being dynamically allocated but just in
   // case?
   ~Game();
-
   void update(int key);
   Player get_player();
-  int draw(WINDOW *& window);
   void move_player(int to_x, int to_y);
+  int draw();
 
 private:
-
-  string filename;
+  WINDOW * window;
+  std::string filename;
   int x;
   int y;
   int menu_start;
+  Map map;
   Menu menu;
-  Map map(string filename);
   Player player;
+  int cursor_x;
+  int cursor_y;
 
 };

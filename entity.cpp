@@ -9,7 +9,7 @@
 
 /**************Entity*************************/
 //constructor
-Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
+Entity::Entity(): entity_x(0),entity_y(0),type(' '){}
 
 //destructor
 Entity::~Entity(){}

@@ -1,0 +1,2059 @@
+[33mcommit c4e66316903814aec20f1aa9d22df19c9d7c9780[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Merge: 43a8531 832d4ec
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Mon Nov 30 16:08:26 2020 -0800
+
+    Merge https://github.com/TaylorKNoah/frupal_g4 into main
+
+[33mcommit 43a8531ac50279e2f2b248d28ae8bf63664449ac[m
+Merge: c1b4abc 0adb6c9
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Mon Nov 30 16:07:57 2020 -0800
+
+    stuff
+
+[33mcommit 832d4ec4cfab5c92a11b263a8e104c30f8689c84[m
+Merge: bcbc51c 83c4389
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 15:52:20 2020 -0800
+
+    Merge pull request #34 from TaylorKNoah/set-x-y
+    
+    add entity::get_x() and entity::get_y()
+
+[33mcommit bcbc51cda5eef94c5acfa7d83f3ec3a4191fb2fe[m
+Merge: 3a04bc3 0adb6c9
+Author: jmalubay1 <jmalubay@babbage.cs.pdx.edu>
+Date:   Mon Nov 30 15:51:22 2020 -0800
+
+    Merge branch 'main' of https://github.com/TaylorKNoah/frupal_g4 into main
+
+[33mcommit 83c43898ea43246d9cfc6556b44eebdb108a934e[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 15:51:20 2020 -0800
+
+    add entity::get_x() and entity::get_y()
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex 4702d13..212f358 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -27,6 +27,17 @@[m [mvoid Entity::set_loc(int x,  int y)[m
+     entity_y = y;[m
+ }[m
+ [m
+[32m+[m[32mint Entity::get_x()[m
+[32m+[m[32m{[m
+[32m+[m[32m    return entity_x;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m
+[32m+[m[32mint Entity::get_y()[m
+[32m+[m[32m{[m
+[32m+[m[32m    return entity_y;[m
+[32m+[m[32m}[m
+[32m+[m
+ [m
+ [m
+ /**************OBSTACLE*************************/[m
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex 001cee3..ec8c53f 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -16,6 +16,9 @@[m [mclass Entity[m
+   public:[m
+     Entity();  [m
+     ~Entity();  [m
+[32m+[m
+[32m+[m[32m    int get_x();[m
+[32m+[m[32m    int get_y();[m
+     void get_loc(int* &loc);  [m
+     void set_loc(int x, int y);[m
+ [m
+
+[33mcommit 3a04bc358fccd14cbb4326b35a8f5b3f14e053d8[m
+Author: jmalubay1 <jmalubay@babbage.cs.pdx.edu>
+Date:   Mon Nov 30 15:50:43 2020 -0800
+
+    fixed draw function to use WINDOW*
+
+[1mdiff --git a/map.cpp b/map.cpp[m
+[1mindex ff30e92..9f56d98 100644[m
+[1m--- a/map.cpp[m
+[1m+++ b/map.cpp[m
+[36m@@ -27,13 +27,20 @@[m [mGrovnik::~Grovnik()[m
+ 	}[m
+ }[m
+ [m
+[32m+[m[32mMap::Map()[m
+[32m+[m[32m{[m
+[32m+[m[32m  map = NULL;[m
+[32m+[m[32m}[m
+[32m+[m
+ //Takes in the file name, opens an in file stream and populates the map[m
+ //Expects the first line to be the player spawn in x,y[m
+ //Map is lines 1-128, expected format #ofcells,Type:#ofcells,Type:etc, 128 cells per line[m
+ //Lines 129+ contain the item infromation[m
+[31m-Map::Map(string file_name)[m
+[32m+[m[32mvoid Map::build(string file_name)[m
+ {[m
+[31m-  int x = 0, grov_count = 0, new_type = 0;[m
+[32m+[m[32m  int x = 0, y = 0, grov_count = 0, new_type = 0;[m
+[32m+[m[32m  char tempg[3];[m
+[32m+[m[32m  char tempt[1];[m
+   ifstream in;[m
+ [m
+   in.open(file_name);[m
+[36m@@ -41,7 +48,7 @@[m [mMap::Map(string file_name)[m
+   [m
+   if(!in)   //Check if file exists, exit if not[m
+   {[m
+[31m-    mvprintw(0,0,%s,"NO MAP FILE FOUND");[m
+[32m+[m[32m    mvprintw(0,0,"NO MAP FILE FOUND");[m
+     getch();[m
+     endwin();[m
+     exit;[m
+[36m@@ -51,27 +58,27 @@[m [mMap::Map(string file_name)[m
+   {[m
+     map = new Grovnik**[128];[m
+ [m
+[31m-    in.get(grov_count,3,',');[m
+[31m-    in.ignore(100,'\n')       //Ignore player spawn[m
+[32m+[m[32m    in.get(tempg,3,',');[m
+[32m+[m[32m    in.ignore(100,'\n');       //Ignore player spawn[m
+     [m
+     while(in && !in.eof() && y < 128)[m
+     {[m
+       map[y] = new Grovnik*[128];[m
+       while(x < 128)[m
+       {[m
+[31m-        in.get(grov_count,3,',');[m
+[32m+[m[32m        in.get(tempg,3,',');[m
+         in.ignore(3,',');[m
+[31m-        in.get(new_type,1,':');[m
+[32m+[m[32m        in.get(tempt,1,':');[m
+         in.ignore(1,':');[m
+         [m
+[32m+[m[32m        grov_count = stoi(tempg);[m
+[32m+[m[32m        new_type = atoi(tempt);[m
+[32m+[m[41m        [m
+         for(x; x < (x + grov_count); x++)[m
+         {[m
+           if(x > 127)   //Bounds check[m
+           {[m
+[31m-            mvprintw(0,0,%s,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);[m
+[31m-            getch();[m
+[31m-            endwin();[m
+[31m-            exit;[m
+[32m+[m[32m            break;[m
+           } [m
+           map[y][x] = new Grovnik(static_cast<Type>(new_type));[m
+         }[m
+[36m@@ -89,10 +96,12 @@[m [mMap::Map(string file_name)[m
+ //Uses the terminal size and player location to draw the map[m
+ //so the player is always on screen[m
+ //leaves a 25 char space on the right for the menu[m
+[31m-void Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_y)[m
+[32m+[m[32mvoid Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)[m
+ {[m
+[31m-  int size_x = win_x - 25;[m
+[31m-  int size_y = win_y;[m
+[32m+[m[32m  int size_x;[m
+[32m+[m[32m  int size_y;[m
+[32m+[m[32m  getmaxyx(game_win,size_y,size_x);[m
+[32m+[m[32m  size_x -= 26;[m
+   int offset_x = 0, offset_y = 0;[m
+   Type grov = MEADOW_INV;[m
+   char ent = EMPTY;[m
+[36m@@ -115,39 +124,39 @@[m [mvoid Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_[m
+       //Draws any out of bounds as invisible[m
+       if(0 > (y + offset_y) || 127 < (y + offset_y) || 0 > (x + offset_x) || 127 < (x + offset_x))[m
+       {[m
+[31m-        grov = MEADOW_INV[m
+[31m-        ent = EMPTY[m
+[32m+[m[32m        grov = MEADOW_INV;[m
+[32m+[m[32m        ent = EMPTY;[m
+       }[m
+         [m
+       else[m
+       {[m
+       grov = map[y + offset_y][x + offset_x]->get_type();[m
+[31m-      ent = EMPTY     //TODO add entity checker to find what character to draw[m
+[32m+[m[32m      ent = EMPTY;     //TODO add entity checker to find what character to draw[m
+       }[m
+ [m
+       switch(grov)[m
+       {[m
+         case MEADOW_VIS:[m
+           attron(COLOR_PAIR(MEADOW));[m
+[31m-          mvaddch(y,x, ent);[m
+[32m+[m[32m          mvwaddch(game_win,y,x, ent);[m
+           attroff(COLOR_PAIR(MEADOW));[m
+           break;[m
+ [m
+         case SWAMP_VIS:[m
+           attron(COLOR_PAIR(SWAMP));[m
+[31m-          mvaddch(y,x, ent);[m
+[32m+[m[32m          mvwaddch(game_win,y,x, ent);[m
+           attroff(COLOR_PAIR(SWAMP));[m
+           break;        [m
+ [m
+         case WATER_VIS:[m
+           attron(COLOR_PAIR(WATER));[m
+[31m-          mvaddch(y,x, ent);[m
+[32m+[m[32m          mvwaddch(game_win,y,x, ent);[m
+           attroff(COLOR_PAIR(WATER));[m
+           break;        [m
+ [m
+         case WALL_VIS:[m
+           attron(COLOR_PAIR(WALL));[m
+[31m-          mvaddch(y,x, ent);[m
+[32m+[m[32m          mvwaddch(game_win,y,x, ent);[m
+           attroff(COLOR_PAIR(WALL));[m
+           break;        [m
+ [m
+[36m@@ -158,19 +167,19 @@[m [mvoid Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_[m
+   }[m
+ [m
+   //Draws the player center screen[m
+[31m-  attron(COLOR_PAIR(HERO);[m
+[31m-  mvaddch((play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);[m
+[31m-  attroff(COLOR_PAIR(HERO);[m
+[32m+[m[32m  attron(COLOR_PAIR(HERO));[m
+[32m+[m[32m  mvwaddch(game_win,(play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);[m
+[32m+[m[32m  attroff(COLOR_PAIR(HERO));[m
+ [m
+   grov = map[cur_y][cur_x]->get_type();[m
+[31m-  mvprintw(1,(size_x + 2),"Type: %s",name_type[(int)grov]);[m
+[32m+[m[32m  mvwprintw(game_win,6,(size_x + 2),"Type: %s",name_type[(int)grov]);[m
+ [m
+   //TODO add entity info to menu[m
+ }[m
+ [m
+ //This update function will take the players location and binocular status[m
+ //and turn any grovniks around them visible[m
+[31m-void Map::update(int play_x, int play_y, bool binocs)[m
+[32m+[m[32mvoid Map::reveal(int play_x, int play_y, bool binocs)[m
+ {[m
+   int check = 1;[m
+   int grov = 0;[m
+[36m@@ -194,9 +203,9 @@[m [mvoid Map::update(int play_x, int play_y, bool binocs)[m
+ }[m
+ [m
+ //Returns grovnik type for provided coordinates[m
+[31m-Type map::info(int x, int y)[m
+[32m+[m[32mType Map::info(int x, int y)[m
+ {[m
+[31m-  return map[y][x].get_type();[m
+[32m+[m[32m  return map[y][x]->get_type();[m
+ }[m
+ [m
+ Map::~Map()[m
+[36m@@ -207,11 +216,6 @@[m [mMap::~Map()[m
+ 		{[m
+       if(map[x][y])[m
+       {[m
+[31m-        if(map[x][y]->entity)[m
+[31m-        {[m
+[31m-          delete map[x][y]->entity[m
+[31m-          map[x][y]->entity = NULL;[m
+[31m-        }[m
+ 			  delete map[x][y];			[m
+         map[x][y] = NULL;[m
+       }[m
+[1mdiff --git a/map.h b/map.h[m
+[1mindex 10de423..c72f909 100644[m
+[1m--- a/map.h[m
+[1m+++ b/map.h[m
+[36m@@ -46,9 +46,10 @@[m [mclass Grovnik[m
+ class Map[m
+ {[m
+   public:[m
+[31m-    Map(string file_name);              //constructor take filename to load map info[m
+[31m-    void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu[m
+[31m-    void update(int play_x,int play_y,bool binocs);[m
+[32m+[m[32m    Map();              //constructor take filename to load map info[m
+[32m+[m[32m    void build(string filename);[m
+[32m+[m[32m    void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu[m
+[32m+[m[32m    void reveal(int play_x,int play_y,bool binocs);[m
+     Type info(int x, int y);[m
+     ~Map();[m
+ [m
+
+[33mcommit c1b4abcaaa8fd6fad9a48e5239299663e833ce22[m
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Mon Nov 30 15:45:49 2020 -0800
+
+    my weird bug fixes
+
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex f38f229..e5afb30 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -5,7 +5,9 @@[m
+ #include <iostream>[m
+ #include <cstring>[m
+ #include <cstdlib>[m
+[32m+[m[32m#include <cstdio>[m
+ #include <ncurses.h> [m
+[32m+[m[32m#include <curses.h>[m
+ [m
+ using namespace std;[m
+ [m
+[36m@@ -21,11 +23,10 @@[m [mclass Entity[m
+ [m
+   //set protoc so derived classes can set themselves[m
+   // but clients can't touch[m
+[31m-  protected:[m
+ [m
+     string name;[m
+ [m
+[31m-  private:[m
+[32m+[m[32m  //private:[m
+     int entity_x;[m
+     int entity_y;[m
+    // int * location;[m
+[1mdiff --git a/frupal_main.cpp b/frupal_main.cpp[m
+[1mindex 67cd63a..8b1dcb7 100644[m
+[1m--- a/frupal_main.cpp[m
+[1m+++ b/frupal_main.cpp[m
+[36m@@ -4,10 +4,11 @@[m
+ #include "game.h"[m
+ [m
+ int main() {[m
+[31m-  Game game;[m
+   bool running = true;[m
+ [m
+   initscr();[m
+[32m+[m[32m  WINDOW * window = new WINDOW(128,128);[m
+[32m+[m[32m  Game game(window);[m
+   clear();[m
+   noecho();[m
+   keypad(stdscr, true);[m
+[1mdiff --git a/game.cpp b/game.cpp[m
+[1mindex ea35512..a3b2b1d 100644[m
+[1m--- a/game.cpp[m
+[1m+++ b/game.cpp[m
+[36m@@ -7,13 +7,15 @@[m
+ [m
+ #include "game.h"[m
+ [m
+[31m-int Game::draw() {[m
+[32m+[m[32mint Game::draw(WINDOW * window) {[m
+   initscr();[m
+   x = COLS;[m
+   y = LINES;[m
+[31m-  filename = "map_1";[m
+[32m+[m[32m  filename = "map1.txt";[m
+ [m
+[31m-  map.draw(x,y,filename);[m
+[32m+[m
+[32m+[m[32m  Map map(filename);[m
+[32m+[m[32m  map.draw(x,y,x,y,x,y);[m
+ [m
+   menu_start = (x - 25);[m
+ [m
+[36m@@ -22,7 +24,10 @@[m [mint Game::draw() {[m
+     return -1;[m
+   }[m
+   else[m
+[31m-    menu.draw(menu_start);[m
+[32m+[m[32m  {[m
+[32m+[m[32m    window = new WINDOW;[m[41m [m
+[32m+[m[32m    menu.draw(menu_start,window);[m
+[32m+[m[32m  }[m
+ [m
+   return 0;[m
+ }[m
+[36m@@ -59,7 +64,7 @@[m [mvoid Game::update(int key) {[m
+   }[m
+ }[m
+ [m
+[31m-Game::Game(){[m
+[32m+[m[32mGame::Game(WINDOW * window){[m
+ [m
+ }[m
+ Game::~Game(){[m
+[36m@@ -67,11 +72,11 @@[m [mGame::~Game(){[m
+ }[m
+ [m
+ Player Game::get_player() {[m
+[31m-  return player();[m
+[32m+[m[32m  return player;[m
+ }[m
+ [m
+ void Game::move_player(int to_x, int to_y) {[m
+[31m-  switch (map.map[to_x][to_y]) { //Need access to map information[m
+[32m+[m[32m  switch (map[to_x][to_y]) { //Need access to map information[m
+   case MEADOW_VIS:[m
+     player.add_energy(-1);[m
+     player.entity_x = to_x;[m
+[1mdiff --git a/game.h b/game.h[m
+[1mindex 8dff929..0280aba 100644[m
+[1m--- a/game.h[m
+[1m+++ b/game.h[m
+[36m@@ -3,26 +3,28 @@[m
+ [m
+ #include "menu.h"[m
+ [m
+[31m-class Game{[m
+[32m+[m[32mclass Game:public Entity{[m
+ [m
+ public:[m
+   Game();[m
+[32m+[m[32m  Game(Window * window);[m
+   // I don't foresee the Game class ever being dynamically allocated but just in[m
+   // case?[m
+   ~Game();[m
+[32m+[m
+   void update(int key);[m
+   Player get_player();[m
+[32m+[m[32m  int draw(WINDOW * window);[m
+   void move_player(int to_x, int to_y);[m
+ [m
+ private:[m
+ [m
+[31m-  WINDOW * window;[m
+[31m-  String filename;[m
+[32m+[m[32m  string filename;[m
+   int x;[m
+   int y;[m
+   int menu_start;[m
+[31m-  Map map;[m
+   Menu menu;[m
+[32m+[m[32m  Map map(string filename);[m
+   Player player;[m
+ [m
+ };[m
+[1mdiff --git a/map.cpp b/map.cpp[m
+[1mindex ff30e92..18287ae 100644[m
+[1m--- a/map.cpp[m
+[1m+++ b/map.cpp[m
+[36m@@ -33,7 +33,9 @@[m [mGrovnik::~Grovnik()[m
+ //Lines 129+ contain the item infromation[m
+ Map::Map(string file_name)[m
+ {[m
+[31m-  int x = 0, grov_count = 0, new_type = 0;[m
+[32m+[m[32m  int x = 0, y = 0;[m
+[32m+[m[32m  char * grov_count;[m
+[32m+[m[32m  char * new_type;[m
+   ifstream in;[m
+ [m
+   in.open(file_name);[m
+[36m@@ -41,39 +43,41 @@[m [mMap::Map(string file_name)[m
+   [m
+   if(!in)   //Check if file exists, exit if not[m
+   {[m
+[31m-    mvprintw(0,0,%s,"NO MAP FILE FOUND");[m
+[32m+[m[32m    mvprintw(0,0,"NO MAP FILE FOUND");[m
+     getch();[m
+     endwin();[m
+[31m-    exit;[m
+[32m+[m[32m    exit(-1);[m
+   } [m
+ [m
+   else[m
+   {[m
+     map = new Grovnik**[128];[m
+[32m+[m[32m    grov_count = new char[128];[m
+[32m+[m[32m    new_type = new char[128];[m
+ [m
+[31m-    in.get(grov_count,3,',');[m
+[31m-    in.ignore(100,'\n')       //Ignore player spawn[m
+[32m+[m[32m    in.get(grov_count,128,',');[m
+[32m+[m[32m    in.ignore(100,'\n');       //Ignore player spawn[m
+     [m
+     while(in && !in.eof() && y < 128)[m
+     {[m
+       map[y] = new Grovnik*[128];[m
+       while(x < 128)[m
+       {[m
+[31m-        in.get(grov_count,3,',');[m
+[32m+[m[32m        in.get(grov_count,128,',');[m
+         in.ignore(3,',');[m
+         in.get(new_type,1,':');[m
+         in.ignore(1,':');[m
+         [m
+[31m-        for(x; x < (x + grov_count); x++)[m
+[32m+[m[32m        for(int x = 0; x < 129; x++)[m
+         {[m
+           if(x > 127)   //Bounds check[m
+           {[m
+[31m-            mvprintw(0,0,%s,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);[m
+[32m+[m[32m            mvprintw(0,0,"MAP FORMAT INCORRECT, TOO MANY GROVNIKS ON LINE %d",y);[m
+             getch();[m
+             endwin();[m
+[31m-            exit;[m
+[32m+[m[32m            exit(-1);[m
+           } [m
+[31m-          map[y][x] = new Grovnik(static_cast<Type>(new_type));[m
+[32m+[m[32m         // map[y][x] = (static_cast<Type>(new_type));[m
+         }[m
+       }[m
+       in.ignore(100,'\n'); [m
+[36m@@ -115,14 +119,14 @@[m [mvoid Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_[m
+       //Draws any out of bounds as invisible[m
+       if(0 > (y + offset_y) || 127 < (y + offset_y) || 0 > (x + offset_x) || 127 < (x + offset_x))[m
+       {[m
+[31m-        grov = MEADOW_INV[m
+[31m-        ent = EMPTY[m
+[32m+[m[32m        grov = MEADOW_INV;[m
+[32m+[m[32m        ent = EMPTY;[m
+       }[m
+         [m
+       else[m
+       {[m
+       grov = map[y + offset_y][x + offset_x]->get_type();[m
+[31m-      ent = EMPTY     //TODO add entity checker to find what character to draw[m
+[32m+[m[32m      ent = EMPTY;     //TODO add entity checker to find what character to draw[m
+       }[m
+ [m
+       switch(grov)[m
+[36m@@ -158,9 +162,9 @@[m [mvoid Map::draw(int win_x, int win_y, int cur_x, int cur_y, int play_x, int play_[m
+   }[m
+ [m
+   //Draws the player center screen[m
+[31m-  attron(COLOR_PAIR(HERO);[m
+[32m+[m[32m  attron(COLOR_PAIR(HERO));[m
+   mvaddch((play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);[m
+[31m-  attroff(COLOR_PAIR(HERO);[m
+[32m+[m[32m  attroff(COLOR_PAIR(HERO));[m
+ [m
+   grov = map[cur_y][cur_x]->get_type();[m
+   mvprintw(1,(size_x + 2),"Type: %s",name_type[(int)grov]);[m
+[36m@@ -187,16 +191,16 @@[m [mvoid Map::update(int play_x, int play_y, bool binocs)[m
+         break;[m
+ [m
+       grov = (int)map[y][x]->get_type(); [m
+[31m-      if(3 < grov);[m
+[32m+[m[32m      if(3 < grov)[m
+         grov -= 4;[m
+     }[m
+   }[m
+ }[m
+ [m
+ //Returns grovnik type for provided coordinates[m
+[31m-Type map::info(int x, int y)[m
+[32m+[m[32mType Map::info(int x, int y)[m
+ {[m
+[31m-  return map[y][x].get_type();[m
+[32m+[m[32m  return map[x][y]->get_type();[m
+ }[m
+ [m
+ Map::~Map()[m
+[36m@@ -209,7 +213,7 @@[m [mMap::~Map()[m
+       {[m
+         if(map[x][y]->entity)[m
+         {[m
+[31m-          delete map[x][y]->entity[m
+[32m+[m[32m          delete map[x][y]->entity;[m
+           map[x][y]->entity = NULL;[m
+         }[m
+ 			  delete map[x][y];			[m
+[1mdiff --git a/map.h b/map.h[m
+[1mindex 10de423..639c125 100644[m
+[1m--- a/map.h[m
+[1m+++ b/map.h[m
+[36m@@ -38,7 +38,6 @@[m [mclass Grovnik[m
+     Type get_type();[m
+     ~Grovnik();[m
+ [m
+[31m-  private:[m
+     Entity* entity;[m
+     Type type;[m
+ };[m
+[36m@@ -50,6 +49,7 @@[m [mclass Map[m
+     void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu[m
+     void update(int play_x,int play_y,bool binocs);[m
+     Type info(int x, int y);[m
+[32m+[m[41m    [m
+     ~Map();[m
+ [m
+   private:[m
+[1mdiff --git a/menu.cpp b/menu.cpp[m
+[1mindex 0049cb4..540e3cd 100644[m
+[1m--- a/menu.cpp[m
+[1m+++ b/menu.cpp[m
+[36m@@ -4,7 +4,7 @@[m
+ //This is the Menu implementation file[m
+ //It contains the menu class functions[m
+ [m
+[31m-[m
+[32m+[m[32m#include "menu.h"[m
+ [m
+ ///////////////////////////////////////////////////////////[m
+ //                  MENU FUCNTIONS[m
+[36m@@ -13,31 +13,32 @@[m
+ [m
+ Menu::Menu() {};[m
+ [m
+[31m-~Menu::Menu() {};[m
+[32m+[m[32mMenu::~Menu() {};[m
+ [m
+[31m-void Menu::draw(int menu_start, WINDOW* &game_win)[m
+[32m+[m[32mvoid Menu::draw(int menu_start, WINDOW* game_win)[m
+ {[m
+     //set menu's WINDOW pointer[m
+     // to use in other funcs[m
+ [m
+     //init if needed[m
+[31m-    if(win == NULL)[m
+[32m+[m[32m    //if(win == NULL)[m
+[32m+[m[32m  WINDOW * win = new WINDOW;[m
+         win = game_win;[m
+ [m
+     //create a column of #[m
+     for(int i=0; i<LINES; ++i)[m
+[31m-        mvprintw(win, i, menu_start, "#");[m
+[32m+[m[32m        mvwprintw(win, i, menu_start, "#");[m
+ [m
+     //Menu Header[m
+[31m-    mvprintw(win, 1, menu_start+1, " THE KINDOM OF FRUPAL ");[m
+[31m-    mvprintw(win, 3, menu_start+1, "----- MENU -----");[m
+[32m+[m[32m    mvwprintw(win, 1, menu_start+1, " THE KINDOM OF FRUPAL ");[m
+[32m+[m[32m    mvwprintw(win, 3, menu_start+1, "----- MENU -----");[m
+ [m
+     //Directional Input info[m
+[31m-    mvprint(win, 10, menu_start+1, "To Move:");[m
+[31m-    mvprint(win, 11, menu_start+1, "W) North");[m
+[31m-    mvprint(win, 12, menu_start+1, "A) West");[m
+[31m-    mvprint(win, 13, menu_start+1, "S) South");[m
+[31m-    mvprint(win, 14, menu_start+1, "D) Weast");[m
+[32m+[m[32m    mvwprintw(win, 10, menu_start+1, "To Move:");[m
+[32m+[m[32m    mvwprintw(win, 11, menu_start+1, "W) North");[m
+[32m+[m[32m    mvwprintw(win, 12, menu_start+1, "A) West");[m
+[32m+[m[32m    mvwprintw(win, 13, menu_start+1, "S) South");[m
+[32m+[m[32m    mvwprintw(win, 14, menu_start+1, "D) Weast");[m
+ [m
+ [m
+     //get curor loc and display info about entities[m
+[1mdiff --git a/menu.h b/menu.h[m
+[1mindex dc89441..1fdfbdc 100644[m
+[1m--- a/menu.h[m
+[1m+++ b/menu.h[m
+[36m@@ -9,9 +9,6 @@[m
+ [m
+ class Menu[m
+ {[m
+[31m-    private:[m
+[31m-[m
+[31m-        WINDOW* win;[m
+ [m
+     public:[m
+ [m
+[36m@@ -19,4 +16,7 @@[m [mclass Menu[m
+         ~Menu();[m
+ [m
+         void draw(int menu_start, WINDOW* game_win);[m
+[31m-}[m
+[32m+[m[32m    private:[m
+[32m+[m
+[32m+[m[32m        WINDOW* win;[m
+[32m+[m[32m};[m
+
+[33mcommit 0adb6c9310a379ade9cd77a0fc8863f1926d9260[m
+Merge: f7dbcad b96746b
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 15:34:43 2020 -0800
+
+    Merge pull request #33 from TaylorKNoah/set-location
+    
+    add entity::set_loc(int x, int y)
+
+[33mcommit b96746b6459b1785e5f9d9c62641babfdae70640[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 15:33:54 2020 -0800
+
+    add entity::set_loc(int x, int y)
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex 719e283..4702d13 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -21,6 +21,12 @@[m [mvoid Entity::get_loc(int* &loc)[m
+     loc[1] = entity_y;[m
+ }[m
+ [m
+[32m+[m[32mvoid Entity::set_loc(int x,  int y)[m[41m [m
+[32m+[m[32m{[m
+[32m+[m[32m    entity_x = x;[m
+[32m+[m[32m    entity_y = y;[m
+[32m+[m[32m}[m
+[32m+[m
+ [m
+ [m
+ /**************OBSTACLE*************************/[m
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex f38f229..001cee3 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -17,6 +17,7 @@[m [mclass Entity[m
+     Entity();  [m
+     ~Entity();  [m
+     void get_loc(int* &loc);  [m
+[32m+[m[32m    void set_loc(int x, int y);[m
+ [m
+ [m
+   //set protoc so derived classes can set themselves[m
+
+[33mcommit f7dbcad521bccd0ded3f9a4158808b4930e584c3[m
+Merge: 18e2d01 8482210
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 15:22:56 2020 -0800
+
+    Merge pull request #32 from TaylorKNoah/menu-debug
+    
+    debug menu.h / .cpp
+
+[33mcommit 848221087d15d8527230d33683a1aca28eaef062[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 15:21:15 2020 -0800
+
+    debug menu.h / .cpp
+
+[1mdiff --git a/menu.cpp b/menu.cpp[m
+[1mindex 2edf552..45971ac 100644[m
+[1m--- a/menu.cpp[m
+[1m+++ b/menu.cpp[m
+[36m@@ -5,6 +5,9 @@[m
+ //It contains the menu class functions[m
+ [m
+ [m
+[32m+[m[32m#include "menu.h"[m
+[32m+[m
+[32m+[m
+ [m
+ ///////////////////////////////////////////////////////////[m
+ //                  MENU FUCNTIONS[m
+[36m@@ -13,7 +16,7 @@[m
+ [m
+ Menu::Menu() {};[m
+ [m
+[31m-~Menu::Menu() {};[m
+[32m+[m[32mMenu::~Menu() {};[m
+ [m
+ void Menu::draw(int menu_start, WINDOW* &game_win)[m
+ {[m
+[1mdiff --git a/menu.h b/menu.h[m
+[1mindex dc89441..14fbcdf 100644[m
+[1m--- a/menu.h[m
+[1m+++ b/menu.h[m
+[36m@@ -18,5 +18,5 @@[m [mclass Menu[m
+         Menu();[m
+         ~Menu();[m
+ [m
+[31m-        void draw(int menu_start, WINDOW* game_win);[m
+[31m-}[m
+[32m+[m[32m        void draw(int menu_start, WINDOW* &game_win);[m
+[32m+[m[32m};[m
+
+[33mcommit 18e2d01e2e51f7bc879aebd1845882a30dbf913d[m
+Merge: edff850 876f5b3
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 14:55:49 2020 -0800
+
+    Merge pull request #31 from TaylorKNoah/menu-fix
+    
+    change ncurses print functions to mvwprintw
+
+[33mcommit 876f5b3f84981069812cfdf89ae6a2842bc196ed[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 14:53:26 2020 -0800
+
+    change ncurses print functions to mvwprintw
+
+[1mdiff --git a/menu.cpp b/menu.cpp[m
+[1mindex 0049cb4..2edf552 100644[m
+[1m--- a/menu.cpp[m
+[1m+++ b/menu.cpp[m
+[36m@@ -26,18 +26,18 @@[m [mvoid Menu::draw(int menu_start, WINDOW* &game_win)[m
+ [m
+     //create a column of #[m
+     for(int i=0; i<LINES; ++i)[m
+[31m-        mvprintw(win, i, menu_start, "#");[m
+[32m+[m[32m        mvwprintw(win, i, menu_start, "#");[m
+ [m
+     //Menu Header[m
+[31m-    mvprintw(win, 1, menu_start+1, " THE KINDOM OF FRUPAL ");[m
+[31m-    mvprintw(win, 3, menu_start+1, "----- MENU -----");[m
+[32m+[m[32m    mvwprintw(win, 1, menu_start+1, " THE KINDOM OF FRUPAL ");[m
+[32m+[m[32m    mvwprintw(win, 3, menu_start+1, "----- MENU -----");[m
+ [m
+     //Directional Input info[m
+[31m-    mvprint(win, 10, menu_start+1, "To Move:");[m
+[31m-    mvprint(win, 11, menu_start+1, "W) North");[m
+[31m-    mvprint(win, 12, menu_start+1, "A) West");[m
+[31m-    mvprint(win, 13, menu_start+1, "S) South");[m
+[31m-    mvprint(win, 14, menu_start+1, "D) Weast");[m
+[32m+[m[32m    mvwprintw(win, 10, menu_start+1, "To Move:");[m
+[32m+[m[32m    mvwprintw(win, 11, menu_start+1, "W) North");[m
+[32m+[m[32m    mvwprintw(win, 12, menu_start+1, "A) West");[m
+[32m+[m[32m    mvwprintw(win, 13, menu_start+1, "S) South");[m
+[32m+[m[32m    mvwprintw(win, 14, menu_start+1, "D) Weast");[m
+ [m
+ [m
+     //get curor loc and display info about entities[m
+
+[33mcommit edff85083116db15c71cc0cb6e1c86001edf07a4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 1550e2b 4d13fae
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:56:44 2020 -0800
+
+    Merge pull request #29 from TaylorKNoah/debug-stage-2
+    
+    debug player.draw function to properly display strings in the menu
+
+[33mcommit 4d13fae43be66b989929e849e2729006acb38690[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 00:54:04 2020 -0800
+
+    debug player.draw function to properly display strings in the menu
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex 2133470..429d361 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -58,11 +58,14 @@[m [mvoid Player::draw(int menu_start, WINDOW* &game_win)[m
+     if(game_win == NULL)[m
+         win = game_win;[m
+ [m
+[32m+[m[32m    string energy = to_string(my_energy);[m
+[32m+[m[32m    string whiffles = to_string(my_whiffles);[m
+[32m+[m
+     mvwprintw(win, 5, menu_start+1, "Energy: ");[m
+[31m-    mvwprintw(win, 5, menu_start+10, my_energy);[m
+[32m+[m[32m    mvwprintw(win, 5, menu_start+10, energy.data());[m
+ [m
+     mvwprintw(win, 6, menu_start+1, "Whiffles: ");[m
+[31m-    mvwprintw(win, 6, menu_start+12, my_whiffles);[m
+[32m+[m[32m    mvwprintw(win, 6, menu_start+12, whiffles.data());[m
+ [m
+ [m
+     wrefresh(win);[m
+
+[33mcommit 1550e2bcd298f3dde92221585c77755593aec7da[m
+Merge: d4947cc f7402b4
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:51:34 2020 -0800
+
+    Merge pull request #28 from TaylorKNoah/debug-stage-2
+    
+    debug get_loc function. now retuns nothing. It now mods an argument.
+
+[33mcommit f7402b4e2f89dd260dfe6abf6075c52a318f7020[m
+Author: Taylor Noah <tnoah@ada.cs.pdx.edu>
+Date:   Mon Nov 30 00:49:45 2020 -0800
+
+    debug get_loc function. now retuns nothing. It now mods an argument.
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex 6f7fd84..719e283 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -14,14 +14,11 @@[m [mEntity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+ //destructor[m
+ Entity::~Entity(){}[m
+ [m
+[31m-int** Entity::get_loc()[m
+[32m+[m[32m//Takes int* and mods first two elements[m
+[32m+[m[32mvoid Entity::get_loc(int* &loc)[m
+ {[m
+[31m-    int** loc[2];[m
+[31m-[m
+[31m-    loc[0][0] = entity_x;[m
+[31m-    loc[1][0] = entity_y;[m
+[31m-[m
+[31m-    return loc;[m
+[32m+[m[32m    loc[0] = entity_x;[m
+[32m+[m[32m    loc[1] = entity_y;[m
+ }[m
+ [m
+ [m
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex c8480be..f38f229 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -16,7 +16,7 @@[m [mclass Entity[m
+   public:[m
+     Entity();  [m
+     ~Entity();  [m
+[31m-    int* get_loc();  [m
+[32m+[m[32m    void get_loc(int* &loc);[m[41m  [m
+ [m
+ [m
+   //set protoc so derived classes can set themselves[m
+
+[33mcommit d4947cc84acfa9091461523d54127db3e4ba8ef7[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:35:14 2020 -0800
+
+    fix some style inconsistencies
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex 68b747e..2133470 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -11,7 +11,8 @@[m
+ /***************PLAYER*************************/[m
+ [m
+ //constructor[m
+[31m-Player::Player(){[m
+[32m+[m[32mPlayer::Player()[m
+[32m+[m[32m{[m
+ [m
+   my_whiffles = 1000;[m
+   my_energy = 100;[m
+[36m@@ -25,7 +26,8 @@[m [mPlayer::Player(){[m
+ }[m
+ [m
+ //destructor[m
+[31m-Player::~Player(){[m
+[32m+[m[32mPlayer::~Player()[m
+[32m+[m[32m{[m
+ [m
+   my_whiffles = 0;[m
+   my_energy = 0;[m
+[36m@@ -39,13 +41,16 @@[m [mPlayer::~Player(){[m
+ [m
+ }[m
+ [m
+[31m-int Player::get_energy() {[m
+[32m+[m[32mint Player::get_energy()[m
+[32m+[m[32m{[m
+   return my_energy;[m
+ }[m
+ [m
+[31m-void Player::add_energy(int energy) {[m
+[32m+[m[32mvoid Player::add_energy(int energy)[m[41m [m
+[32m+[m[32m{[m
+   my_energy += energy;[m
+ }[m
+[32m+[m
+ void Player::draw(int menu_start, WINDOW* &game_win)[m
+ {[m
+     initscr(); [m
+[36m@@ -53,20 +58,12 @@[m [mvoid Player::draw(int menu_start, WINDOW* &game_win)[m
+     if(game_win == NULL)[m
+         win = game_win;[m
+ [m
+[31m-    wmvprint(win, 5, menu_start+1, "Energy: ");[m
+[31m-    wmvprint(win, 5, menu_start+10, my_energy);[m
+[32m+[m[32m    mvwprintw(win, 5, menu_start+1, "Energy: ");[m
+[32m+[m[32m    mvwprintw(win, 5, menu_start+10, my_energy);[m
+ [m
+[31m-    mvprint(win, 6, menu_start+1, "Whiffles: ");[m
+[31m-    mvprint(win, 6, menu_start+12, my_whiffles);[m
+[32m+[m[32m    mvwprintw(win, 6, menu_start+1, "Whiffles: ");[m
+[32m+[m[32m    mvwprintw(win, 6, menu_start+12, my_whiffles);[m
+ [m
+ [m
+     wrefresh(win);[m
+ }[m
+[31m-[m
+[31m-//give negative ints to reduce energy[m
+[31m-//positive to inc energy[m
+[31m-void Player::change_energy(int change)[m
+[31m-{[m
+[31m-    my_energy += change;[m
+[31m-[m
+[31m-}[m
+
+[33mcommit 55986012792f2229ee00184685e215b7d632739a[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:31:31 2020 -0800
+
+    fix some styles
+
+[1mdiff --git a/player.h b/player.h[m
+[1mindex 5cf4b70..ef12ccf 100644[m
+[1m--- a/player.h[m
+[1m+++ b/player.h[m
+[36m@@ -4,7 +4,8 @@[m
+ [m
+ #include "item.h"[m
+ [m
+[31m-class Player:public Entity{[m
+[32m+[m[32mclass Player: public Entity[m
+[32m+[m[32m{[m
+ [m
+   public: [m
+     Player();[m
+
+[33mcommit c3b8158e5952e05680a04a95563572a942a1ddd5[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:30:27 2020 -0800
+
+    fix version control error
+
+[1mdiff --git a/item.h b/item.h[m
+[1mindex f0085ca..cc669b7 100644[m
+[1m--- a/item.h[m
+[1m+++ b/item.h[m
+[36m@@ -1,7 +1,8 @@[m
+ #include "entity.h"[m
+ [m
+ [m
+[31m-class Item: public Entity{[m
+[32m+[m[32mclass Item: public Entity[m
+[32m+[m[32m{[m
+ 	public:[m
+ 		Item();[m
+     		~Item();[m
+[36m@@ -12,7 +13,8 @@[m [mclass Item: public Entity{[m
+ };[m
+ [m
+ [m
+[31m-class Treasure: public Item{[m
+[32m+[m[32mclass Treasure: public Item[m
+[32m+[m[32m{[m
+ 	public:[m
+ 		Treasure();[m
+ 	protected:[m
+[36m@@ -20,7 +22,8 @@[m [mclass Treasure: public Item{[m
+ };[m
+ [m
+ [m
+[31m-class Tools: public Item{[m
+[32m+[m[32mclass Tools: public Item[m
+[32m+[m[32m{[m
+ 	public:[m
+     	Tools();  [m
+     	~Tools();  [m
+[36m@@ -32,17 +35,17 @@[m [mclass Tools: public Item{[m
+ };[m
+ [m
+ [m
+[31m-class Food: public Item{[m
+[32m+[m[32mclass Food: public Item[m
+[32m+[m[32m{[m
+ 	public:[m
+ 		Food();[m
+[31m-<<<<<<< HEAD[m
+     		~Food();[m
+ 	protected:[m
+     // make food based on arg[m
+     		int make_food(int i);[m
+ 		int food_energy;[m
+[31m-=======[m
+[32m+[m
+ 	private:[m
+ 		int energy;[m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+[32m+[m
+ };[m
+
+[33mcommit 165a1244e76a1325e6d145bdc8701f2bd0d53d45[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:29:25 2020 -0800
+
+    fix version control, change get_loc to return int** from int*
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex 710a701..6f7fd84 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -10,17 +10,16 @@[m
+ /**************Entity*************************/[m
+ //constructor[m
+ Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+[31m-<<<<<<< HEAD[m
+ [m
+ //destructor[m
+ Entity::~Entity(){}[m
+ [m
+[31m-int* Entity::get_loc()[m
+[32m+[m[32mint** Entity::get_loc()[m
+ {[m
+[31m-    int* loc[2];[m
+[32m+[m[32m    int** loc[2];[m
+ [m
+[31m-    loc[0] = entity_x;[m
+[31m-    loc[1] = entity_y;[m
+[32m+[m[32m    loc[0][0] = entity_x;[m
+[32m+[m[32m    loc[1][0] = entity_y;[m
+ [m
+     return loc;[m
+ }[m
+[36m@@ -68,8 +67,3 @@[m [mClue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}[m
+ [m
+ Clue::~Clue(){}[m
+   [m
+[31m-=======[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+
+[33mcommit 29b889b8af2065e722b89ad0139f9392e8ea25b2[m
+Merge: 5c0b5de 97bafc4
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:27:03 2020 -0800
+
+    Merge pull request #27 from TaylorKNoah/debug-stage-2
+    
+    fix version control errors
+
+[33mcommit 97bafc43bcc83305c1ff5fe2ba811dd39dbc7ce4[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:26:12 2020 -0800
+
+    fix version control errors
+
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex 953b219..c8480be 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -10,15 +10,6 @@[m
+ using namespace std;[m
+ [m
+ [m
+[31m-<<<<<<< HEAD[m
+[31m-class Entity{[m
+[31m-[m
+[31m-  public:[m
+[31m-    Entity();[m
+[31m-    ~Entity();[m
+[31m-[m
+[31m-  protected:[m
+[31m-=======[m
+ class Entity[m
+ {[m
+ [m
+[36m@@ -31,8 +22,7 @@[m [mclass Entity[m
+   //set protoc so derived classes can set themselves[m
+   // but clients can't touch[m
+   protected:[m
+[31m- [m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+[32m+[m
+     string name;[m
+ [m
+   private:[m
+[36m@@ -42,52 +32,39 @@[m [mclass Entity[m
+     char type;[m
+ [m
+ };[m
+[31m-<<<<<<< HEAD[m
+[31m-class Obstacle:public Entity{[m
+[31m-[m
+[31m-  public:[m
+[31m-    Obstacle();[m
+[31m-    Obstacle(int obs_type);[m
+[31m-    ~Obstacle();[m
+[31m-=======[m
+[31m-[m
+ [m
+ class Obstacle:public Entity[m
+ {[m
+ [m
+   public:[m
+     Obstacle();[m
+[32m+[m[32m    Obstacle(int obs_type);[m
+     ~Obstacle();[m
+ [m
+     //creats an obstacle[m
+     void init(int i);[m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+ [m
+   private:[m
+     int energy_needed;[m
+ [m
+ };[m
+[31m-<<<<<<< HEAD[m
+[31m-class Royal_Diamond:public Entity{[m
+[32m+[m
+[32m+[m[32mclass Royal_Diamond: public Entity[m
+[32m+[m[32m{[m
+ [m
+   public:[m
+     Royal_Diamond();[m
+     Royal_Diamond(string a_string,bool found_diamond);[m
+     ~Royal_Diamond();[m
+[31m-=======[m
+[31m-[m
+[31m-[m
+[31m-class Royal_diamonds:public Entity[m
+[31m-{[m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+[31m-[m
+[32m+[m[41m  [m
+   private:[m
+     string something;[m
+     bool game_end;[m
+ [m
+ };[m
+[31m-<<<<<<< HEAD[m
+[31m-class Clue:public Entity{[m
+[32m+[m
+[32m+[m[32mclass Clue: public Entity[m
+[32m+[m[32m{[m
+ [m
+   public:[m
+     Clue();[m
+[36m@@ -96,14 +73,5 @@[m [mclass Clue:public Entity{[m
+ [m
+   private:[m
+     int clue_type;  // 0 = false clue -- 1 = true clue[m
+[31m-=======[m
+[31m-[m
+[31m-[m
+[31m-class Clue:public Entity[m
+[31m-{[m
+[31m-[m
+[31m-  private:[m
+[31m->>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+     string sentence;[m
+[31m-[m
+ };[m
+
+[33mcommit 5c0b5dec23785c497caa879d1626991d3cdfe852[m
+Merge: 3b12680 ad8b738
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:19:18 2020 -0800
+
+    Merge pull request #26 from LawrenceScroggs/main
+    
+    Made some functions for food/ Looked into some debugging
+
+[33mcommit ad8b73815e981d6e85fb5946311e3033edcaae52[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Mon Nov 30 00:18:55 2020 -0800
+
+    Update player.cpp
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex c567d29..68b747e 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -30,6 +30,11 @@[m [mPlayer::~Player(){[m
+   my_whiffles = 0;[m
+   my_energy = 0;[m
+ [m
+[32m+[m[32m  for(int i=0; i<10; ++i)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    if(my_items[i])[m
+[32m+[m[32m      delete my_items[i];[m
+[32m+[m[32m  }[m
+   delete [] my_items;[m
+ [m
+ }[m
+
+[33mcommit a95718a8ea8a3f8019ff873b87b7697b593814f3[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sun Nov 29 14:17:31 2020 -0800
+
+    Update player.cpp
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex bcb4cd9..c567d29 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -11,7 +11,7 @@[m
+ /***************PLAYER*************************/[m
+ [m
+ //constructor[m
+[31m-Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){[m
+[32m+[m[32mPlayer::Player(){[m
+ [m
+   my_whiffles = 1000;[m
+   my_energy = 100;[m
+
+[33mcommit f8d7f7b10dbf1fb23ce5d4ed8043ddf44935e0bb[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sun Nov 29 14:16:01 2020 -0800
+
+    Update player.cpp
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex f4149ce..bcb4cd9 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -11,7 +11,18 @@[m
+ /***************PLAYER*************************/[m
+ [m
+ //constructor[m
+[31m-Player::Player():my_whiffles(1000),my_energy(100),my_items(NULL){}[m
+[32m+[m[32mPlayer::Player():my_whiffles(1000),my_energy(100),my_items(NULL){[m
+[32m+[m
+[32m+[m[32m  my_whiffles = 1000;[m
+[32m+[m[32m  my_energy = 100;[m
+[32m+[m[32m  my_items = new Item* [10];[m
+[32m+[m[41m  [m
+[32m+[m[32m  for(int i = 0; i < 10; ++i)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    my_items[i] = NULL;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m}[m
+ [m
+ //destructor[m
+ Player::~Player(){[m
+
+[33mcommit f682ffed2c51b7ae35ffad9e10d6f8cfd76007cc[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 19:12:56 2020 -0800
+
+    Update player.cpp
+
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex ae57b2e..f4149ce 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -19,12 +19,7 @@[m [mPlayer::~Player(){[m
+   my_whiffles = 0;[m
+   my_energy = 0;[m
+ [m
+[31m-  while(my_items->next != NULL)[m
+[31m-  {[m
+[31m-    Item * temp = my_items;[m
+[31m-    my_items = my_items->next;[m
+[31m-    delete temp;[m
+[31m-  }[m
+[32m+[m[32m  delete [] my_items;[m
+ [m
+ }[m
+ [m
+
+[33mcommit dad09831bc1b493375b60d29dd6e16d3936a446d[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 19:04:29 2020 -0800
+
+    Update player.h
+
+[1mdiff --git a/player.h b/player.h[m
+[1mindex 27413c3..5cf4b70 100644[m
+[1m--- a/player.h[m
+[1m+++ b/player.h[m
+[36m@@ -11,7 +11,6 @@[m [mclass Player:public Entity{[m
+     ~Player();[m
+     int get_energy();[m
+     void add_energy(int energy);[m
+[31m-    void change_energy(int change);[m
+ [m
+     void draw(int menu_start, WINDOW*& win);[m
+ [m
+
+[33mcommit 936fb3c46193e7a1c4fc2df4ebd5939f198b0784[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 19:03:56 2020 -0800
+
+    Update player.h
+
+[1mdiff --git a/player.h b/player.h[m
+[1mindex a8e68f6..27413c3 100644[m
+[1m--- a/player.h[m
+[1m+++ b/player.h[m
+[36m@@ -18,7 +18,7 @@[m [mclass Player:public Entity{[m
+   protected:[m
+     int my_whiffles;[m
+     int my_energy;[m
+[31m-    Item * my_items;[m
+[32m+[m[32m    Item ** my_items;[m
+     WINDOW* win;[m
+ [m
+ };[m
+
+[33mcommit 51281dec2e65dd92276f2c030b7816f661ca3458[m
+Author: Lawrence <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 19:00:48 2020 -0800
+
+    Update item.h
+
+[1mdiff --git a/item.h b/item.h[m
+[1mindex f1fefd3..f0085ca 100644[m
+[1m--- a/item.h[m
+[1m+++ b/item.h[m
+[36m@@ -4,9 +4,9 @@[m
+ class Item: public Entity{[m
+ 	public:[m
+ 		Item();[m
+[31m-    ~Item();[m
+[31m-    Item * next;[m
+[31m-  protected:[m
+[32m+[m[41m    [m		[32m~Item();[m
+[32m+[m[41m   [m
+[32m+[m[41m  [m	[32mprotected:[m
+ 		int whiffles;[m
+ 		int isOwned;[m
+ };[m
+[36m@@ -16,19 +16,19 @@[m [mclass Treasure: public Item{[m
+ 	public:[m
+ 		Treasure();[m
+ 	protected:[m
+[31m-  private:[m
+[32m+[m[41m  [m	[32mprivate:[m
+ };[m
+ [m
+ [m
+ class Tools: public Item{[m
+[31m-  public:[m
+[31m-    Tools();  [m
+[31m-    ~Tools();  [m
+[31m-[m
+[31m-  protected:[m
+[31m-    //creates a tool based off arg  [m
+[31m-    void init(int i);  [m
+[31m-    int rating;  [m
+[32m+[m	[32mpublic:[m
+[32m+[m[41m    [m	[32mTools();[m[41m  [m
+[32m+[m[41m    [m	[32m~Tools();[m[41m  [m
+[32m+[m
+[32m+[m[41m  [m	[32mprotected:[m
+[32m+[m[41m    [m	[32m//creates a tool based off arg[m[41m  [m
+[32m+[m[41m    [m	[32mvoid init(int i);[m[41m  [m
+[32m+[m[41m    [m	[32mint rating;[m[41m  [m
+ };[m
+ [m
+ [m
+[36m@@ -36,10 +36,10 @@[m [mclass Food: public Item{[m
+ 	public:[m
+ 		Food();[m
+ <<<<<<< HEAD[m
+[31m-    ~Food();[m
+[32m+[m[41m    [m		[32m~Food();[m
+ 	protected:[m
+     // make food based on arg[m
+[31m-    int make_food(int i);[m
+[32m+[m[41m    [m		[32mint make_food(int i);[m
+ 		int food_energy;[m
+ =======[m
+ 	private:[m
+
+[33mcommit cf65c9f961ca4e8cdb9e42bfe48271a25678ee42[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Sat Nov 28 18:13:40 2020 -0800
+
+    Reduced duplicate functions. Organized.
+    
+    We had duplicate obstacle constructors/destructors so I removed mine. Then I just organized the functions a little better.
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex 86d76be..710a701 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -7,11 +7,7 @@[m
+ #include "entity.h"[m
+ [m
+ [m
+[31m-[m
+[31m-//////////////////////////////////////////////////////////[m
+[31m-//                      Entity[m
+[31m-//////////////////////////////////////////////////////////[m
+[31m-[m
+[32m+[m[32m/**************Entity*************************/[m
+ //constructor[m
+ Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+ <<<<<<< HEAD[m
+[36m@@ -19,32 +15,7 @@[m [mEntity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+ //destructor[m
+ Entity::~Entity(){}[m
+ [m
+[31m-[m
+[31m-/**************OBSTACLE*************************/[m
+[31m-Obstacle::Obstacle():energy_needed(0){}[m
+[31m-Obstacle::Obstacle(int obs_type):energy_needed(obs_type){}[m
+[31m-[m
+[31m-Obstacle::~Obstacle(){}[m
+[31m-[m
+[31m-/***********ROYAL_DIAMOND**********************/[m
+[31m-Royal_Diamond::Royal_Diamond():something(NULL),game_end(false){}[m
+[31m-Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}[m
+[31m-[m
+[31m-Royal_Diamond::~Royal_Diamond(){}[m
+[31m-[m
+[31m-[m
+[31m-/****************CLUES**************************/[m
+[31m-Clue::Clue():clue_type(0),sentence(NULL){}[m
+[31m-Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}[m
+[31m-[m
+[31m-Clue::~Clue(){}[m
+[31m-  [m
+[31m-=======[m
+[31m-[m
+[31m-//destructor[m
+[31m-Entity::~Entity(){}[m
+[31m-[m
+[31m-int* get_loc()[m
+[32m+[m[32mint* Entity::get_loc()[m
+ {[m
+     int* loc[2];[m
+ [m
+[36m@@ -55,19 +26,12 @@[m [mint* get_loc()[m
+ }[m
+ [m
+ [m
+[31m-//////////////////////////////////////////////////////////[m
+[31m-//                      Obstacle[m
+[31m-//////////////////////////////////////////////////////////[m
+[31m-[m
+ [m
+[31m-//consturctor[m
+[31m-Obstacle::Obstacle(): energy_needed(0) {}[m
+[32m+[m[32m/**************OBSTACLE*************************/[m
+[32m+[m[32mObstacle::Obstacle():energy_needed(0){}[m
+[32m+[m[32mObstacle::Obstacle(int obs_type):energy_needed(obs_type){}[m
+ [m
+[31m-//destructor[m
+[31m-Obstacle::~Obstacle()[m
+[31m-{[m
+[31m-    energy_needed = 0;[m
+[31m-}[m
+[32m+[m[32mObstacle::~Obstacle(){}[m
+ [m
+ void Obstacle::init(int i)[m
+ {[m
+[36m@@ -88,4 +52,24 @@[m [mvoid Obstacle::init(int i)[m
+     }[m
+ [m
+ }[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32m/***********ROYAL_DIAMOND**********************/[m
+[32m+[m[32mRoyal_Diamond::Royal_Diamond():something(NULL),game_end(false){}[m
+[32m+[m[32mRoyal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}[m
+[32m+[m
+[32m+[m[32mRoyal_Diamond::~Royal_Diamond(){}[m
+[32m+[m
+[32m+[m
+[32m+[m[32m/****************CLUES**************************/[m
+[32m+[m[32mClue::Clue():clue_type(0),sentence(NULL){}[m
+[32m+[m[32mClue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}[m
+[32m+[m
+[32m+[m[32mClue::~Clue(){}[m
+[32m+[m[41m  [m
+[32m+[m[32m=======[m
+[32m+[m
+[32m+[m
+[32m+[m
+ >>>>>>> b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+
+[33mcommit 3b1268091836f09205c03d7023d8e703ab33c28a[m
+Author: WaiHChan <74080288+WaiHChan@users.noreply.github.com>
+Date:   Sat Nov 28 17:08:51 2020 -0800
+
+    Actual Game Map
+
+[1mdiff --git a/map.txt b/map.txt[m
+[1mnew file mode 100644[m
+[1mindex 0000000..7d8f08a[m
+[1m--- /dev/null[m
+[1m+++ b/map.txt[m
+[36m@@ -0,0 +1,129 @@[m
+[32m+[m[32m118,18[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m87,6:9,7:32,6[m[41m[m
+[32m+[m[32m87,6:1,7:7,5:1,7:32,6[m[41m[m
+[32m+[m[32m63,6:19,7:5,6:1,7:7,5:1,7:32,6[m[41m[m
+[32m+[m[32m63,6:1,7:17,5:1,7:5,6:1,7:7,5:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:23,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:9,7:13,4:18,7:17,4:7,7:7,4:29,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:47,4:1,7:17,4:2,5:31,4:1,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:47,4:1,7:17,4:2,5:31,4:1,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:44,4:7,7:14,4:2,5:31,4:1,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:47,4:1,7:17,4:2,5:31,4:1,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:47,4:1,7:17,4:2,5:31,4:1,7:4,6[m[41m[m
+[32m+[m[32m24,6:9,7:13,4:18,7:17,4:7,7:7,4:29,7:4,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m24,6:1,7:21,4:1,7:16,6:1,7:17,5:1,7:5,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m17,6:8,7:13,4:9,7:16,6:5,7:3,4:11,7:5,6:3,7:2,4:4,7:32,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:20,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:10,7:5,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:50,6:1,7:2,4:1,7:35,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:38,6:13,7:2,4:12,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:38,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:38,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:16,6:1,7:3,5:9,7:9,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:16,6:1,7:11,4:1,7:9,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:16,6:1,7:11,4:1,7:9,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:16,6:1,7:11,4:1,7:9,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:16,6:1,7:11,5:1,7:9,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:6,4:1,7:8,6:1,7:5,4:10,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:4,7:3,5:4,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:6,4:1,7:8,6:1,7:14,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:14,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:5,7:4,5:1,7:7,6:1,7:5,4:1,5:5,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:7,4:13,7:12,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:3,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:19,4:1,7:12,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:3,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:19,5:1,7:12,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:3,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:38,4:12,6[m[41m[m
+[32m+[m[32m17,6:1,7:5,4:1,7:8,6:1,7:5,4:1,7:3,6:1,7:4,4:1,7:7,6:1,7:11,5:1,7:9,6:1,7:38,4:12,6[m[41m[m
+[32m+[m[32m17,6:7,7:8,6:7,7:3,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:38,4:12,6[m[41m[m
+[32m+[m[32m42,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9,6:1,7:7,4:1,7:9,4:1,7:19,5:1,7:12,6[m[41m[m
+[32m+[m[32m42,6:1,7:4,4:1,7:7,6:1,7:11,4:1,7:9.6:1,7:7,5:1,7:9,4:1,7:19,4:1,7:12,6[m[41m[m
+[32m+[m[32m14,6:29,7:4,5:5,7:3,6:13,7:10,6:7,4:1,7:9,4:1,7:7,4:13,7:12,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:26,6:7,4:1,7:9,4:1,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:26,6:7,4:1,7:9,4:1,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:26,6:7,4:4,7:3,5:4,7:7,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:25,6:1,7:25,4:1,7:24,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:25,6:11,7:7,5:9,7:24.6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:35,6:1,7:7,4:1,7:32,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:8,5:4,4:1,7:10,4:1,7:7,6:29,7:7,5:16,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:9,7:8,4:12,7:10,4:12,7:8,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:69,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:69,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:69,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:69,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,5:69,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,5:27,4:12,7:10,4:12,7:8,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:9,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,4:4,4:1,7:1.5:4,4:1,7:10,4:1,7:7,6:1,6:8,4:12,7:10,4:12,7:8,4:1,7:17,6[m[41m[m
+[32m+[m[32m15,6:13,4:1,5:1.7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m15,6:13,4:1,5:1.7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:1,7:50,4:1,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:1,7:4,4:1,7:1,5:4,4:1,7:10,4:1,7:7,6:14,7:3,6:35,7:17,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:1,5:6,7:1,5:4,4:1,7:10,4:1,7:76,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:4,4:8,5:4,4:1,7:10,4:1,7:76,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:76,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:76,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:27,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:25,5:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:1,7:16,4:1,7:10,4:1,7:27,6:1,7:8,4:9,7:8,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:8,4:18,7:10,4:1,7:27,6:1,7:8,4:1,7:7,5:1,7:8,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:16,4:1,7:8,4:23,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:16,4:1,7:8,4:23,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:16,4:1,7:8,4:23,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:8,4:1,7:7,5:1,7:8,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:8,4:9,7:8,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:1,7:36,4:1,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m14,6:38,7:27,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m79,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m79,6:1,7:25,4:1,7:22,6[m[41m[m
+[32m+[m[32m79,6:27,7:22,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m[41m[m
+[32m+[m[32m128,6[m
+\ No newline at end of file[m
+
+[33mcommit 6d838eabe88a6186ec52be1daf077471ee4697cb[m
+Merge: 0c773fa b9af4e7
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 16:00:25 2020 -0800
+
+    added some food types/ worked on Debugging but Taylor already started/ player draw() doesn't recoginze ncurse functions
+
+[33mcommit b9af4e7d36d3036a687d255b1f3b946d5920b0ef[m
+Merge: 312c71f 243f2d3
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Sat Nov 28 15:52:43 2020 -0800
+
+    Merge pull request #24 from TaylorKNoah/debug-stage-1
+    
+    debugged entity and item files
+
+[33mcommit 243f2d37c2f318760d667bb7536875c9144fd549[m
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Sat Nov 28 15:52:02 2020 -0800
+
+    Update entity.h
+
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex 4fab71e..b6ddc03 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -10,7 +10,8 @@[m
+ using namespace std;[m
+ [m
+ [m
+[31m-class Entity{[m
+[32m+[m[32mclass Entity[m
+[32m+[m[32m{[m
+ [m
+   public:[m
+     Entity();  [m
+[36m@@ -31,7 +32,10 @@[m [mclass Entity{[m
+     char type;[m
+ [m
+ };[m
+[31m-class Obstacle:public Entity{[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Obstacle:public Entity[m
+[32m+[m[32m{[m
+ [m
+   public:[m
+     Obstacle();[m
+[36m@@ -44,14 +48,20 @@[m [mclass Obstacle:public Entity{[m
+     int energy_needed;[m
+ [m
+ };[m
+[31m-class Royal_diamonds:public Entity{[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Royal_diamonds:public Entity[m
+[32m+[m[32m{[m
+ [m
+   private:[m
+     string something;[m
+     bool game_end;[m
+ [m
+ };[m
+[31m-class Clue:public Entity{[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Clue:public Entity[m
+[32m+[m[32m{[m
+ [m
+   private:[m
+     string sentence;[m
+
+[33mcommit aa75adc33cc990b35ca314d9fc8dfcceeaf075f6[m
+Merge: c34e40a 312c71f
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Sat Nov 28 15:51:17 2020 -0800
+
+    Merge branch 'main' into debug-stage-1
+
+[33mcommit 312c71ff88bc0abaf646c83b1aea08d2609f4619[m
+Merge: 80ed82b 6de83c4
+Author: TaylorKNoah <73961491+TaylorKNoah@users.noreply.github.com>
+Date:   Sat Nov 28 15:48:54 2020 -0800
+
+    Merge pull request #25 from TaylorKNoah/entity-work
+    
+    add public function int* get_loc for entity
+
+[33mcommit 0c773fa44bf17f9486adc23e20a01c8ee5b481f5[m
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 15:41:26 2020 -0800
+
+    added some food types/ worked on Debugging but Taylor already started/ player draw() doesn't recoginze ncurse functions
+
+[1mdiff --git a/entity.o b/entity.o[m
+[1mdeleted file mode 100644[m
+[1mindex 07a8f4a..0000000[m
+Binary files a/entity.o and /dev/null differ
+[1mdiff --git a/item.o b/item.o[m
+[1mdeleted file mode 100644[m
+[1mindex 912d46f..0000000[m
+Binary files a/item.o and /dev/null differ
+
+[33mcommit a539a096efe8c798173701f274a81b3400db77fd[m
+Author: LawrenceScroggs <lawrencescroggs@gmail.com>
+Date:   Sat Nov 28 15:40:38 2020 -0800
+
+    added some food types/ worked on Debugging but Taylor already started/ player draw() doesn't recoginze ncurse functions
+
+[1mdiff --git a/entity.cpp b/entity.cpp[m
+[1mindex aa38d2d..74ea069 100644[m
+[1m--- a/entity.cpp[m
+[1m+++ b/entity.cpp[m
+[36m@@ -10,8 +10,28 @@[m
+ /*****************ENTITY************************/[m
+ [m
+ //constructor[m
+[31m-entity::entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+[32m+[m[32mEntity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}[m
+ [m
+ //destructor[m
+[31m-entity::~entity(){}[m
+[32m+[m[32mEntity::~Entity(){}[m
+ [m
+[32m+[m
+[32m+[m[32m/**************OBSTACLE*************************/[m
+[32m+[m[32mObstacle::Obstacle():energy_needed(0){}[m
+[32m+[m[32mObstacle::Obstacle(int obs_type):energy_needed(obs_type){}[m
+[32m+[m
+[32m+[m[32mObstacle::~Obstacle(){}[m
+[32m+[m
+[32m+[m[32m/***********ROYAL_DIAMOND**********************/[m
+[32m+[m[32mRoyal_Diamond::Royal_Diamond():something(NULL),game_end(false){}[m
+[32m+[m[32mRoyal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}[m
+[32m+[m
+[32m+[m[32mRoyal_Diamond::~Royal_Diamond(){}[m
+[32m+[m
+[32m+[m
+[32m+[m[32m/****************CLUES**************************/[m
+[32m+[m[32mClue::Clue():clue_type(0),sentence(NULL){}[m
+[32m+[m[32mClue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}[m
+[32m+[m
+[32m+[m[32mClue::~Clue(){}[m
+[32m+[m[41m  [m
+[1mdiff --git a/entity.h b/entity.h[m
+[1mindex a8d47d7..0e8debe 100644[m
+[1m--- a/entity.h[m
+[1m+++ b/entity.h[m
+[36m@@ -10,13 +10,13 @@[m
+ using namespace std;[m
+ [m
+ [m
+[31m-class entity{[m
+[32m+[m[32mclass Entity{[m
+ [m
+   public:[m
+[31m-    entity();[m
+[31m-    ~entity();[m
+[32m+[m[32m    Entity();[m
+[32m+[m[32m    ~Entity();[m
+ [m
+[31m-  private:[m
+[32m+[m[32m  protected:[m
+     string name;[m
+     int entity_x;[m
+     int entity_y;[m
+[36m@@ -24,22 +24,38 @@[m [mclass entity{[m
+     char type;[m
+ [m
+ };[m
+[31m-class obstacle:public entity{[m
+[32m+[m[32mclass Obstacle:public Entity{[m
+[32m+[m
+[32m+[m[32m  public:[m
+[32m+[m[32m    Obstacle();[m
+[32m+[m[32m    Obstacle(int obs_type);[m
+[32m+[m[32m    ~Obstacle();[m
+ [m
+   private:[m
+     int energy_needed;[m
+ [m
+ };[m
+[31m-class royal_diamonds:public entity{[m
+[32m+[m[32mclass Royal_Diamond:public Entity{[m
+[32m+[m
+[32m+[m[32m  public:[m
+[32m+[m[32m    Royal_Diamond();[m
+[32m+[m[32m    Royal_Diamond(string a_string,bool found_diamond);[m
+[32m+[m[32m    ~Royal_Diamond();[m
+ [m
+   private:[m
+[31m-    String something;[m
+[32m+[m[32m    string something;[m
+     bool game_end;[m
+ [m
+ };[m
+[31m-class clue:public entity{[m
+[32m+[m[32mclass Clue:public Entity{[m
+[32m+[m
+[32m+[m[32m  public:[m
+[32m+[m[32m    Clue();[m
+[32m+[m[32m    Clue(int type,string a_sentence);[m
+[32m+[m[32m    ~Clue();[m
+ [m
+   private:[m
+[31m-    String sentence;[m
+[32m+[m[32m    int clue_type;  // 0 = false clue -- 1 = true clue[m
+[32m+[m[32m    string sentence;[m
+ [m
+ };[m
+[1mdiff --git a/entity.o b/entity.o[m
+[1mnew file mode 100644[m
+[1mindex 0000000..07a8f4a[m
+Binary files /dev/null and b/entity.o differ
+[1mdiff --git a/item.cpp b/item.cpp[m
+[1mindex c1b565d..1ef5290 100644[m
+[1m--- a/item.cpp[m
+[1m+++ b/item.cpp[m
+[36m@@ -24,16 +24,16 @@[m [mItem::~Item()[m
+ ////////////////////////////////////////////////////////////////////[m
+ [m
+ [m
+[31m-Tool::Tool(): rating(0) {}[m
+[32m+[m[32mTools::Tools(): rating(0) {}[m
+ [m
+[31m-Tool::~Tool()[m
+[32m+[m[32mTools::~Tools()[m
+ {[m
+[31m-    rating(0);[m
+[32m+[m[32m    rating = 0;[m
+ }[m
+ [m
+ [m
+ //initializes a tool[m
+[31m-void Tool::init(int i)[m
+[32m+[m[32mvoid Tools::init(int i)[m
+ {[m
+     //create Axe[m
+     if( i == 0)[m
+[36m@@ -56,3 +56,63 @@[m [mvoid Tool::init(int i)[m
+ ////////////////////////////////////////////////////////////////////[m
+ //                      Food   functions[m
+ ////////////////////////////////////////////////////////////////////[m
+[32m+[m[32mFood::Food():food_energy(0){}[m
+[32m+[m
+[32m+[m[32mFood::~Food(){}[m
+[32m+[m
+[32m+[m
+[32m+[m[32mint Food::make_food(int i)[m
+[32m+[m[32m{[m
+[32m+[m[32m  // if less than 0 troll food[m
+[32m+[m[32m  if(i < 0)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = -10;[m
+[32m+[m[32m    whiffles = 100;[m
+[32m+[m[32m    name = "Mysterious Food";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else if(i == 1)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 100;[m
+[32m+[m[32m    whiffles = 50;[m
+[32m+[m[32m    name = "Lembas";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else if(i == 2)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 200;[m
+[32m+[m[32m    whiffles = 75;[m
+[32m+[m[32m    name = "Green Eggs & Ham";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else if(i == 3)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 300;[m
+[32m+[m[32m    whiffles = 100;[m
+[32m+[m[32m    name = "Soylent Green";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else if(i == 4)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 400;[m
+[32m+[m[32m    whiffles = 125;[m
+[32m+[m[32m    name = "Nuka-Cola";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else if(i == 5)[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 500;[m
+[32m+[m[32m    whiffles = 150;[m
+[32m+[m[32m    name = "Senzu Beans";[m
+[32m+[m[32m  }[m
+[32m+[m[32m  else[m
+[32m+[m[32m  {[m
+[32m+[m[32m    food_energy = 1000;[m
+[32m+[m[32m    whiffles = 100;[m
+[32m+[m[32m    name = "Mysterious Food";[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  return food_energy;[m
+[32m+[m
+[32m+[m[32m}[m
+[41m+[m
+[41m+[m
+[41m+[m
+[41m+[m
+[41m+[m
+[41m+[m
+[1mdiff --git a/item.h b/item.h[m
+[1mindex 2126714..7a8369c 100644[m
+[1m--- a/item.h[m
+[1m+++ b/item.h[m
+[36m@@ -4,8 +4,9 @@[m
+ class Item: public Entity{[m
+ 	public:[m
+ 		Item();[m
+[31m-        ~Item();[m
+[31m-	protected:[m
+[32m+[m[32m    ~Item();[m
+[32m+[m[32m    Item * next;[m
+[32m+[m[32m  protected:[m
+ 		int whiffles;[m
+ 		int isOwned;[m
+ };[m
+[36m@@ -15,6 +16,7 @@[m [mclass Treasure: public Item{[m
+ 	public:[m
+ 		Treasure();[m
+ 	protected:[m
+[32m+[m[32m  private:[m
+ };[m
+ [m
+ [m
+[36m@@ -23,10 +25,9 @@[m [mclass Tools: public Item{[m
+     Tools();  [m
+     ~Tools();  [m
+ [m
+[32m+[m[32m  protected:[m
+     //creates a tool based off arg  [m
+     void init(int i);  [m
+[31m-[m
+[31m-  protected:  [m
+     int rating;  [m
+ };[m
+ [m
+[36m@@ -34,6 +35,9 @@[m [mclass Tools: public Item{[m
+ class Food: public Item{[m
+ 	public:[m
+ 		Food();[m
+[32m+[m[32m    ~Food();[m
+ 	protected:[m
+[31m-		int energy;[m
+[32m+[m[32m    // make food based on arg[m
+[32m+[m[32m    int make_food(int i);[m
+[32m+[m		[32mint food_energy;[m
+ };[m
+[1mdiff --git a/item.o b/item.o[m
+[1mnew file mode 100644[m
+[1mindex 0000000..912d46f[m
+Binary files /dev/null and b/item.o differ
+[1mdiff --git a/player.cpp b/player.cpp[m
+[1mindex 950c53a..ae57b2e 100644[m
+[1m--- a/player.cpp[m
+[1m+++ b/player.cpp[m
+[36m@@ -11,38 +11,39 @@[m
+ /***************PLAYER*************************/[m
+ [m
+ //constructor[m
+[31m-player::player():my_whiffles(1000),my_energy(100),my_items(NULL){}[m
+[32m+[m[32mPlayer::Player():my_whiffles(1000),my_energy(100),my_items(NULL){}[m
+ [m
+ //destructor[m
+[31m-player::~player(){[m
+[32m+[m[32mPlayer::~Player(){[m
+ [m
+   my_whiffles = 0;[m
+   my_energy = 0;[m
+ [m
+   while(my_items->next != NULL)[m
+   {[m
+[31m-    items * temp = my_items;[m
+[32m+[m[32m    Item * temp = my_items;[m
+     my_items = my_items->next;[m
+     delete temp;[m
+   }[m
+ [m
+ }[m
+ [m
+[31m-int player::get_energy() {[m
+[31m-  return my_energy();[m
+[32m+[m[32mint Player::get_energy() {[m
+[32m+[m[3

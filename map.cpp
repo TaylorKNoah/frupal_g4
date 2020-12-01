@@ -6,7 +6,6 @@
 //an item
 
 #include "map.h"
-#include <fstream>
 
 Grovnik::Grovnik(Type new_type)
 {
@@ -27,6 +26,23 @@ Grovnik::~Grovnik()
 	}
 }
 
+void Grovnik::toggle_vis(bool vis)
+{
+    int temp = (int) type;
+
+    if(vis && type > 3)
+    {
+      temp -= 4; 
+      type = static_cast <Type> (temp);
+    }
+
+    else if(!vis && type < 4)
+    {
+        temp +=4;
+        type = static_cast <Type> (temp);
+    }
+}
+
 Map::Map()
 {
   map = NULL;
@@ -39,8 +55,8 @@ Map::Map()
 void Map::build(string file_name)
 {
   int x = 0, y = 0, grov_count = 0, new_type = 0;
-  char tempg[3];
-  char tempt[1];
+  char tempg[4];
+  char tempt[2];
   ifstream in;
 
   in.open(file_name);
@@ -49,16 +65,14 @@ void Map::build(string file_name)
   if(!in)   //Check if file exists, exit if not
   {
     mvprintw(0,0,"NO MAP FILE FOUND");
-    getch();
-    endwin();
-    exit;
+    exit(-1);
   } 
 
   else
   {
     map = new Grovnik**[128];
 
-    in.get(tempg,3,',');
+    in.get(tempg,4,',');
     in.ignore(100,'\n');       //Ignore player spawn
     
     while(in && !in.eof() && y < 128)
@@ -66,31 +80,38 @@ void Map::build(string file_name)
       map[y] = new Grovnik*[128];
       while(x < 128)
       {
-        in.get(tempg,3,',');
-        in.ignore(3,',');
-        in.get(tempt,1,':');
-        in.ignore(1,':');
+        in.get(tempg,4,',');
+        in.ignore(4,',');
+        in.get(tempt,4,':');
+        in.ignore(4,':');
         
         grov_count = stoi(tempg);
-        new_type = atoi(tempt);
-        
-        for(x; x < (x + grov_count); x++)
+        new_type = stoi(tempt);
+        new_type-=4;
+                
+        int current_x = x;
+        while(x < (current_x + grov_count))
         {
           if(x > 127)   //Bounds check
           {
             break;
           } 
-          map[y][x] = new Grovnik(static_cast<Type>(new_type));
+
+          Type to_add = static_cast<Type>(new_type);
+          map[y][x] = new Grovnik(to_add);
+          x++;
         }
       }
+      x = 0;
       in.ignore(100,'\n'); 
-      y++;
+      ++y;
     }
     //TODO ADD READING IN FOR ENTITY LOCATIONS
   }
 
   in.close();
   in.clear();
+
 }
 
 //Uses the terminal size and player location to draw the map
@@ -131,6 +152,7 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
       else
       {
       grov = map[y + offset_y][x + offset_x]->get_type();
+
       ent = EMPTY;     //TODO add entity checker to find what character to draw
       }
 
@@ -168,11 +190,16 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 
   //Draws the player center screen
   attron(COLOR_PAIR(HERO));
-  mvwaddch(game_win,(play_y + (size_y / 2)),(play_x + (size_x / 2)), PLAYER);
+  //save cursor loc
+  mvwaddch(game_win,(size_y / 2),(size_x / 2), PLAYER);
+  //reset cursor loc
   attroff(COLOR_PAIR(HERO));
 
-  grov = map[cur_y][cur_x]->get_type();
-  mvwprintw(game_win,6,(size_x + 2),"Type: %s",name_type[(int)grov]);
+  if(cur_y +offset_y < 128 && cur_y + offset_y > -1 && cur_x + offset_x < 128 && cur_x + offset_x > -1)
+  {
+      grov = map[cur_y][cur_x]->get_type();
+      mvwprintw(game_win,6,(size_x + 2),"Type: %s",name_type[(int)grov]);
+  }
 
   //TODO add entity info to menu
 }
@@ -182,22 +209,20 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 void Map::reveal(int play_x, int play_y, bool binocs)
 {
   int check = 1;
-  int grov = 0;
   if(binocs)
     check = 2;
 
   for(int y = (play_y - check); y <= (play_y + check); y++)
   {
-    if(0 > y)
-      break;
+    if(0 > y || y > 127)
+      continue;
     for(int x = (play_x - check); x <= (play_x + check); x++)
     {
-      if(0 > x)
-        break;
+      if(0 > x || x > 127)
+        continue;
 
-      grov = (int)map[y][x]->get_type(); 
-      if(3 < grov);
-        grov -= 4;
+      map[y][x]->toggle_vis(true);
+      cout<<"";
     }
   }
 }
@@ -214,11 +239,11 @@ Map::~Map()
 	{
 		for(int y=0; y<128; y++)
 		{
-      if(map[x][y])
-      {
-			  delete map[x][y];			
-        map[x][y] = NULL;
-      }
+          if(map[x][y])
+          {
+            delete map[x][y];			
+            map[x][y] = NULL;
+          }
 		}
 	}
 }
