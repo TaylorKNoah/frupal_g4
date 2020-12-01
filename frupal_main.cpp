@@ -7,8 +7,7 @@ int main() {
   bool running = true;
 
   initscr();
-  WINDOW * window = new WINDOW(128,128);
-  Game game(window);
+  Game game;
   clear();
   noecho();
   keypad(stdscr, true);

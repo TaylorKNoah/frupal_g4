@@ -20,5 +20,6 @@ class Player: public Entity
     int my_energy;
     Item ** my_items;
     WINDOW* win;
+    int ms; //menu_start.
 
 };
