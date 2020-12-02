@@ -10,7 +10,11 @@
 
 /***************PLAYER*************************/
 
-Player::Player() {}
+Player::Player() 
+{
+  my_items = NULL;
+  win = stdscr;
+}
 
 
 //constructor
@@ -55,13 +59,15 @@ Player::~Player()
   my_whiffles = 0;
   my_energy = 0;
 
-  for(int i=0; i<10; ++i)
+  if(my_items)
   {
-    if(my_items[i])
-      delete my_items[i];
-  }
-  delete [] my_items;
-
+    for(int i=0; i<10; ++i)
+    {
+      if(my_items[i])
+        delete my_items[i];
+    }
+    delete [] my_items;
+  } 
 }
 
 
