@@ -29,5 +29,6 @@ private:
   Player player;
   int cursor_x;
   int cursor_y;
+  bool inventory_open;
 
 };

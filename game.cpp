@@ -93,6 +93,20 @@ void Game::update(int key) {
     }
     break;
 
+  //View inventory
+  case 'i':
+    if (!inventory_open)
+    {
+      inventory_open = true;
+      player.view_inventory(menu_start, window);
+    }
+    else
+    {
+      inventory_open = false;
+      menu.draw(menu_start, window);
+    }
+    break;
+
   //Move cursor up
   case KEY_UP:
     if (cursor_y != 0) { //If cursor is not at the top of the map
