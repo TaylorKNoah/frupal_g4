@@ -87,7 +87,7 @@ void Map::build(string file_name)
         
         grov_count = stoi(tempg);
         new_type = stoi(tempt);
-        new_type-=4;
+        // new_type-=4; //THIS MAKES THE WHOLE MAP VISIBLE
                 
         int current_x = x;
         while(x < (current_x + grov_count))
@@ -190,18 +190,16 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 
   //Draws the player center screen
   attron(COLOR_PAIR(HERO));
-  //save cursor loc
   mvwaddch(game_win,(size_y / 2),(size_x / 2), PLAYER);
-  //reset cursor loc
   attroff(COLOR_PAIR(HERO));
 
-  if(cur_y +offset_y < 128 && cur_y + offset_y > -1 && cur_x + offset_x < 128 && cur_x + offset_x > -1)
-  {
-      grov = map[cur_y][cur_x]->get_type();
-      mvwprintw(game_win,6,(size_x + 2),"Type: %s",name_type[(int)grov]);
-  }
+   
+  grov = map[cur_y][cur_x]->get_type();
+  mvwprintw(game_win,8,(size_x + 3),"Type: %s",name_type[(int)grov].c_str());
+  //TODO add print entity in grov info to menu
 
-  //TODO add entity info to menu
+  //Move cursor back to where the user left it
+  wmove(game_win, (cur_y - offset_y), (cur_x - offset_x));
 }
 
 //This update function will take the players location and binocular status
