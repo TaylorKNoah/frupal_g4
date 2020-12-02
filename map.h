@@ -37,6 +37,7 @@ class Grovnik
     ~Grovnik();
 
     Type get_type();
+    Entity* get_entity();
     void toggle_vis(bool vis);
 
   private:
@@ -52,6 +53,7 @@ class Map
     void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
     void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
+    Entity* entity_info(int x, int y);
     ~Map();
 
   private:

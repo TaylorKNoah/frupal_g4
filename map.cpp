@@ -18,6 +18,11 @@ Type Grovnik::get_type()
   return type;
 }
 
+Entity* Grovnik::get_entity()
+{
+  return entity;
+}
+
 Grovnik::~Grovnik()
 {
 	if(entity)
@@ -229,6 +234,12 @@ void Map::reveal(int play_x, int play_y, bool binocs)
 Type Map::info(int x, int y)
 {
   return map[y][x]->get_type();
+}
+
+//Returns entity for provided coordinates
+Entity* Map::entity_info(int x, int y)
+{
+  return map[y][x]->get_entity();
 }
 
 Map::~Map()
