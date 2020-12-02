@@ -37,7 +37,7 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
     mvwprintw(game_win, 11, menu_start+1, " W) North");
     mvwprintw(game_win, 12, menu_start+1, " A) West");
     mvwprintw(game_win, 13, menu_start+1, " S) South");
-    mvwprintw(game_win, 14, menu_start+1, " D) West");
+    mvwprintw(game_win, 14, menu_start+1, " D) East");
 
 
     //get curor loc and display info about entities
