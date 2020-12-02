@@ -123,13 +123,12 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
   int size_y;
   getmaxyx(game_win,size_y,size_x);
   size_x -= 26;
-  int offset_x = 0, offset_y = 0;
   Type grov = MEADOW_INV;
   char ent = EMPTY;
  
   //Offets to keep the player centered in the terminal
-  offset_x = play_x - (size_x / 2);
-  offset_y = play_y - (size_y / 2);
+  offset[0] = play_x - (size_x / 2);
+  offset[1] = play_y - (size_y / 2);
 
   start_color();
   init_pair(MEADOW, COLOR_BLACK, COLOR_GREEN);
@@ -143,7 +142,7 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
     for(int x = 0; x < size_x; x++)
     {
       //Draws any out of bounds as invisible
-      if(0 > (y + offset_y) || 127 < (y + offset_y) || 0 > (x + offset_x) || 127 < (x + offset_x))
+      if(0 > (y + offset[1]) || 127 < (y + offset[1]) || 0 > (x + offset[0]) || 127 < (x + offset[0]))
       {
         grov = MEADOW_INV;
         ent = EMPTY;
@@ -151,7 +150,7 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
         
       else
       {
-      grov = map[y + offset_y][x + offset_x]->get_type();
+      grov = map[y + offset[1]][x + offset[0]]->get_type();
 
       ent = EMPTY;     //TODO add entity checker to find what character to draw
       }
@@ -193,13 +192,18 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
   mvwaddch(game_win,(size_y / 2),(size_x / 2), PLAYER);
   attroff(COLOR_PAIR(HERO));
 
-   
-  grov = map[cur_y][cur_x]->get_type();
+  //Check if cursor is in bounds of map
+  if(0 > (cur_y + offset[1]) || 127 < (cur_y + offset[1]) || 0 > (cur_x + offset[0]) || 127 < (cur_x + offset[0]))
+  {
+    grov = MEADOW_INV;
+  } else
+    grov = map[cur_y + offset[1]][cur_x + offset[0]]->get_type();
+
   mvwprintw(game_win,8,(size_x + 3),"Type: %s",name_type[(int)grov].c_str());
   //TODO add print entity in grov info to menu
 
   //Move cursor back to where the user left it
-  wmove(game_win, (cur_y - offset_y), (cur_x - offset_x));
+  wmove(game_win, cur_y, cur_x);
 }
 
 //This update function will take the players location and binocular status

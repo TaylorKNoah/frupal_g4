@@ -29,7 +29,7 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
         mvwprintw(game_win, i, menu_start, "#");
 
     //Menu Header
-    mvwprintw(game_win, 1, menu_start+1, "   THE KINDOM OF FRUPAL ");
+    mvwprintw(game_win, 1, menu_start+1, "  THE KINGDOM OF FRUPAL ");
     mvwprintw(game_win, 3, menu_start+1, "     ----- MENU -----");
 
     //Directional Input info
