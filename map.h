@@ -56,5 +56,5 @@ class Map
 
   private:
     Grovnik*** map;     //This is a 2D Array of the form map[y][x]
-    string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unkown","Unkown","Unkown"};
+    string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unknown","Unknown","Unknown"};
 };
