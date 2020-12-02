@@ -10,9 +10,36 @@
 
 /***************PLAYER*************************/
 
-//constructor
-Player::Player()
+Player::Player() 
 {
+  my_items = NULL;
+  win = stdscr;
+}
+
+
+//constructor
+void Player::build(string file)
+{
+  ifstream in;
+
+  in.open(file);
+
+  char locx[4];
+  char locy[4];
+
+  in.get(locx, 4, ',');
+  in.ignore(100, ',');
+  in.get(locy, 4, ':');
+  in.ignore(100, ':');
+
+  in.clear();
+  in.close();
+
+  int x = stoi(locx);
+  int y = stoi(locy);
+
+  set_loc(x, y);
+
 
   my_whiffles = 1000;
   my_energy = 100;
@@ -32,13 +59,15 @@ Player::~Player()
   my_whiffles = 0;
   my_energy = 0;
 
-  for(int i=0; i<10; ++i)
+  if(my_items)
   {
-    if(my_items[i])
-      delete my_items[i];
-  }
-  delete [] my_items;
-
+    for(int i=0; i<10; ++i)
+    {
+      if(my_items[i])
+        delete my_items[i];
+    }
+    delete [] my_items;
+  } 
 }
 
 
@@ -54,22 +83,18 @@ void Player::add_energy(int energy)
 }
 
 
-void Player::draw(int menu_start, WINDOW* &game_win)
+void Player::draw(int menu_start, WINDOW* game_win)
 {
-    initscr(); 
-    //init if needed
-    if(game_win == NULL)
-        win = game_win;
 
     string energy = to_string(my_energy);
     string whiffles = to_string(my_whiffles);
 
-    mvwprintw(win, 5, menu_start+1, "Energy: ");
-    mvwprintw(win, 5, menu_start+10, energy.data());
+    mvwprintw(game_win, 5, menu_start+1, " Energy: ");
+    mvwprintw(game_win, 5, menu_start+12, energy.data());
 
-    mvwprintw(win, 6, menu_start+1, "Whiffles: ");
-    mvwprintw(win, 6, menu_start+12, whiffles.data());
+    mvwprintw(game_win, 6, menu_start+1, " Whiffles: ");
+    mvwprintw(game_win, 6, menu_start+12, whiffles.data());
 
 
-    wrefresh(win);
+    //wrefresh(win);
 }
