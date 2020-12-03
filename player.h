@@ -14,14 +14,17 @@ class Player: public Entity
     int get_energy();
     void add_energy(int energy);
     void build(string file);
-
     void draw(int menu_start, WINDOW* win);
+    void reset_location();
+    void set_previous_location(int x, int y);
 
-  protected:
+  private:
     int my_whiffles;
     int my_energy;
     Item ** my_items;
-    WINDOW* win;
-    int ms; //menu_start.
+     WINDOW* win;
+
+    int player_previous_x;
+    int player_previous_y;
 
 };

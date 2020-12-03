@@ -98,3 +98,17 @@ void Player::draw(int menu_start, WINDOW* game_win)
 
     //wrefresh(win);
 }
+
+
+void Player::reset_location()
+{
+    Entity::set_loc(player_previous_x, player_previous_y);
+}
+
+
+void Player::set_previous_location(int x, int y)
+{
+    player_previous_x = x;
+    player_previous_y = y;
+}
+
