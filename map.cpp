@@ -283,7 +283,7 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
       if(ent == DIAMOND && grov < MEADOW_INV)
       {
         attron(COLOR_PAIR(ROYAL));
-        mvwaddch(game_win,y,x, ent);
+        mvwaddch(game_win,y,x, '$');
         attroff(COLOR_PAIR(ROYAL));
       } else
       {
