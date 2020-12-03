@@ -14,7 +14,7 @@ class Player: public Entity
     int get_energy();
     void add_energy(int energy);
     void build(string file);
-
+    void display_inventory(int menu_start, WINDOW* &win);
     void draw(int menu_start, WINDOW* win);
 
   protected:
