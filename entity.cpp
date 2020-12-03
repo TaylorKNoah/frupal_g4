@@ -9,7 +9,7 @@
 
 /**************Entity*************************/
 //constructor
-Entity::Entity():name(NULL),entity_x(0),entity_y(0),type(' '){}
+Entity::Entity(): entity_x(0),entity_y(0),type(' '){}
 
 //destructor
 Entity::~Entity(){}
@@ -19,6 +19,23 @@ void Entity::get_loc(int* &loc)
 {
     loc[0] = entity_x;
     loc[1] = entity_y;
+}
+
+void Entity::set_loc(int x,  int y) 
+{
+    entity_x = x;
+    entity_y = y;
+}
+
+int Entity::get_x()
+{
+    return entity_x;
+}
+
+
+int Entity::get_y()
+{
+    return entity_y;
 }
 
 

@@ -11,7 +11,6 @@
 
 //type 0-3 = visable, 4-7 = invisible
 enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WATER_INV, WALL_INV};
-string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unkown","Unkown","Unkown"};
 
 //These are used to control color pairs
 #define MEADOW  1
@@ -35,8 +34,10 @@ class Grovnik
 {
   public:
     Grovnik(Type new_type);		//TODO add entity creation to constructor
-    Type get_type();
     ~Grovnik();
+
+    Type get_type();
+    void toggle_vis(bool vis);
 
   private:
     Entity* entity;
@@ -46,12 +47,15 @@ class Grovnik
 class Map
 {
   public:
-    Map(string file_name);              //constructor take filename to load map info
-    void draw(int win_x,int win_y,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
-    void update(int play_x,int play_y,bool binocs);
+    Map();              //constructor take filename to load map info
+    void build(string filename);
+    void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
     ~Map();
 
   private:
     Grovnik*** map;     //This is a 2D Array of the form map[y][x]
+    string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unknown","Unknown","Unknown"};
+    int offset[2];
 };
