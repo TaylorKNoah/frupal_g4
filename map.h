@@ -26,7 +26,7 @@ enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WA
 #define TOOL        'T'
 #define OBSTACLE    '!'
 #define TREASURE    '$'
-#define DIAMOND     '$'
+#define DIAMOND     '&'
 #define CLUE        '?'
 #define SHIP        'S'
 #define BINOCULARS  'B'
