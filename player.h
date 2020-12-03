@@ -22,10 +22,14 @@ class Player: public Entity
   private:
     int my_whiffles;
     int my_energy;
+    bool has_binoculars;
+    bool has_ship;
+    
     Item ** my_items;
-     WINDOW* win;
+    WINDOW* win;
 
     int player_previous_x;
     int player_previous_y;
 
+    
 };

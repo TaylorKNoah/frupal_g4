@@ -22,6 +22,7 @@ class Entity
     int get_y();
     void get_loc(int* &loc);  
     void set_loc(int x, int y);
+    bool compare_name(char* to_cmp);
 
 
   //set protoc so derived classes can set themselves
