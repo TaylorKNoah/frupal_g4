@@ -12,8 +12,8 @@ class Player: public Entity
     ~Player();
     int get_energy();
     void add_energy(int energy);
-
     void draw(int menu_start, WINDOW*& win);
+    void display_inventory(int menu_start, WINDOW* &win);
 
   protected:
     int my_whiffles;
