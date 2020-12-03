@@ -38,6 +38,14 @@ int Entity::get_y()
     return entity_y;
 }
 
+bool Entity::compare_name(char* to_cmp)
+{
+    if(strcmp(to_cmp, name.data()) == 0)
+        return true;
+
+    return false;
+}
+
 
 
 /**************OBSTACLE*************************/

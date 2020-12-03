@@ -13,6 +13,11 @@ Item::~Item()
     isOwned = 0;
 }
 
+int Item::get_is_owned()
+{
+    return isOwned;
+}
+
 
 ////////////////////////////////////////////////////////////////////
 //                      Treasure   functions

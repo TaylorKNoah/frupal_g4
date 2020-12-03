@@ -5,7 +5,9 @@ class Item: public Entity
 {
 	public:
 		Item();
-    		~Item();
+    	~Item();
+
+        int get_is_owned();
    
   	protected:
 		int whiffles;

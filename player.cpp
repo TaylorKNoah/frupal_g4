@@ -105,16 +105,18 @@ void Player::draw(int menu_start, WINDOW* game_win)
 void Player::display_inventory(int menu_start, WINDOW* &game_win)
 {
     int num_axe = 0;
-    int num_ham = 0;
+    int num_hammer = 0;
+    char axe_cmp[4] = "Axe";
+    char hammer_cmp[7] = "Hammer";
 
     //Get item counts
     for(int i=0; i<10; ++i)
     {
-        if(my_items[i]->get_name() == "Axe")
-            num_axe += my_items[i]->get_isowned();
+        if(my_items[i]->compare_name(axe_cmp))
+            num_axe += my_items[i]->get_is_owned();
 
-        else if(my_items[i]->get_name() == "Hammer")
-            num_hammer += my_items[i]->get_isowned();
+        else if(my_items[i]->compare_name(hammer_cmp))
+            num_hammer += my_items[i]->get_is_owned();
     }
 
     //clear WASD
@@ -131,7 +133,7 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
 
     char hammer[16];
     j = sprintf(hammer, "%s", "Hammers: ");
-    sprintf(hammer+j, "%d", num_ham);
+    sprintf(hammer+j, "%d", num_hammer);
 
     //Display inventory
     mvwprintw(win, 12, menu_start+1, "Inventory");
