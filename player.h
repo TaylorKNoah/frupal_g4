@@ -16,13 +16,20 @@ class Player: public Entity
     void build(string file);
     void display_inventory(int menu_start, WINDOW* &win);
     void draw(int menu_start, WINDOW* win);
+    void reset_location();
+    void set_previous_location(int x, int y);
 
-  protected:
+  private:
     int my_whiffles;
     int my_energy;
-    Item ** my_items;
-    WINDOW* win;
     bool has_binoculars;
     bool has_ship;
+    
+    Item ** my_items;
+    WINDOW* win;
 
+    int player_previous_x;
+    int player_previous_y;
+
+    
 };

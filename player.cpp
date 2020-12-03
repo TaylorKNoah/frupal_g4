@@ -101,6 +101,19 @@ void Player::draw(int menu_start, WINDOW* game_win)
 }
 
 
+
+void Player::reset_location()
+{
+    Entity::set_loc(player_previous_x, player_previous_y);
+}
+
+
+void Player::set_previous_location(int x, int y)
+{
+    player_previous_x = x;
+    player_previous_y = y;
+}
+
 //Displays players inventory (axe and hammer counts)
 //  First clears the menu of WASD controls
 //  Then displays inventory in that area of the menu
