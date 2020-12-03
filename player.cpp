@@ -13,6 +13,8 @@
 Player::Player() 
 {
   my_items = NULL;
+  has_binoculars = false;
+  has_ship = false;
   win = stdscr;
 }
 
