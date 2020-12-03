@@ -7,6 +7,8 @@
 
 #include "map.h"
 
+bool debug = true;  //TOGGLE THIS TO MAKE THE MAP VISIBLE
+
 Grovnik::Grovnik(Type new_type)
 {
 	type = new_type;
@@ -48,19 +50,19 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
  switch(ent)
   {
       case 'D':   //DIAMOND
-//        entity = new Royal_Diamond();
+        entity = new Royal_Diamond();
         draw = DIAMOND;
       break;
 
       case 'W':   //TREASURE
- //       entity = new item();
-  //      entity->init(i);
+        entity = new item();
+        entity->init(i);
         draw = TREASURE;
       break;
 
       case 'T':   //TOOL
-//        entity = new Tools();
- //       entity->init(i);
+        entity = new Tools();
+        entity->init(i);
         if(i == 2)
           draw = BINOCULARS;
         else if(i == 3)
@@ -70,20 +72,20 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
       break;
 
       case 'F':   //FOOD
-//        entity = new Food();
- //       entity->init(i);
+        entity = new Food();
+        entity->init(i);
         draw = FOOD;
       break;
 
       case 'O':   //OBSTACLE
-  //      entity = new Obstacle();
-   //     entity->init(i);
+        entity = new Obstacle();
+        entity->init(i);
         draw = OBSTACLE;
       break;
 
       case 'C':   //CLUE
-    //    entity = new Clue;
-     //   entity->init(dia_x,dia_y);
+        entity = new Clue;
+        entity->init(dia_x,dia_y);
         draw = CLUE;
       break;
   }
@@ -142,7 +144,8 @@ void Map::build(string file_name)
         
         grov_count = stoi(tempg);
         new_type = stoi(tempt);
-        new_type-=4; //THIS MAKES THE WHOLE MAP VISIBLE
+        if(debug)
+          new_type-=4; //THIS MAKES THE WHOLE MAP VISIBLE
                 
         int current_x = x;
         while(x < (current_x + grov_count))
