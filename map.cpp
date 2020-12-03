@@ -45,6 +45,7 @@ void Grovnik::toggle_vis(bool vis)
         type = static_cast <Type> (temp);
     }
 }
+
 void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
 {
  switch(ent)
@@ -95,6 +96,12 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
 char Grovnik::get_char()
 {
   return draw;
+}
+
+//Return the pointer of the entity in the grovnik
+Entity* Grovnik::get_ent()
+{
+  return entity;
 }
 
 Map::Map()
@@ -235,7 +242,7 @@ void Map::build(string file_name)
 //Uses the terminal size and player location to draw the map
 //so the player is always on screen
 //leaves a 25 char space on the right for the menu
-void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
+Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 {
   int size_x;
   int size_y;
@@ -330,6 +337,8 @@ void Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_y)
 
   //Move cursor back to where the user left it
   wmove(game_win, cur_y, cur_x);
+
+  return map[play_y][play_x]->get_ent();
 }
 
 //This update function will take the players location and binocular status

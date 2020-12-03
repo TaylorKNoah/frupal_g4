@@ -41,6 +41,7 @@ class Grovnik
     void toggle_vis(bool vis);
     void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0);
     char get_char();
+    Entity* get_ent();
 
   private:
     Entity* entity;
@@ -53,7 +54,7 @@ class Map
   public:
     Map();              //constructor take filename to load map info
     void build(string filename);
-    void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    Entity* draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
     void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
     ~Map();
