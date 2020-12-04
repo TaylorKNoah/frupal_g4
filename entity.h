@@ -25,7 +25,6 @@ class Entity
     bool compare_name(char* to_cmp);
     string get_name();
 
-
   //set protoc so derived classes can set themselves
   // but clients can't touch
   protected:
@@ -81,6 +80,7 @@ class Clue: public Entity
     ~Clue();
 
     int make_clue(int q, int royal_x,int royal_y);
+    void display_clue();
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue

@@ -52,7 +52,6 @@ string Entity::get_name()
 }
 
 
-
 /**************OBSTACLE*************************/
 Obstacle::Obstacle():energy_needed(0){}
 Obstacle::Obstacle(int obs_type):energy_needed(obs_type){}
@@ -117,7 +116,7 @@ int Clue::make_clue(int q,int royal_x,int royal_y)
 
   if(q == 0)
   {
-    sentence = "Through the swampy marsh across the great plains at the foot of Mt. Doom you will find the Royal Diamond\n";
+    sentence = "Through the swampy marsh across the great plains at the foot of Mt. Doom the Royal Diamond awaits\n";
     return 0;
   }
   else
