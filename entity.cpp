@@ -98,3 +98,58 @@ Clue::Clue():clue_type(0),sentence(NULL){}
 Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
+
+int Clue::make_clue(int q,int royal_x,int royal_y)
+{
+  int x_dir, y_dir;
+
+  x_dir = royal_x - entity_x;
+  y_dir = royal_y - entity_y;
+  string begin = "The Royal Diamond is ";
+  string andd = " and ";
+  string go_x = to_string(x_dir);
+  string go_y = to_string(y_dir);
+  string south = " paces south ";
+  string north = " paces north ";
+  string east = " paces east ";
+  string west = " paces west ";
+  string end = " of this clue\n";
+
+  if(q == 0)
+  {
+    sentence = "Through the swampy marsh across the great plains at the foot of Mt. Doom you will find the Royal Diamond\n";
+    return 0;
+  }
+  else
+  {
+    if(x_dir < 0 && y_dir < 0)
+      sentence = begin + go_x + west + andd + go_y + south + end;
+
+    else if(x_dir < 0 && y_dir > 0)
+      sentence = begin + go_x + west + andd + go_y + north + end;
+
+    else if(x_dir > 0 && y_dir < 0)
+      sentence = begin + go_x + east + andd + go_y + south + end;
+
+    else if(x_dir > 0 && y_dir > 0)
+      sentence = begin + go_x + east + andd + go_y + north + end;
+
+    else if(x_dir > 0 && y_dir == 0)
+      sentence = begin + go_x + east + end;
+
+    else if(x_dir < 0 && y_dir == 0)
+      sentence = begin + go_x + west + end;
+
+    else if(x_dir == 0 && y_dir > 0)
+      sentence = begin + north + end;
+
+    else if(x_dir == 0 && y_dir < 0)
+      sentence = begin + south + end;
+
+    else
+      sentence = "You're at the Royal Diamond and a clue somehow.\n";
+
+    return 1;
+  }
+}
+  
