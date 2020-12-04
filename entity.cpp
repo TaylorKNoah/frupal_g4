@@ -102,6 +102,10 @@ Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
 
+void Clue::display_clue(WINDOW *& game_win)
+{ 
+
+}
 int Clue::make_clue(int q,int royal_x,int royal_y)
 {
   int x_dir, y_dir;

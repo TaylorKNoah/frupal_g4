@@ -83,7 +83,7 @@ class Clue: public Entity
     ~Clue();
 
     int make_clue(int q, int royal_x,int royal_y);
-    void display_clue();
+    void display_clue(WINDOW *& game_win);
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue
