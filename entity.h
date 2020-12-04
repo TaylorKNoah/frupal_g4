@@ -16,13 +16,14 @@ class Entity
 
   public:
     Entity();  
-    ~Entity();  
+    virtual ~Entity();  
 
     int get_x();
     int get_y();
     void get_loc(int* &loc);  
     void set_loc(int x, int y);
     bool compare_name(char* to_cmp);
+    string get_name();
 
 
   //set protoc so derived classes can set themselves
@@ -46,6 +47,8 @@ class Obstacle:public Entity
     Obstacle();
     Obstacle(int obs_type);
     ~Obstacle();
+
+    int get_energy();
 
     //creats an obstacle
     void init(int i);
