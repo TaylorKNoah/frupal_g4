@@ -26,6 +26,7 @@ class Entity
     string get_name();
 
     virtual void init(int i);
+    virtual void init(int x, int y);
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
