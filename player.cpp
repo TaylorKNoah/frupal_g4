@@ -140,3 +140,93 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
     mvwprintw(win, 13, menu_start+1, axe);
     mvwprintw(win, 14, menu_start+1, hammer);
 }
+
+
+// just reports if player can remove the obstacle
+bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
+{
+
+    int energy_used = 0;
+    char input;
+
+    //if tree
+    if(optr -> is_tree())
+    {
+        //check for axe
+        char axe[4] = "Axe";
+        bool want_clear = false;
+        if(player.has_item(axe))
+        {
+           do
+           {
+               mvwprintw(win, 13, menu_start+1, "Use axe?");
+               mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+               //input = get keystroke
+
+           }while(/*KEY ENTERED IS NOT Y OR N*/);
+
+           /*
+            * if(input == 'Y')
+            * {
+            *   for(int i=0; i<10; ++i)
+            *   {
+            *     if(my_items[i]->cmp_name(axe))
+            *     {
+            *       my_items[i]->use();
+            *       my_energy -= (optr->get_energy() / my_items[i]->get_rating());
+            *       return true;
+            *     }
+            *   }
+            * }
+            */
+           
+        }
+
+        do
+        {
+          mvprintw(win, 13, menu_start+1, "Clear without axe?");
+          mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+          //intput = get keystroke 
+          
+        }while(/*KEYSTOKE IS NOT Y OR N*/);
+
+        
+        /*if(input == 'Y')
+         * {
+         *   my_energy -= (optr->get_energy());
+         *   return true;
+         * }
+         */
+        
+    }
+
+    //optr is boulder
+    else
+}
+
+
+bool Player::has_item(char* to_cmp)
+{
+    for(int i=0; i<10; ++i)
+    {
+        //if ptr isnt null and name is match
+        if(my_items[i] != NULL && my_items[i].cmp_name(to_cmp))
+            return true;
+
+        //if we reach a null ptr then it's not in t he list
+        if(my_items[i] == NULL)
+            return false;
+    }
+
+    //if list is full, but no match
+    return false;
+}
+
+
+
+
+
+
+
