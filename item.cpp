@@ -23,6 +23,40 @@ int Item::get_whiffles()
     return whiffles;
 }
 
+// initialize the diff types of treasure
+int Item::bury_treasure(int z)
+{
+
+  if(z == 0)
+  {
+    name = "Gil";
+    whiffles = 100;
+  }
+  else if(z == 1)
+  {
+    name = "Double Dollars";
+    whiffles = 200;
+  }
+  else if(z == 2)
+  {
+    name = "Galactic Credits";
+    whiffles = 300;
+  }
+  else if(z == 3)
+  {
+    name = "Rupees";
+    whiffles = 400;
+  }
+  else
+  {
+    name = "BitCoin";
+    whiffles = 500;
+  }
+
+  return whiffles;
+
+}
+
 
 
 

@@ -68,7 +68,7 @@ void Game::update(int key) {
   //Move player up
   case 'w':
     if (player.get_y() != 0) { //If player is not at the top of the map
-      if(move_player(player.get_x(), player.get_y() - 1, player.has_binocs(), player.has_ship()))
+      if(move_player(player.get_x(), player.get_y() - 1, player.has_binocs(), player.has_boat()))
         cursor_y++;
     }
     break;
@@ -76,7 +76,7 @@ void Game::update(int key) {
   //Move player left
   case 'a':
     if (player.get_x() != 0) { //If player is not at left of map
-      if(move_player(player.get_x() - 1, player.get_y(), player.has_binocs(), player.has_ship()))
+      if(move_player(player.get_x() - 1, player.get_y(), player.has_binocs(), player.has_boat()))
         cursor_x++;
     }
     break;
@@ -84,7 +84,7 @@ void Game::update(int key) {
   //Move player down
   case 's':
     if (player.get_y() != 127) { //If player is not at bottom of map
-      if(move_player(player.get_x(), player.get_y() + 1, player.has_binocs(), player.has_ship()))
+      if(move_player(player.get_x(), player.get_y() + 1, player.has_binocs(), player.has_boat()))
         cursor_y--;
     }
     break;
@@ -92,7 +92,7 @@ void Game::update(int key) {
   //Move player right
   case 'd':
     if (player.get_x() != 127) { //If player is not at right of map
-      if(move_player(player.get_x() + 1, player.get_y(), player.has_binocs(), player.has_ship()))
+      if(move_player(player.get_x() + 1, player.get_y(), player.has_binocs(), player.has_boat()))
         cursor_x--;
     }
     break;

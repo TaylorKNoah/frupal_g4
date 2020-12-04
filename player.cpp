@@ -10,6 +10,7 @@
 
 /***************PLAYER*************************/
 
+//constructor
 Player::Player() 
 {
   my_items = NULL;
@@ -18,8 +19,14 @@ Player::Player()
   win = stdscr;
 }
 
-
-//constructor
+bool Player::has_boat()
+{
+  return has_ship;
+}
+bool Player::has_binocs()
+{
+  return has_binoculars;
+}
 void Player::build(string file)
 {
   ifstream in;

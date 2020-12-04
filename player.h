@@ -18,6 +18,8 @@ class Player: public Entity
     void draw(int menu_start, WINDOW* win);
     void reset_location();
     void set_previous_location(int x, int y);
+    bool has_binocs();
+    bool has_boat();
 
   private:
     int my_whiffles;
