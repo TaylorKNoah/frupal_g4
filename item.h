@@ -8,19 +8,14 @@ class Item: public Entity
     	~Item();
 
         int get_is_owned();
+        int get_whiffles();
+
+        //TODO
+        //int make_treasure(int i);
    
   	protected:
 		int whiffles;
 		int isOwned;
-};
-
-
-class Treasure: public Item
-{
-	public:
-		Treasure();
-	protected:
-  	private:
 };
 
 
@@ -29,6 +24,7 @@ class Tools: public Item
 	public:
     	Tools();  
     	~Tools();  
+        
 
   	protected:
     	//creates a tool based off arg  
