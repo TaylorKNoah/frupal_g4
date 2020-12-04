@@ -13,6 +13,8 @@
 Player::Player() 
 {
   my_items = NULL;
+  has_binoculars = false;
+  has_ship = false;
   win = stdscr;
 }
 
@@ -95,6 +97,61 @@ void Player::draw(int menu_start, WINDOW* game_win)
     mvwprintw(game_win, 6, menu_start+1, " Whiffles: ");
     mvwprintw(game_win, 6, menu_start+12, whiffles.data());
 
-
     //wrefresh(win);
+}
+
+
+
+void Player::reset_location()
+{
+    Entity::set_loc(player_previous_x, player_previous_y);
+}
+
+
+void Player::set_previous_location(int x, int y)
+{
+    player_previous_x = x;
+    player_previous_y = y;
+}
+
+//Displays players inventory (axe and hammer counts)
+//  First clears the menu of WASD controls
+//  Then displays inventory in that area of the menu
+void Player::display_inventory(int menu_start, WINDOW* &game_win)
+{
+    int num_axe = 0;
+    int num_hammer = 0;
+    char axe_cmp[4] = "Axe";
+    char hammer_cmp[7] = "Hammer";
+
+    //Get item counts
+    for(int i=0; i<10; ++i)
+    {
+        if(my_items[i]->compare_name(axe_cmp))
+            num_axe += my_items[i]->get_is_owned();
+
+        else if(my_items[i]->compare_name(hammer_cmp))
+            num_hammer += my_items[i]->get_is_owned();
+    }
+
+    //clear WASD
+    mvwprintw(win, 12, menu_start+1, "          ");
+    mvwprintw(win, 13, menu_start+1, "          ");
+    mvwprintw(win, 14, menu_start+1, "          ");
+    mvwprintw(win, 15, menu_start+1, "          ");
+    mvwprintw(win, 16, menu_start+1, "          ");
+
+    //construct char* for prints
+    char axe[16];
+    int j = sprintf(axe, "%s", "Axes: ");
+    sprintf(axe+j, "%d", num_axe);
+
+    char hammer[16];
+    j = sprintf(hammer, "%s", "Hammers: ");
+    sprintf(hammer+j, "%d", num_hammer);
+
+    //Display inventory
+    mvwprintw(win, 12, menu_start+1, "Inventory");
+    mvwprintw(win, 13, menu_start+1, axe);
+    mvwprintw(win, 14, menu_start+1, hammer);
 }

@@ -38,6 +38,19 @@ int Entity::get_y()
     return entity_y;
 }
 
+bool Entity::compare_name(char* to_cmp)
+{
+    if(strcmp(to_cmp, name.data()) == 0)
+        return true;
+
+    return false;
+}
+
+string Entity::get_name()
+{
+    return name;
+}
+
 
 
 /**************OBSTACLE*************************/
@@ -64,6 +77,11 @@ void Obstacle::init(int i)
         energy_needed = 21;
     }
 
+}
+
+int Obstacle::get_energy()
+{
+    return energy_needed;
 }
 
 

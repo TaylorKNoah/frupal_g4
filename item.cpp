@@ -13,10 +13,17 @@ Item::~Item()
     isOwned = 0;
 }
 
+int Item::get_is_owned()
+{
+    return isOwned;
+}
 
-////////////////////////////////////////////////////////////////////
-//                      Treasure   functions
-////////////////////////////////////////////////////////////////////
+int Item::get_whiffles()
+{
+    return whiffles;
+}
+
+
 
 
 ////////////////////////////////////////////////////////////////////
@@ -39,7 +46,7 @@ void Tools::init(int i)
     if( i == 0)
     {
         rating = 2;
-        whiffles = 25;
+        whiffles = 50;
         name = "Axe";
     }
 
@@ -47,10 +54,24 @@ void Tools::init(int i)
     else if( i == 1)
     {
         rating = 3;
-        whiffles = 40;
+        whiffles = 100;
         name = "Hammer";
     }
+
+    //create binocluars
+    else if( i == 2)
+    {
+        name = "Binoculars";
+        whiffles = 500;
+    }
+
+    else if ( i == 3)
+    {
+        name = "Ship";
+        whiffles = 1000;
+    }
 }
+
 
 
 ////////////////////////////////////////////////////////////////////
