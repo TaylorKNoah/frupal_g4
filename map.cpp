@@ -56,7 +56,7 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
       break;
 
       case 'W':   //TREASURE
-        entity = new item();
+        entity = new Item();
         entity->init(i);
         draw = TREASURE;
       break;

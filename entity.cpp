@@ -51,6 +51,10 @@ string Entity::get_name()
     return name;
 }
 
+//Lazy mans pure virtual functions
+void Entity::init(int i) {}
+void Entity::init(int x, int y) {}
+
 
 /**************OBSTACLE*************************/
 Obstacle::Obstacle():energy_needed(0){}
@@ -86,14 +90,14 @@ int Obstacle::get_energy()
 
 
 /***********ROYAL_DIAMOND**********************/
-Royal_Diamond::Royal_Diamond():something(NULL),game_end(false){}
+Royal_Diamond::Royal_Diamond():game_end(false){}
 Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}
 
 Royal_Diamond::~Royal_Diamond(){}
 
 
 /****************CLUES**************************/
-Clue::Clue():clue_type(0),sentence(NULL){}
+Clue::Clue():clue_type(0){}
 Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
