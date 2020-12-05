@@ -83,8 +83,12 @@ class Clue: public Entity
     Clue(int type,string a_sentence);
     ~Clue();
 
+
+    string get_clue();
+
     void init(int q, int royal_x,int royal_y);
     void display_clue();
+
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue

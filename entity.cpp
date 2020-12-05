@@ -113,26 +113,39 @@ Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
 
+
+string Clue::get_clue()
+{ 
+
+  return sentence;
+
+}
+
+
 void Clue::init(int q,int royal_x,int royal_y)
 {
   int x_dir, y_dir;
 
   x_dir = royal_x - entity_x;
   y_dir = royal_y - entity_y;
-  string begin = "The Royal Diamond is ";
+  string begin = "The Royal Diamond is \n";
   string andd = " and ";
   string go_x = to_string(x_dir);
   string go_y = to_string(y_dir);
   string south = " paces south ";
   string north = " paces north ";
-  string east = " paces east ";
-  string west = " paces west ";
+  string east = " paces east \n";
+  string west = " paces west \n";
   string end = " of this clue\n";
 
   if(q == 0)
   {
-    sentence = "Through the swampy marsh across the great plains at the foot of Mt. Doom the Royal Diamond awaits\n";
+
+    sentence = "Through the swampy marsh \n across the great plains at \n the foot of Mt. Doom the \n Royal Diamond awaits\n";
+
+
     return;
+
   }
   else
   {
