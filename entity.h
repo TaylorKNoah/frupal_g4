@@ -6,7 +6,6 @@
 #include <fstream>
 #include <cstring>
 #include <cstdlib>
-//#include <cctype>
 #include <ncurses.h> 
 
 using namespace std;
