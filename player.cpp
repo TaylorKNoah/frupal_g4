@@ -10,14 +10,23 @@
 
 /***************PLAYER*************************/
 
+//constructor
 Player::Player() 
 {
-    my_items = NULL;
-    win = stdscr;
+  my_items = NULL;
+  has_binoculars = false;
+  has_ship = false;
+  win = stdscr;
 }
 
-
-//constructor
+bool Player::has_boat()
+{
+  return has_ship;
+}
+bool Player::has_binocs()
+{
+  return has_binoculars;
+}
 void Player::build(string file)
 {
     ifstream in;
@@ -98,6 +107,19 @@ void Player::draw(int menu_start, WINDOW* game_win)
     //wrefresh(win);
 }
 
+
+
+void Player::reset_location()
+{
+    Entity::set_loc(player_previous_x, player_previous_y);
+}
+
+
+void Player::set_previous_location(int x, int y)
+{
+    player_previous_x = x;
+    player_previous_y = y;
+}
 
 //Displays players inventory (axe and hammer counts)
 //  First clears the menu of WASD controls

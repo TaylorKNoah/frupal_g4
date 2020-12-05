@@ -26,16 +26,18 @@ class Entity
     bool compare_name(char* to_cmp);
     string get_name();
 
+    virtual void init(int i);
+    virtual void init(int x, int y);
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
   protected:
+    int entity_x;
+    int entity_y;
 
     string name;
 
   private:
-    int entity_x;
-    int entity_y;
    // int * location;
     char type;
 
@@ -81,6 +83,9 @@ class Clue: public Entity
     Clue();
     Clue(int type,string a_sentence);
     ~Clue();
+
+    int make_clue(int q, int royal_x,int royal_y);
+    void display_clue();
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue

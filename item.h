@@ -1,3 +1,8 @@
+// Lawrence Scroggs -- CS300 -- Frupal Group 4
+// Item class for different types of entities 
+// Removed Treasure on 12/4/20 to be absorbed by Item.
+
+
 #include "entity.h"
 
 
@@ -5,11 +10,12 @@ class Item: public Entity
 {
 	public:
 		Item();
-    	~Item();
+    ~Item();
 
-        int get_is_owned();
-        int get_whiffles();
-        void use();
+    int get_is_owned();
+    int get_whiffles(); 
+    int bury_treasure(int z);
+    void use();   
 
   	protected:
 		int whiffles;
@@ -23,7 +29,7 @@ class Tools: public Item
     	Tools();  
     	~Tools();  
         
-        int get_rating();
+       int get_rating();
 
   	protected:
     	//creates a tool based off arg  
@@ -36,10 +42,10 @@ class Food: public Item
 {
 	public:
 		Food();
-    		~Food();
+    ~Food();
 	protected:
     // make food based on arg
-    		int make_food(int i);
+    int make_food(int i);
 		int food_energy;
 
 	private:

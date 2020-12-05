@@ -18,12 +18,22 @@ class Player: public Entity
     void display_inventory(int menu_start, WINDOW* &win);
     bool clear_obstacle(int menu_start, WINDOW* &win, Obstacle* optr);
     bool has_item(char* to_cmp);
+    void reset_location();
+    void set_previous_location(int x, int y);
+    bool has_binocs();
+    bool has_boat();
 
-  protected:
+  private:
     int my_whiffles;
     int my_energy;
+    bool has_binoculars;
+    bool has_ship;
+    
     Item ** my_items;
     WINDOW* win;
-    int ms; //menu_start.
 
+    int player_previous_x;
+    int player_previous_y;
+
+    
 };

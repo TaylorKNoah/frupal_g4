@@ -68,32 +68,32 @@ void Game::update(int key) {
   //Move player up
   case 'w':
     if (player.get_y() != 0) { //If player is not at the top of the map
-      move_player(player.get_x(), player.get_y() - 1);
-      cursor_y++;
+      if(move_player(player.get_x(), player.get_y() - 1, player.has_binocs(), player.has_boat()))
+        cursor_y++;
     }
     break;
 
   //Move player left
   case 'a':
     if (player.get_x() != 0) { //If player is not at left of map
-      move_player(player.get_x() - 1, player.get_y()); 
-      cursor_x++;
+      if(move_player(player.get_x() - 1, player.get_y(), player.has_binocs(), player.has_boat()))
+        cursor_x++;
     }
     break;
 
   //Move player down
   case 's':
     if (player.get_y() != 127) { //If player is not at bottom of map
-      move_player(player.get_x(), player.get_y() + 1);
-      cursor_y--;
+      if(move_player(player.get_x(), player.get_y() + 1, player.has_binocs(), player.has_boat()))
+        cursor_y--;
     }
     break;
 
   //Move player right
   case 'd':
     if (player.get_x() != 127) { //If player is not at right of map
-      move_player(player.get_x() + 1, player.get_y());
-      cursor_x--;
+      if(move_player(player.get_x() + 1, player.get_y(), player.has_binocs(), player.has_boat()))
+        cursor_x--;
     }
     break;
 
@@ -129,29 +129,37 @@ void Game::update(int key) {
 }
 
 
-void Game::move_player(int to_x, int to_y) {
+bool Game::move_player(int to_x, int to_y, bool binocs, bool ship) {
   switch (map.info(to_x, to_y)) {
   case MEADOW_VIS:
     player.add_energy(-1);
     player.set_loc(to_x, to_y);
-    map.reveal(player.get_x(), player.get_y(), false);
-    break;
+    map.reveal(player.get_x(), player.get_y(), binocs);
+    return true;
 
   case SWAMP_VIS:
     player.add_energy(-2);
     player.set_loc(to_x, to_y);
-    map.reveal(player.get_x(), player.get_y(), false);
-    break;
+    map.reveal(player.get_x(), player.get_y(), binocs);
+    return true;
 
   case WATER_VIS:
+    if(ship)
+    {
+      player.set_loc(to_x, to_y);
+      map.reveal(player.get_x(), player.get_y(), binocs);
+      return true;
+    }
     break;
 
   case WALL_VIS:
-    break;
+    player.add_energy(-1);
+    return false;
 
   default:
     break;
   }
+  return false;
 }
 
 int Game::get_energy()
