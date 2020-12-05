@@ -150,7 +150,8 @@ bool Game::move_player(int to_x, int to_y, bool binocs, bool ship) {
       map.reveal(player.get_x(), player.get_y(), binocs);
       return true;
     }
-    break;
+    player.add_energy(-1);
+    return false;
 
   case WALL_VIS:
     player.add_energy(-1);
