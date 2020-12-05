@@ -51,6 +51,7 @@ class Obstacle:public Entity
     ~Obstacle();
 
     int get_energy();
+    bool is_tree();
 
     //creats an obstacle
     void init(int i);

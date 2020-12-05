@@ -88,6 +88,17 @@ int Obstacle::get_energy()
 }
 
 
+//returns true if name is "Tree"
+bool Obstacle::is_tree()
+{
+    char tree[5] = "Tree";
+    if(strcmp(tree, name.data()) == 0)
+        return true;
+
+    return false;
+}
+
+
 
 /***********ROYAL_DIAMOND**********************/
 Royal_Diamond::Royal_Diamond():game_end(false){}

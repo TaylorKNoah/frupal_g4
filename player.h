@@ -14,8 +14,10 @@ class Player: public Entity
     int get_energy();
     void add_energy(int energy);
     void build(string file);
-    void display_inventory(int menu_start, WINDOW* &win);
     void draw(int menu_start, WINDOW* win);
+    void display_inventory(int menu_start, WINDOW* &win);
+    bool clear_obstacle(int menu_start, WINDOW* &win, Obstacle* optr);
+    bool has_item(char* to_cmp);
     void reset_location();
     void set_previous_location(int x, int y);
     bool has_binocs();

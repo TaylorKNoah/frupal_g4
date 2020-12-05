@@ -15,6 +15,7 @@ class Item: public Entity
     int get_is_owned();
     int get_whiffles(); 
     int bury_treasure(int z);
+    void use();   
     void change_is_owned(int x);
    
   	protected:
@@ -28,6 +29,8 @@ class Tools: public Item
 	public:
     	Tools();  
     	~Tools();  
+        
+       int get_rating();
 
   	protected:
     	//creates a tool based off arg  
