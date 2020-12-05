@@ -20,6 +20,14 @@ class Player: public Entity
     void set_previous_location(int x, int y);
     bool has_binocs();
     bool has_boat();
+    bool get_tool(Tools* tptr);
+    void eat_food(Food* fptr);
+    void get_treasure(Item* treasure);
+
+    //works for Tools, Food, and Items (aka treasure)
+    //return int signals what to do with Item* pickup after use
+    //check .cpp for specifics
+    int pickup_item(int menu_start, WINDOW* &win, Item* pickup);
 
   private:
     int my_whiffles;
