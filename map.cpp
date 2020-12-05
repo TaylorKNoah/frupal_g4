@@ -376,7 +376,7 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   {
     mvwprintw(game_win,9,(size_x + 3),"Tool: %s",t_ptr->get_name());
     mvwprintw(game_win,10,(size_x + 3),"Cost: %d",t_ptr->get_whiffles());
-    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_energy());
+    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_rating());
     return;
   }
 
