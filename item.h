@@ -30,7 +30,7 @@ class Tools: public Item
     	Tools();  
     	~Tools();  
         
-       int get_rating();
+      int get_rating();
 
   	protected:
     	//creates a tool based off arg  
