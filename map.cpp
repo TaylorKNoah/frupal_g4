@@ -401,7 +401,7 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   Clue* c_ptr = dynamic_cast<Clue*>(entity);
   if(c_ptr)
   {
-    mvwprintw(game_win,9,(size_x + 3),"A Clue?");
+    mvwprintw(game_win,9,(size_x + 3),"Clue: %s",c_ptr->get_clue());
     return;
   } 
    
