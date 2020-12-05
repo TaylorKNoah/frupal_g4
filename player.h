@@ -25,7 +25,9 @@ class Player: public Entity
     void get_treasure(Item* treasure);
 
     //works for Tools, Food, and Items (aka treasure)
-    bool pickup_item(int menu_start, WINDOW* &win, Item* pickup);
+    //return int signals what to do with Item* pickup after use
+    //check .cpp for specifics
+    int pickup_item(int menu_start, WINDOW* &win, Item* pickup);
 
   private:
     int my_whiffles;
