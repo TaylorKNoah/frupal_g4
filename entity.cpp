@@ -88,7 +88,8 @@ int Obstacle::get_energy()
 //returns true if name is "Tree"
 bool Obstacle::is_tree()
 {
-    if(name.data() == "Tree")
+    char tree[5] = "Tree";
+    if(strcmp(tree, name.data()) == 0)
         return true;
 
     return false;

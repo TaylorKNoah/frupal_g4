@@ -12,43 +12,43 @@
 
 Player::Player() 
 {
-  my_items = NULL;
-  win = stdscr;
+    my_items = NULL;
+    win = stdscr;
 }
 
 
 //constructor
 void Player::build(string file)
 {
-  ifstream in;
+    ifstream in;
 
-  in.open(file);
+    in.open(file);
 
-  char locx[4];
-  char locy[4];
+    char locx[4];
+    char locy[4];
 
-  in.get(locx, 4, ',');
-  in.ignore(100, ',');
-  in.get(locy, 4, ':');
-  in.ignore(100, ':');
+    in.get(locx, 4, ',');
+    in.ignore(100, ',');
+    in.get(locy, 4, ':');
+    in.ignore(100, ':');
 
-  in.clear();
-  in.close();
+    in.clear();
+    in.close();
 
-  int x = stoi(locx);
-  int y = stoi(locy);
+    int x = stoi(locx);
+    int y = stoi(locy);
 
-  set_loc(x, y);
+    set_loc(x, y);
 
 
-  my_whiffles = 1000;
-  my_energy = 100;
-  my_items = new Item* [10];
-  
-  for(int i = 0; i < 10; ++i)
-  {
-    my_items[i] = NULL;
-  }
+    my_whiffles = 1000;
+    my_energy = 100;
+    my_items = new Item* [10];
+
+    for(int i = 0; i < 10; ++i)
+    {
+        my_items[i] = NULL;
+    }
 
 }
 
@@ -56,30 +56,30 @@ void Player::build(string file)
 Player::~Player()
 {
 
-  my_whiffles = 0;
-  my_energy = 0;
+    my_whiffles = 0;
+    my_energy = 0;
 
-  if(my_items)
-  {
-    for(int i=0; i<10; ++i)
+    if(my_items)
     {
-      if(my_items[i])
-        delete my_items[i];
-    }
-    delete [] my_items;
-  } 
+        for(int i=0; i<10; ++i)
+        {
+            if(my_items[i])
+                delete my_items[i];
+        }
+        delete [] my_items;
+    } 
 }
 
 
 int Player::get_energy()
 {
-  return my_energy;
+    return my_energy;
 }
 
 
 void Player::add_energy(int energy) 
 {
-  my_energy += energy;
+    my_energy += energy;
 }
 
 
@@ -146,64 +146,139 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
 bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
 {
 
-    int energy_used = 0;
-    char input;
+    char input = 'Y';
 
     //if tree
     if(optr -> is_tree())
     {
         //check for axe
         char axe[4] = "Axe";
-        bool want_clear = false;
-        if(player.has_item(axe))
+        if(has_item(axe))
         {
-           do
-           {
-               mvwprintw(win, 13, menu_start+1, "Use axe?");
-               mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+            mvwprintw(win, 13, menu_start+1, "Use axe?");
+            mvwprintw(win, 14, menu_start+1, "Enter Y / N");
 
-               //input = get keystroke
+            do
+            {
+                //get user input
+                if(input != 'Y' && input != 'N')
+                    mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
 
-           }while(/*KEY ENTERED IS NOT Y OR N*/);
+                input = getch();
+                input = toupper(input);
 
-           /*
-            * if(input == 'Y')
-            * {
-            *   for(int i=0; i<10; ++i)
-            *   {
-            *     if(my_items[i]->cmp_name(axe))
-            *     {
-            *       my_items[i]->use();
-            *       my_energy -= (optr->get_energy() / my_items[i]->get_rating());
-            *       return true;
-            *     }
-            *   }
-            * }
-            */
-           
+            }while(input != 'Y' && input != 'N');
+
+            if(input == 'Y')
+            {
+                for(int i=0; i<10; ++i)
+                {
+                    if(my_items[i]->compare_name(axe))
+                    {
+                        mvwprintw(win, 15, menu_start+1, "Tree cleared with axe!");
+                        my_items[i]->use();
+
+                        Tools* tptr = dynamic_cast<Tools*>(my_items[i]);
+                        my_energy -= (optr->get_energy() / tptr->get_rating());
+                        return true;
+                    }
+                }
+            }
+
         }
 
+        //will only be reached if player has no axe or declines to use axe
+        mvwprintw(win, 13, menu_start+1, "Clear without axe?");
+        mvwprintw(win, 14, menu_start+1, "Enter Y / N");
         do
         {
-          mvprintw(win, 13, menu_start+1, "Clear without axe?");
-          mvwprintw(win, 14, menu_start+1, "Enter Y / N");
 
-          //intput = get keystroke 
-          
-        }while(/*KEYSTOKE IS NOT Y OR N*/);
+            //get user input
+            if(input != 'Y' && input != 'N')
+                mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
 
-        
-        /*if(input == 'Y')
-         * {
-         *   my_energy -= (optr->get_energy());
-         *   return true;
-         * }
-         */
-        
+            input = getch();
+            input = toupper(input);
+
+        }while(input != 'Y' && input != 'N');
+
+
+        if(input == 'Y')
+        {
+          mvwprintw(win, 15, menu_start+1, "Cleared by hand!");
+          my_energy -= (optr->get_energy());
+          return true;
+        }
     }
 
     //optr is boulder
     else
+    {
+        //check for hammer
+        char hammer[7] = "Hammer";
+        if(has_item(hammer))
+        {
+
+            mvwprintw(win, 13, menu_start+1, "Use hammer?");
+            mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+            do
+            {
+                //get user input
+                if(input != 'Y' && input != 'N')
+                    mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+                input = getch();
+                input = toupper(input);
+
+            }while(input != 'Y' && input != 'N');
+
+             if(input == 'Y')
+             {
+               for(int i=0; i<10; ++i)
+               {
+                 if(my_items[i]->compare_name(hammer))
+                {
+                  mvwprintw(win, 15, menu_start+1, "Cleared with hammer!");
+                  my_items[i]->use();
+
+                  Tools* tptr = dynamic_cast<Tools*>(my_items[i]);
+                  my_energy -= (optr->get_energy() / tptr->get_rating());
+                  return true;
+                }
+               }
+             }
+         }
+
+
+
+        mvwprintw(win, 13, menu_start+1, "Clear without hammer?");
+        mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+        do
+        {
+
+            //get user input
+            if(input != 'Y' && input != 'N')
+                mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+            input = getch();
+            input = toupper(input);
+
+        }while(input != 'Y' && input != 'N');
+
+
+        if(input == 'Y')
+        {
+            mvwprintw(win, 15, menu_start+1, "Cleared by hand!");
+            my_energy -= (optr->get_energy());
+            return true;
+        }
+    }
+
+    //player does not want to clear obstacle
+    mvwprintw(win, 15, menu_start+1, "Obstacle not cleared.");
+    return false;
 }
 
 
@@ -212,7 +287,7 @@ bool Player::has_item(char* to_cmp)
     for(int i=0; i<10; ++i)
     {
         //if ptr isnt null and name is match
-        if(my_items[i] != NULL && my_items[i].cmp_name(to_cmp))
+        if(my_items[i] != NULL && my_items[i]-compare_name(to_cmp))
             return true;
 
         //if we reach a null ptr then it's not in t he list

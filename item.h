@@ -9,10 +9,8 @@ class Item: public Entity
 
         int get_is_owned();
         int get_whiffles();
+        void use();
 
-        //TODO
-        //int make_treasure(int i);
-   
   	protected:
 		int whiffles;
 		int isOwned;
@@ -25,6 +23,7 @@ class Tools: public Item
     	Tools();  
     	~Tools();  
         
+        int get_rating();
 
   	protected:
     	//creates a tool based off arg  
