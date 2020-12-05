@@ -104,6 +104,15 @@ Entity* Grovnik::get_ent()
   return entity;
 }
 
+//Remove an item from a grovnik, if the player has it don't delete
+void Grovnik::clear(bool remove)
+{
+  if(remove)
+    delete entity;
+
+  entity = NULL;
+}
+
 Map::Map()
 {
   map = NULL;
@@ -250,6 +259,7 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
   size_x -= 26;
   Type grov = MEADOW_INV;
   char ent;
+  Entity *temp;
 
   //Offets to keep the player centered in the terminal
   offset[0] = play_x - (size_x / 2);
@@ -333,12 +343,72 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
     grov = map[cur_y + offset[1]][cur_x + offset[0]]->get_type();
 
   mvwprintw(game_win,8,(size_x + 3),"Type: %s",name_type[(int)grov].c_str());
+
+  if(grov > MEADOW_INV)
+  {
+    temp = map[cur_y][cur_x]->get_ent();
+    if(temp)
+      draw_info(temp,game_win,size_x);
+  }
+
   //TODO add print entity in grov info to menu
 
   //Move cursor back to where the user left it
   wmove(game_win, cur_y, cur_x);
 
   return map[play_y][play_x]->get_ent();
+}
+
+//Draws item info from cursor location to menu area
+void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
+{
+  Food* f_ptr = dynamic_cast<Food*>(entity);
+  if(f_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"Food: %s",f_ptr->get_name());
+    mvwprintw(game_win,10,(size_x + 3),"Cost: %d",f_ptr->get_whiffles());
+    mvwprintw(game_win,11,(size_x + 3),"Energy: %d",f_ptr->get_energy());
+    return;
+  }
+
+  Tools* t_ptr = dynamic_cast<Tools*>(entity);
+  if(t_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"Tool: %s",t_ptr->get_name());
+    mvwprintw(game_win,10,(size_x + 3),"Cost: %d",t_ptr->get_whiffles());
+    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_energy());
+    return;
+  }
+
+  Item* i_ptr = dynamic_cast<Item*>(entity);
+  if(i_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"Treasure: %s",i_ptr->get_name());
+    mvwprintw(game_win,10,(size_x + 3),"Amount: %d",i_ptr->get_whiffles());
+    return;
+  }
+
+  Obstacle* o_ptr = dynamic_cast<Obstacle*>(entity);
+  if(o_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"Obstacle: %s",o_ptr->get_name());
+    mvwprintw(game_win,10,(size_x + 3),"Energy Cost: d",o_ptr->get_energy());
+    return;
+  }
+
+  Clue* c_ptr = dynamic_cast<Clue*>(entity);
+  if(c_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"A Clue?");
+    return;
+  } 
+   
+  Royal_Diamond* d_ptr = dynamic_cast<Royal_Diamond*>(entity);
+  if(d_ptr)
+  {
+    mvwprintw(game_win,9,(size_x + 3),"The Royal Diamond!");
+    return;
+  }
 }
 
 //This update function will take the players location and binocular status
@@ -368,6 +438,17 @@ void Map::reveal(int play_x, int play_y, bool binocs)
 Type Map::info(int x, int y)
 {
   return map[y][x]->get_type();
+}
+
+//Remove item from the map, 
+bool Map::clear(int x,int y, bool remove)
+{
+  Entity* temp = map[y][x]->get_ent();
+  if(!temp)
+    return false;
+  
+  map[y][x]->clear(remove);
+  return true;
 }
 
 Map::~Map()
