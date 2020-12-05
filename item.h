@@ -14,7 +14,7 @@ class Item: public Entity
 
     int get_is_owned();
     int get_whiffles(); 
-    int bury_treasure(int z);
+    void init(int i);
     void use();   
     void change_is_owned(int x);
    
@@ -49,7 +49,7 @@ class Food: public Item
 
 	protected:
     // make food based on arg
-    int make_food(int i);
+    void init(int i);
 	int food_energy;
 
 	private:

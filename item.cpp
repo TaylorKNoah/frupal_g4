@@ -24,7 +24,7 @@ int Item::get_whiffles()
 }
 
 // initialize the diff types of treasure
-int Item::bury_treasure(int z)
+void Item::init(int z)
 {
 
   if(z == 0)
@@ -53,7 +53,7 @@ int Item::bury_treasure(int z)
     whiffles = 500;
   }
 
-  return whiffles;
+  return;
 
 }
 
@@ -133,7 +133,7 @@ Food::Food():food_energy(0){}
 Food::~Food(){}
 
 
-int Food::make_food(int i)
+void Food::init(int i)
 {
   // if less than 0 troll food
   if(i < 0)
@@ -179,7 +179,7 @@ int Food::make_food(int i)
     name = "Mysterious Food";
   }
 
-  return food_energy;
+  return;
 
 }
 

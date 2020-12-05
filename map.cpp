@@ -87,7 +87,7 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
 
       case 'C':   //CLUE
         entity = new Clue;
-        entity->init(i,dia_x,dia_y);
+        entity->init(i, dia_x,dia_y);
         draw = CLUE;
       break;
   }
