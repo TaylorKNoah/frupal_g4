@@ -53,7 +53,7 @@ string Entity::get_name()
 
 //Lazy mans pure virtual functions
 void Entity::init(int i) {}
-void Entity::init(int x, int y) {}
+void Entity::init(int q, int x, int y) {}
 
 
 /**************OBSTACLE*************************/
@@ -113,7 +113,7 @@ Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
 
 Clue::~Clue(){}
 
-int Clue::make_clue(int q,int royal_x,int royal_y)
+void Clue::init(int q,int royal_x,int royal_y)
 {
   int x_dir, y_dir;
 
@@ -132,7 +132,7 @@ int Clue::make_clue(int q,int royal_x,int royal_y)
   if(q == 0)
   {
     sentence = "Through the swampy marsh across the great plains at the foot of Mt. Doom the Royal Diamond awaits\n";
-    return 0;
+    return;
   }
   else
   {
@@ -163,7 +163,7 @@ int Clue::make_clue(int q,int royal_x,int royal_y)
     else
       sentence = "You're at the Royal Diamond and a clue somehow.\n";
 
-    return 1;
+    return;
   }
 }
   
