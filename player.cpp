@@ -163,9 +163,14 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
     mvwprintw(win, 14, menu_start+1, hammer);
 }
 
-bool Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
+
+//Return int idicates what to do with the Item* after this function is done
+// 0 - Do nothing. Leave this pointer on the map
+// 1 - Delete this pointer / Player will not use this pointer's contents
+// 2 - Set this pointer to NULL / Player will use this pointer's contents
+int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
 {
-    bool picked_up = false;
+    int pointer_fate = 0;
     char input = 'Y';
 
     if(to_pickup == NULL)
@@ -207,11 +212,17 @@ bool Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
             input = getch();
 
         }while(input != 'Y' && input != 'N');
-
+        
         if(input == 'Y')
         {
+            bool needs_map_pointer = false;
             if(my_whiffles > whif_temp)
-                picked_up = get_tool(tptr);
+                need_maps_pointer = get_tool(tptr);
+            else
+              mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
+          
+            if(need_maps_pointer)
+              pointer_fate = 2;
         }
 
     }
@@ -244,8 +255,10 @@ bool Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
                 if(my_whiffles > whif_temp)
                 {
                     eat_food(fptr);
-                    picked_up = true;
+                    pointer_fate = 1;
                 }
+                else
+                    mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
             }
 
         }
@@ -273,14 +286,14 @@ bool Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
             if(input == 'Y')
             {
                 get_treasure(to_pickup);
-                picked_up = true;
+                pointer_fate = 1;
             }
 
         }
 
     }
 
-    return picked_up;
+    return pointer_fate;
 }
 
 
