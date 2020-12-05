@@ -44,7 +44,7 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
     //TO ADD LATER
 
     //refresh the window
-    wrefresh(game_win);
+    //wrefresh(game_win);
 }
 
 
