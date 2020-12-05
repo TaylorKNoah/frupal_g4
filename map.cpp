@@ -188,11 +188,13 @@ void Map::build(string file_name)
     {
       in.get(tempx,4,',');
       in.ignore(4,',');
-      in.get(tempy,4,':');
-      in.ignore(4,':');
+      in.get(tempy,4,',');
+      in.ignore(4,',');
       new_type = (int)tempt[0];
       x = stoi(tempx);
       y = stoi(tempy);
+      x--;
+      y--;
             
       switch(new_type)
       {
@@ -344,9 +346,9 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
 
   mvwprintw(game_win,8,(size_x + 3),"Type: %s",name_type[(int)grov].c_str());
 
-  if(grov > MEADOW_INV)
+  if(grov < MEADOW_INV)
   {
-    temp = map[cur_y][cur_x]->get_ent();
+    temp = map[cur_y + offset[1]][cur_x + offset[0]]->get_ent();
     if(temp)
       draw_info(temp,game_win,size_x);
   }
@@ -376,7 +378,7 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   {
     mvwprintw(game_win,9,(size_x + 3),"Tool: %s",t_ptr->get_name());
     mvwprintw(game_win,10,(size_x + 3),"Cost: %d",t_ptr->get_whiffles());
-    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_energy());
+    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_rating());
     return;
   }
 
