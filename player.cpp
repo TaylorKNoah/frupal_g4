@@ -333,7 +333,7 @@ int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
     char input = 'Y';
 
     if(to_pickup == NULL)
-        return picked_up;
+        return pointer_fate;
 
     //clear WASD
     mvwprintw(win, 12, menu_start+1, "          ");
@@ -374,7 +374,7 @@ int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
         
         if(input == 'Y')
         {
-            bool needs_map_pointer = false;
+            bool need_maps_pointer = false;
             if(my_whiffles > whif_temp)
                 need_maps_pointer = get_tool(tptr);
             else
