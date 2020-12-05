@@ -26,7 +26,7 @@ class Entity
     string get_name();
 
     virtual void init(int i);
-    virtual void init(int x, int y);
+    virtual void init(int q, int x, int y);
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
@@ -83,8 +83,12 @@ class Clue: public Entity
     Clue(int type,string a_sentence);
     ~Clue();
 
-    int make_clue(int q, int royal_x,int royal_y);
+
     string get_clue();
+
+    void init(int q, int royal_x,int royal_y);
+    void display_clue();
+
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue
