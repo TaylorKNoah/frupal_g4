@@ -26,6 +26,7 @@ Grovnik::~Grovnik()
 	if(entity)
 	{
 		delete entity;
+    entity = NULL;
 	}
 }
 
@@ -200,6 +201,8 @@ void Map::build(string file_name)
       {
           case 'D':   //DIAMOND
             map[y][x]->build_ent(new_type);
+            dia_x = x;
+            dia_y = y;
             break;
 
           case 'W':   //TREASURE
@@ -346,6 +349,7 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
 
   mvwprintw(game_win,8,(size_x + 3),"Type: %s",name_type[(int)grov].c_str());
 
+  //Draw item info from cursor
   if(grov < MEADOW_INV)
   {
     temp = map[cur_y + offset[1]][cur_x + offset[0]]->get_ent();
@@ -353,7 +357,6 @@ Entity* Map::draw(WINDOW* &game_win, int cur_x, int cur_y, int play_x, int play_
       draw_info(temp,game_win,size_x);
   }
 
-  //TODO add print entity in grov info to menu
 
   //Move cursor back to where the user left it
   wmove(game_win, cur_y, cur_x);
@@ -367,7 +370,7 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   Food* f_ptr = dynamic_cast<Food*>(entity);
   if(f_ptr)
   {
-    mvwprintw(game_win,9,(size_x + 3),"Food: %s",f_ptr->get_name());
+    mvwprintw(game_win,9,(size_x + 3),"Food: %s",f_ptr->get_name().c_str());
     mvwprintw(game_win,10,(size_x + 3),"Cost: %d",f_ptr->get_whiffles());
     mvwprintw(game_win,11,(size_x + 3),"Energy: %d",f_ptr->get_energy());
     return;
@@ -376,16 +379,17 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   Tools* t_ptr = dynamic_cast<Tools*>(entity);
   if(t_ptr)
   {
-    mvwprintw(game_win,9,(size_x + 3),"Tool: %s",t_ptr->get_name());
+    mvwprintw(game_win,9,(size_x + 3),"Tool: %s",t_ptr->get_name().c_str());
     mvwprintw(game_win,10,(size_x + 3),"Cost: %d",t_ptr->get_whiffles());
-    mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_rating());
+    if(strcmp(t_ptr->get_name().c_str(),"Binoculars") != 0 && strcmp(t_ptr->get_name().c_str(),"Ship") != 0)
+      mvwprintw(game_win,11,(size_x + 3),"Rate: x%d",t_ptr->get_rating());
     return;
   }
 
   Item* i_ptr = dynamic_cast<Item*>(entity);
   if(i_ptr)
   {
-    mvwprintw(game_win,9,(size_x + 3),"Treasure: %s",i_ptr->get_name());
+    mvwprintw(game_win,9,(size_x + 3),"Treasure: %s",i_ptr->get_name().c_str());
     mvwprintw(game_win,10,(size_x + 3),"Amount: %d",i_ptr->get_whiffles());
     return;
   }
@@ -393,8 +397,8 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   Obstacle* o_ptr = dynamic_cast<Obstacle*>(entity);
   if(o_ptr)
   {
-    mvwprintw(game_win,9,(size_x + 3),"Obstacle: %s",o_ptr->get_name());
-    mvwprintw(game_win,10,(size_x + 3),"Energy Cost: d",o_ptr->get_energy());
+    mvwprintw(game_win,9,(size_x + 3),"Obstacle: %s",o_ptr->get_name().c_str());
+    mvwprintw(game_win,10,(size_x + 3),"Energy Cost: %d",o_ptr->get_energy());
     return;
   }
 
@@ -465,5 +469,15 @@ Map::~Map()
             map[x][y] = NULL;
           }
 		}
+    if(map[x])
+    {
+      delete[] map[x];
+      map[x] = NULL;
+    }
 	}
+  if(map)
+  {
+  delete[] map;
+  map = NULL;
+  }
 }
