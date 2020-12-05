@@ -371,8 +371,11 @@ void Map::draw_info(Entity* entity,WINDOW* &game_win,int size_x)
   if(f_ptr)
   {
     mvwprintw(game_win,9,(size_x + 3),"Food: %s",f_ptr->get_name().c_str());
-    mvwprintw(game_win,10,(size_x + 3),"Cost: %d",f_ptr->get_whiffles());
-    mvwprintw(game_win,11,(size_x + 3),"Energy: %d",f_ptr->get_energy());
+    if(strcmp(f_ptr->get_name().c_str(),"Mysterious Food") != 0)
+    {
+      mvwprintw(game_win,10,(size_x + 3),"Cost: %d",f_ptr->get_whiffles());
+      mvwprintw(game_win,11,(size_x + 3),"Energy: %d",f_ptr->get_energy());
+    }
     return;
   }
 
