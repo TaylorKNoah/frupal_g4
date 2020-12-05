@@ -29,35 +29,35 @@ bool Player::has_binocs()
 }
 void Player::build(string file)
 {
-  ifstream in;
+    ifstream in;
 
-  in.open(file);
+    in.open(file);
 
-  char locx[4];
-  char locy[4];
+    char locx[4];
+    char locy[4];
 
-  in.get(locx, 4, ',');
-  in.ignore(100, ',');
-  in.get(locy, 4, ':');
-  in.ignore(100, ':');
+    in.get(locx, 4, ',');
+    in.ignore(100, ',');
+    in.get(locy, 4, ':');
+    in.ignore(100, ':');
 
-  in.clear();
-  in.close();
+    in.clear();
+    in.close();
 
-  int x = stoi(locx);
-  int y = stoi(locy);
+    int x = stoi(locx);
+    int y = stoi(locy);
 
-  set_loc(x, y);
+    set_loc(x, y);
 
 
-  my_whiffles = 1000;
-  my_energy = 100;
-  my_items = new Item* [10];
-  
-  for(int i = 0; i < 10; ++i)
-  {
-    my_items[i] = NULL;
-  }
+    my_whiffles = 1000;
+    my_energy = 100;
+    my_items = new Item* [10];
+
+    for(int i = 0; i < 10; ++i)
+    {
+        my_items[i] = NULL;
+    }
 
 }
 
@@ -65,30 +65,30 @@ void Player::build(string file)
 Player::~Player()
 {
 
-  my_whiffles = 0;
-  my_energy = 0;
+    my_whiffles = 0;
+    my_energy = 0;
 
-  if(my_items)
-  {
-    for(int i=0; i<10; ++i)
+    if(my_items)
     {
-      if(my_items[i])
-        delete my_items[i];
-    }
-    delete [] my_items;
-  } 
+        for(int i=0; i<10; ++i)
+        {
+            if(my_items[i])
+                delete my_items[i];
+        }
+        delete [] my_items;
+    } 
 }
 
 
 int Player::get_energy()
 {
-  return my_energy;
+    return my_energy;
 }
 
 
 void Player::add_energy(int energy) 
 {
-  my_energy += energy;
+    my_energy += energy;
 }
 
 
@@ -162,3 +162,347 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
     mvwprintw(win, 13, menu_start+1, axe);
     mvwprintw(win, 14, menu_start+1, hammer);
 }
+
+
+
+// just reports if player can remove the obstacle
+bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
+{
+
+    char input = 'Y';
+
+    //if tree
+    if(optr -> is_tree())
+    {
+        //check for axe
+        char axe[4] = "Axe";
+        if(has_item(axe))
+        {
+            mvwprintw(win, 13, menu_start+1, "Use axe?");
+            mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+            do
+            {
+                //get user input
+                if(input != 'Y' && input != 'N')
+                    mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+                input = getch();
+                input = toupper(input);
+
+            }while(input != 'Y' && input != 'N');
+
+            if(input == 'Y')
+            {
+                for(int i=0; i<10; ++i)
+                {
+                    if(my_items[i]->compare_name(axe))
+                    {
+                        mvwprintw(win, 15, menu_start+1, "Tree cleared with axe!");
+                        my_items[i]->use();
+
+                        Tools* tptr = dynamic_cast<Tools*>(my_items[i]);
+                        my_energy -= (optr->get_energy() / tptr->get_rating());
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        //will only be reached if player has no axe or declines to use axe
+        mvwprintw(win, 13, menu_start+1, "Clear without axe?");
+        mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+        do
+        {
+
+            //get user input
+            if(input != 'Y' && input != 'N')
+                mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+            input = getch();
+            input = toupper(input);
+
+        }while(input != 'Y' && input != 'N');
+
+
+        if(input == 'Y')
+        {
+          mvwprintw(win, 15, menu_start+1, "Cleared by hand!");
+          my_energy -= (optr->get_energy());
+          return true;
+        }
+    }
+
+    //optr is boulder
+    else
+    {
+        //check for hammer
+        char hammer[7] = "Hammer";
+        if(has_item(hammer))
+        {
+
+            mvwprintw(win, 13, menu_start+1, "Use hammer?");
+            mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+            do
+            {
+                //get user input
+                if(input != 'Y' && input != 'N')
+                    mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+                input = getch();
+                input = toupper(input);
+
+            }while(input != 'Y' && input != 'N');
+
+             if(input == 'Y')
+             {
+               for(int i=0; i<10; ++i)
+               {
+                 if(my_items[i]->compare_name(hammer))
+                {
+                  mvwprintw(win, 15, menu_start+1, "Cleared with hammer!");
+                  my_items[i]->use();
+
+                  Tools* tptr = dynamic_cast<Tools*>(my_items[i]);
+                  my_energy -= (optr->get_energy() / tptr->get_rating());
+                  return true;
+                }
+               }
+             }
+         }
+
+
+
+        mvwprintw(win, 13, menu_start+1, "Clear without hammer?");
+        mvwprintw(win, 14, menu_start+1, "Enter Y / N");
+
+        do
+        {
+
+            //get user input
+            if(input != 'Y' && input != 'N')
+                mvwprintw(win, 14, menu_start+1, "Please answer with Y or N");
+
+            input = getch();
+            input = toupper(input);
+
+        }while(input != 'Y' && input != 'N');
+
+
+        if(input == 'Y')
+        {
+            mvwprintw(win, 15, menu_start+1, "Cleared by hand!");
+            my_energy -= (optr->get_energy());
+            return true;
+        }
+    }
+
+    //player does not want to clear obstacle
+    mvwprintw(win, 15, menu_start+1, "Obstacle not cleared.");
+    return false;
+}
+
+
+bool Player::has_item(char* to_cmp)
+{
+    for(int i=0; i<10; ++i)
+    {
+        //if ptr isnt null and name is match
+        if(my_items[i] != NULL && my_items[i]-compare_name(to_cmp))
+            return true;
+
+        //if we reach a null ptr then it's not in t he list
+        if(my_items[i] == NULL)
+            return false;
+    }
+
+    //if list is full, but no match
+    return false;
+}
+
+
+//Return int idicates what to do with the Item* after this function is done
+// 0 - Do nothing. Leave this pointer on the map
+// 1 - Delete this pointer / Player will not use this pointer's contents
+// 2 - Set this pointer to NULL / Player will use this pointer's contents
+int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
+{
+    int pointer_fate = 0;
+    char input = 'Y';
+
+    if(to_pickup == NULL)
+        return pointer_fate;
+
+    //clear WASD
+    mvwprintw(win, 12, menu_start+1, "          ");
+    mvwprintw(win, 13, menu_start+1, "          ");
+    mvwprintw(win, 14, menu_start+1, "          ");
+    mvwprintw(win, 15, menu_start+1, "          ");
+    mvwprintw(win, 16, menu_start+1, "          ");
+
+    //get whiffles
+    int whif_temp = to_pickup->get_whiffles();
+
+    //make a string for whiffles
+    char whiffles[8];
+    sprintf(whiffles, "%i", whif_temp);
+
+    // RTTI TIME
+    Tools* tptr = dynamic_cast <Tools*> (to_pickup);
+    //tool is found
+    if(tptr)
+    {
+        char tool[20]; 
+        int j = sprintf(tool, "%s", tptr->get_name().data());
+        sprintf(tool+j, "%c", '!');
+
+        mvwprintw(win, 12, menu_start+1, "You found:");
+        mvwprintw(win, 13, menu_start+4, tool);
+        mvwprintw(win, 14, menu_start+1, "Cost: ");
+        mvwprintw(win, 14, menu_start+8, whiffles);
+        mvwprintw(win, 15, menu_start+1, "Pay cost to pickup?");
+
+
+        do
+        {
+            mvwprintw(win, 16, menu_start+1, "Enter Y or N");
+            input = getch();
+
+        }while(input != 'Y' && input != 'N');
+        
+        if(input == 'Y')
+        {
+            bool need_maps_pointer = false;
+            if(my_whiffles > whif_temp)
+                need_maps_pointer = get_tool(tptr);
+            else
+              mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
+          
+            if(need_maps_pointer)
+              pointer_fate = 2;
+        }
+
+    }
+    //food or treasure is found
+    else
+    {
+        Food* fptr = dynamic_cast <Food*> (to_pickup);
+        //food is found
+        if(fptr)
+        {
+            char food[20];
+            int j = sprintf(food, "%s", fptr->get_name().data());
+            sprintf(food+j, "%c", '!');
+
+            mvwprintw(win, 12, menu_start+1, "You found:");
+            mvwprintw(win, 13, menu_start+4, food);
+            mvwprintw(win, 14, menu_start+1, "Cost: ");
+            mvwprintw(win, 14, menu_start+8, whiffles);
+            mvwprintw(win, 15, menu_start+1, "Pay cost and eat?");
+
+            do
+            {
+                mvwprintw(win, 16, menu_start+1, "Enter Y or N");
+                input = getch();
+
+            }while(input != 'Y' && input != 'N');
+
+            if(input == 'Y')
+            {
+                if(my_whiffles > whif_temp)
+                {
+                    eat_food(fptr);
+                    pointer_fate = 1;
+                }
+                else
+                    mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
+            }
+
+        }
+
+        //treasure is found
+        else
+        {
+            char treasure[24];
+            int j = sprintf(treasure, "%s", to_pickup->get_name().data());
+            sprintf(treasure+j, "%s", "!!!");
+
+            mvwprintw(win, 12, menu_start+1, "You found:");
+            mvwprintw(win, 13, menu_start+4, treasure);
+            mvwprintw(win, 14, menu_start+1, "Whiffles gained: ");
+            mvwprintw(win, 14, menu_start+8, whiffles);
+            mvwprintw(win, 15, menu_start+1, "Pick up?");
+
+            do
+            {
+                mvwprintw(win, 16, menu_start+1, "Enter Y or N");
+                input = getch();
+
+            }while(input != 'Y' && input != 'N');
+
+            if(input == 'Y')
+            {
+                get_treasure(to_pickup);
+                pointer_fate = 1;
+            }
+
+        }
+
+    }
+
+    return pointer_fate;
+}
+
+
+//returns true if player does not already have the item
+// this way it will use the map pointer and increment hasOwned
+//
+// If the player has the tool already it will
+// increment hasOwned only.
+// Then it returns flase to indicate to the map
+// to delete the poitner.
+//
+// decrements player money by tool cost
+bool Player::get_tool(Tools* tptr)
+{
+    bool picked_up = false;
+
+    for(int i=0; i<10; ++i)
+    {
+        if(my_items[i] != NULL && (strcmp(my_items[i]->get_name().data(), tptr->get_name().data())) == 0)
+        {
+           my_items[i]->change_is_owned(1); 
+           break;
+        }
+
+        if(my_items[i] == NULL)
+        {
+            my_items[i] = tptr;
+            my_items[i]->change_is_owned(1); 
+            picked_up = true;
+        }
+    }
+
+   my_whiffles -= tptr->get_whiffles();
+
+   return picked_up;
+}
+
+
+//gives energy to player from food
+//takes money away from player based on food cost
+void Player::eat_food(Food* fptr)
+{
+    my_energy += fptr->get_energy();
+    my_whiffles -= fptr->get_whiffles();
+}
+
+
+void Player::get_treasure(Item* treasure)
+{
+    my_whiffles += treasure->get_whiffles();
+}
+
+

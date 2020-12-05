@@ -42,6 +42,7 @@ class Grovnik
     void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0);
     char get_char();
     Entity* get_ent();
+    void clear(bool remove);
 
   private:
     Entity* entity;
@@ -57,6 +58,9 @@ class Map
     Entity* draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
     void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
+    Entity* get_item(int x, int y);
+    bool clear(int x, int y, bool remove);
+    void draw_info(Entity* entity,WINDOW* &game_win,int size_x);
     ~Map();
 
   private:

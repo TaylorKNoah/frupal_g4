@@ -58,6 +58,18 @@ int Item::bury_treasure(int z)
 }
 
 
+void Item::use()
+{
+    --isOwned;
+}
+
+
+void Item::change_is_owned(int x)
+{
+    isOwned += x;
+}
+
+
 
 
 ////////////////////////////////////////////////////////////////////
@@ -106,6 +118,11 @@ void Tools::init(int i)
     }
 }
 
+
+int Tools::get_rating()
+{
+    return rating;
+}
 
 
 ////////////////////////////////////////////////////////////////////
@@ -167,7 +184,8 @@ int Food::make_food(int i)
 }
 
 
-
-
-
+int Food::get_energy()
+{
+    return food_energy;
+}
 
