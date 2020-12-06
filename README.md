@@ -33,3 +33,11 @@ Conventions and style requirements:
 >      int **num_doors**;  
 >
 >**}**;
+
+Instructions for how to compile and run your game:
+Type "make". Then, type "./frupal map.txt"
+
+Instructions for how to play the game, to the extent that gameplay is non-obvious:
+Use w,a,s,d to control the player.
+
+A brief discussion of what features you managed to implement, and any you didn't finish:
