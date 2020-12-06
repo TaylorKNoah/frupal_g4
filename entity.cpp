@@ -1,6 +1,5 @@
-// Lawrence Scroggs -- 11/13/2020 -- CS300:Frupal:Group 4
-// .cpp file for entity.h, constructor, destructor, needed
-// functions for game, etc.
+// CS300:Frupal:Group 4
+// .cpp file for entity.h
 
 
 

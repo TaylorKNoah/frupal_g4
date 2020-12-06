@@ -1,4 +1,4 @@
-// Carl Knori -- 11/16/2020 -- CS300:Frupal:Group 4
+// CS300:Frupal:Group 4
 // This .h file will hold the game class
 
 #include "menu.h"

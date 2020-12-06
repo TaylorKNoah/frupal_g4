@@ -1,9 +1,7 @@
-// Lawrence Scroggs -- 11/17/2020 -- CS300:Frupal:Group 4
+//CS300:Frupal:Group 4
 
 // This file will hold the games functions/constructors
 // /destructors.  
-// Designed to create the game functionality that we will
-// use in main?
 
 #include "game.h"
 

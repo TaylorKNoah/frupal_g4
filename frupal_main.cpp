@@ -1,4 +1,4 @@
-// Carl Knori -- 11/23/2020 -- CS300:Frupal:Group 4
+// CS300:Frupal:Group 4
 // This .cpp file will contain main
 
 #include "game.h"

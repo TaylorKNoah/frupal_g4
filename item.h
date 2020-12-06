@@ -1,4 +1,4 @@
-// Lawrence Scroggs -- CS300 -- Frupal Group 4
+// CS300 -- Frupal Group 4
 // Item class for different types of entities 
 // Removed Treasure on 12/4/20 to be absorbed by Item.
 

@@ -1,4 +1,3 @@
-//Taylor Noah
 //CS300, Group Project: Land of Frupal
 //Group 4 et al
 
