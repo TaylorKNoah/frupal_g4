@@ -42,9 +42,7 @@ int main(int argc, char* argv[])
       if (game.get_energy() <= 0)
         win = 2;
     }
-
   }while(win == 0);
-
 
   if(win == 1)
       game.win();

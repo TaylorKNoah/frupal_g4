@@ -68,7 +68,7 @@ int Game::draw()
         char RD[14] = "Royal Diamond";
         if(strcmp(temp->get_name().data(), RD) == 0)
         {
-            //set whiffles to - value
+            player.set_whiffles(-1000000);
             win_cond = 1;
         }
 
@@ -241,11 +241,18 @@ int Game::get_energy()
 void Game::lose()
 {
   clear();
-  mvprintw(0, 0, "With no energy left, you collapse onto the ground completely exhausted.");
-  mvprintw(1, 0, "Your journey ends here, where your body is left to perish and be eaten by grus.");
-  mvprintw(3, 0, "You died...");
-  mvprintw(4, 0, "Press any key to continue...");
+  mvwprintw(window, 0, 0, "With no energy left, you collapse onto the ground completely exhausted.");
+  mvwprintw(window, 1, 0, "Your journey ends here, where your body is left to perish and be eaten by grus.");
+  mvwprintw(window, 3, 0, "You died...");
+  mvwprintw(window, 4, 0, "Press any key to continue...");
   nodelay(window, false);
   refresh();
+  getch();
+}
+
+void Game::win()
+{
+  draw();
+  nodelay(window, false);
   getch();
 }

@@ -26,6 +26,7 @@ class Player: public Entity
     void eat_food(Food* fptr);
     void get_treasure(Item* treasure);
     void use_item(int i);
+    void set_whiffles(int new_whiffles);
 
     //works for Tools, Food, and Items (aka treasure)
     //return int signals what to do with Item* pickup after use
