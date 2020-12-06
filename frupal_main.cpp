@@ -24,27 +24,36 @@ int main(int argc, char* argv[])
 
   //initscr();
   clear();
-  noecho();
   //keypad(stdscr, true);
-  nodelay(stdscr, true);
   cbreak();
 
   Game game(argv[1]);
-  bool running = true;
+  int win = 0;
 
-  while (running) 
+  do
   {
-    game.draw();
+    win = game.draw();
     int key = getch();
     
-    if (key != ERR) 
+    if(key != ERR) 
     {
       game.update(key);
       
       if (game.get_energy() <= 0)
-        running = false;
+        win = 2;
     }
-  }
+
+  }while(win == 0);
+
+
+  /*
+  if(win == 1)
+      //win
+  else
+      //lose
+  */
+
+
   clear();
   endwin();
 
