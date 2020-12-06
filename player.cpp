@@ -403,13 +403,13 @@ int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
         
         if(input == 'Y')
         {
-            bool need_maps_pointer = false;
+            bool needs_map_pointer = false;
             if(my_whiffles >= whif_temp)
-                need_maps_pointer = get_tool(tptr);
+                needs_map_pointer = get_tool(tptr);
             else
               mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
           
-            if(need_maps_pointer)
+            if(needs_map_pointer)
               pointer_fate = 2;
         }
 
@@ -519,11 +519,17 @@ bool Player::get_tool(Tools* &tptr)
 
    char binoc [11] = "Binoculars";
    if(strcmp(tptr->get_name().data(), binoc) == 0)
-       has_binoculars = true;
+   {
+       has_binoculars = true;;
+       picked_up = true;
+   }
 
    char ship [5] = "Ship";
    if(strcmp(tptr->get_name().data(), ship) == 0)
+   {
        has_ship = true;
+       picked_up = true;
+   }
 
    return picked_up;
 }
