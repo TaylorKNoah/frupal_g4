@@ -163,7 +163,9 @@ void Game::update(int key) {
 
     //toggle inventory
   case 'i':
-    player.display_inventory(menu_start, window);
+      player.display_inventory(menu_start, window);
+      break;
+
 
   //Move cursor up
   case KEY_UP:
