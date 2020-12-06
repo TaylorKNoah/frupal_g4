@@ -10,12 +10,12 @@ class Item: public Entity
 {
 	public:
 		Item();
-    ~Item();
+    virtual ~Item();
 
     int get_is_owned();
     int get_whiffles(); 
     void init(int i);
-    void use();   
+    int use();   
     void change_is_owned(int x);
    
   	protected:

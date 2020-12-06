@@ -50,6 +50,7 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
 
 void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
 {
+/*
     //Clear WASD Display
     mvwprintw(game_win, 12, menu_start+1, "         ");
     mvwprintw(game_win, 13, menu_start+1, "         ");
@@ -57,15 +58,15 @@ void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
     mvwprintw(game_win, 15, menu_start+1, "         ");
     mvwprintw(game_win, 16, menu_start+1, "         ");
 
-    char prompt[32];
+    char prompt[64];
 
     //Get entity type
     //Construct prompt accordingly
-    Obstacle* optr = dynamic_cast <Obstacle*> (temp);
+    Obstacle* optr = dynamic_cast<Obstacle*>(temp);
     if(optr)
     {
-        //construct string for prompt2
-        int j = sprintf(prompt, "%s", "Energy needed to clear ");
+        //construct string for prompt
+        int j = sprintf(prompt, "%s", "Energy needed "); 
         j += sprintf(prompt+j, "%s", optr->get_name().data());
         j += sprintf(prompt+j, "%s", ": ");
         sprintf(prompt+j, "%i", optr->get_energy());
@@ -80,7 +81,7 @@ void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
             int j = sprintf(prompt, "%s", "Cost of food '");
             j += sprintf(prompt+j, "%s", fptr->get_name().data());
             j += sprintf(prompt+j, "%s", "' : ");
-            sprintf(prompt, "%i", fptr->get_whiffles());
+            sprintf(prompt+j, "%i", fptr->get_whiffles());
         }
 
         else
@@ -91,7 +92,7 @@ void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
                 int j = sprintf(prompt, "%s", "Cost of tool '");
                 j += sprintf(prompt+j, "%s", tptr->get_name().data());
                 j += sprintf(prompt+j, "%s", "' : ");
-                sprintf(prompt, "%i", tptr->get_whiffles());
+                sprintf(prompt+j, "%i", tptr->get_whiffles());
             }
 
             //must be treasure
@@ -101,17 +102,18 @@ void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
                if(iptr)
                {
                    int j = sprintf(prompt, "%s", "Found "); 
-                   j += sprintf(prompt, "%s", iptr->get_name().data());
-                   j += sprintf(prompt, "%s", "!"); 
+                   j += sprintf(prompt+j, "%s", iptr->get_name().data());
+                   j += sprintf(prompt+j, "%s", "!"); 
                }
             }
         }
-
-
     }
 
     //send prompt script to screen
-    mvwprintw(win, 12, menu_start+1, prompt);
+    mvwprintw(game_win, 12, menu_start+1, prompt);
+    getch();
+    //refresh();
+*/
 }
 
 
