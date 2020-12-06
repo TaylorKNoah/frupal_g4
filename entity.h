@@ -84,13 +84,18 @@ class Clue: public Entity
     ~Clue();
 
 
-    string get_clue();
+    void display_clue(int menu_start,WINDOW *& game_win);
 
     void init(int q, int royal_x,int royal_y);
-    void display_clue();
+    //void display_clue();
 
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue
-    string sentence;
+    int x_dir;
+    int y_dir;
+    string sentence1;
+    string sentence2;
+    string sentence3;
+    string sentence4;
 };
