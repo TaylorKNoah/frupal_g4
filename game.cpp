@@ -70,7 +70,7 @@ int Game::draw()
         char RD[14] = "Royal Diamond";
         if(strcmp(temp->get_name().data(), RD) == 0)
         {
-            //set whiffles to - value
+            player.set_whiffles(-1000000);
             win_cond = 1;
         }
 
@@ -250,11 +250,6 @@ void Game::lose()
   nodelay(window, false);
   refresh();
   getch();
-}
-
-int Game::get_whiffles()
-{
-  return player.get_whiffles();
 }
 
 void Game::win()

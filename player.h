@@ -13,7 +13,6 @@ class Player: public Entity
 
     int get_energy();
     void add_energy(int energy);
-    int get_whiffles();
     void build(string file);
     void draw(int menu_start, WINDOW* win);
     void display_inventory(int menu_start, WINDOW* &win);
@@ -28,6 +27,7 @@ class Player: public Entity
     void eat_food(Food* fptr);
     void get_treasure(Item* treasure);
     void use_item(int i);
+    void set_whiffles(int new_whiffles);
 
     //works for Tools, Food, and Items (aka treasure)
     //return int signals what to do with Item* pickup after use

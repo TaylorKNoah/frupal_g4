@@ -103,7 +103,7 @@ void Player::draw(int menu_start, WINDOW* game_win)
     
     mvwprintw(game_win, 6, menu_start+1, " Whiffles: ");
     if (my_whiffles < 0)
-        mvwprintw(game_win, 6, menu_start+12, "one zillion zillion");
+        mvwprintw(game_win, 6, menu_start+12, "one zillion");
     else
         mvwprintw(game_win, 6, menu_start+12, whiffles.data());
 
@@ -565,4 +565,9 @@ bool Player::has_moved()
         return false;
 
     return true;
+}
+
+void Player::set_whiffles(int new_whiffles)
+{
+  my_whiffles = new_whiffles;
 }

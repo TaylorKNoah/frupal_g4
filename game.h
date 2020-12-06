@@ -17,7 +17,6 @@ public:
   bool move_player(int to_x, int to_y, bool binocs, bool ship);
   int draw();
   int get_energy();
-  int get_whiffles();
   void win();
   void lose();
 
