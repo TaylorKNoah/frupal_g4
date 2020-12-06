@@ -13,10 +13,64 @@ Item::~Item()
     isOwned = 0;
 }
 
+int Item::get_is_owned()
+{
+    return isOwned;
+}
 
-////////////////////////////////////////////////////////////////////
-//                      Treasure   functions
-////////////////////////////////////////////////////////////////////
+int Item::get_whiffles()
+{
+    return whiffles;
+}
+
+// initialize the diff types of treasure
+void Item::init(int z)
+{
+
+  if(z == 0)
+  {
+    name = "Gil";
+    whiffles = 100;
+  }
+  else if(z == 1)
+  {
+    name = "Double Dollars";
+    whiffles = 200;
+  }
+  else if(z == 2)
+  {
+    name = "Galactic Credits";
+    whiffles = 300;
+  }
+  else if(z == 3)
+  {
+    name = "Rupees";
+    whiffles = 400;
+  }
+  else
+  {
+    name = "BitCoin";
+    whiffles = 500;
+  }
+
+  return;
+
+}
+
+
+int Item::use()
+{
+    --isOwned;
+    return isOwned;
+}
+
+
+void Item::change_is_owned(int x)
+{
+    isOwned += x;
+}
+
+
 
 
 ////////////////////////////////////////////////////////////////////
@@ -39,7 +93,7 @@ void Tools::init(int i)
     if( i == 0)
     {
         rating = 2;
-        whiffles = 25;
+        whiffles = 50;
         name = "Axe";
     }
 
@@ -47,9 +101,28 @@ void Tools::init(int i)
     else if( i == 1)
     {
         rating = 3;
-        whiffles = 40;
+        whiffles = 100;
         name = "Hammer";
     }
+
+    //create binocluars
+    else if( i == 2)
+    {
+        name = "Binoculars";
+        whiffles = 500;
+    }
+
+    else if ( i == 3)
+    {
+        name = "Ship";
+        whiffles = 1000;
+    }
+}
+
+
+int Tools::get_rating()
+{
+    return rating;
 }
 
 
@@ -61,7 +134,7 @@ Food::Food():food_energy(0){}
 Food::~Food(){}
 
 
-int Food::make_food(int i)
+void Food::init(int i)
 {
   // if less than 0 troll food
   if(i < 0)
@@ -107,12 +180,13 @@ int Food::make_food(int i)
     name = "Mysterious Food";
   }
 
-  return food_energy;
+  return;
 
 }
 
 
-
-
-
+int Food::get_energy()
+{
+    return food_energy;
+}
 

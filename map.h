@@ -18,14 +18,15 @@ enum Type {MEADOW_VIS, SWAMP_VIS, WATER_VIS, WALL_VIS, MEADOW_INV, SWAMP_INV, WA
 #define WATER   3
 #define WALL    4
 #define HERO    5
+#define ROYAL   6
 
-//Definitions for entities on map
 #define EMPTY       ' '
 #define PLAYER      '@'
 #define FOOD        'F'
 #define TOOL        'T'
 #define OBSTACLE    '!'
 #define TREASURE    '$'
+#define DIAMOND     '&'
 #define CLUE        '?'
 #define SHIP        'S'
 #define BINOCULARS  'B'
@@ -39,10 +40,15 @@ class Grovnik
     Type get_type();
     Entity* get_entity();
     void toggle_vis(bool vis);
+    void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0);
+    char get_char();
+    Entity* get_ent();
+    void clear(bool remove);
 
   private:
     Entity* entity;
     Type type;
+    char draw;
 };
 
 class Map
@@ -50,13 +56,17 @@ class Map
   public:
     Map();              //constructor take filename to load map info
     void build(string filename);
-    void draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
+    Entity* draw(WINDOW* &game_win,int cur_x, int cur_y, int play_x, int play_y);		//draw uses terminal size to leave room for menu
     void reveal(int play_x,int play_y,bool binocs);
     Type info(int x, int y);
-    Entity* entity_info(int x, int y);
+    Entity* get_item(int x, int y);
+    bool clear(int x, int y, bool remove);
+    void draw_info(Entity* entity,WINDOW* &game_win,int size_x);
+
     ~Map();
 
   private:
     Grovnik*** map;     //This is a 2D Array of the form map[y][x]
     string name_type[8] = {"Meadow","Swamp","Water","Wall","Unknown","Unknown","Unknown","Unknown"};
+    int offset[2];
 };

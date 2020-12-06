@@ -29,20 +29,96 @@ void Menu::draw(int menu_start, WINDOW* &game_win)
         mvwprintw(game_win, i, menu_start, "#");
 
     //Menu Header
-    mvwprintw(game_win, 1, menu_start+1, "   THE KINDOM OF FRUPAL ");
+    mvwprintw(game_win, 1, menu_start+1, "  THE KINGDOM OF FRUPAL ");
     mvwprintw(game_win, 3, menu_start+1, "     ----- MENU -----");
 
     //Directional Input info
-    mvwprintw(game_win, 10, menu_start+1, " To Move:");
-    mvwprintw(game_win, 11, menu_start+1, " W) North");
-    mvwprintw(game_win, 12, menu_start+1, " A) West");
-    mvwprintw(game_win, 13, menu_start+1, " S) South");
-    mvwprintw(game_win, 14, menu_start+1, " D) East");
+    mvwprintw(game_win, 12, menu_start+1, " To Move:");
+    mvwprintw(game_win, 13, menu_start+1, " W) North");
+    mvwprintw(game_win, 14, menu_start+1, " A) West");
+    mvwprintw(game_win, 15, menu_start+1, " S) South");
+    mvwprintw(game_win, 16, menu_start+1, " D) East");
 
 
     //get curor loc and display info about entities
     //TO ADD LATER
 
     //refresh the window
-    wrefresh(game_win);
+    //wrefresh(game_win);
 }
+
+
+void Menu::prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp)
+{
+/*
+    //Clear WASD Display
+    mvwprintw(game_win, 12, menu_start+1, "         ");
+    mvwprintw(game_win, 13, menu_start+1, "         ");
+    mvwprintw(game_win, 14, menu_start+1, "         ");
+    mvwprintw(game_win, 15, menu_start+1, "         ");
+    mvwprintw(game_win, 16, menu_start+1, "         ");
+
+    char prompt[64];
+
+    //Get entity type
+    //Construct prompt accordingly
+    Obstacle* optr = dynamic_cast<Obstacle*>(temp);
+    if(optr)
+    {
+        //construct string for prompt
+        int j = sprintf(prompt, "%s", "Energy needed "); 
+        j += sprintf(prompt+j, "%s", optr->get_name().data());
+        j += sprintf(prompt+j, "%s", ": ");
+        sprintf(prompt+j, "%i", optr->get_energy());
+    }
+
+
+    else
+    {
+        Food* fptr = dynamic_cast<Food*>(temp);
+        if(fptr)
+        {
+            int j = sprintf(prompt, "%s", "Cost of food '");
+            j += sprintf(prompt+j, "%s", fptr->get_name().data());
+            j += sprintf(prompt+j, "%s", "' : ");
+            sprintf(prompt+j, "%i", fptr->get_whiffles());
+        }
+
+        else
+        {
+            Tools* tptr = dynamic_cast<Tools*>(temp);
+            if(tptr)
+            {
+                int j = sprintf(prompt, "%s", "Cost of tool '");
+                j += sprintf(prompt+j, "%s", tptr->get_name().data());
+                j += sprintf(prompt+j, "%s", "' : ");
+                sprintf(prompt+j, "%i", tptr->get_whiffles());
+            }
+
+            //must be treasure
+            else
+            {
+               Item* iptr = dynamic_cast<Item*>(temp);
+               if(iptr)
+               {
+                   int j = sprintf(prompt, "%s", "Found "); 
+                   j += sprintf(prompt+j, "%s", iptr->get_name().data());
+                   j += sprintf(prompt+j, "%s", "!"); 
+               }
+            }
+        }
+    }
+
+    //send prompt script to screen
+    mvwprintw(game_win, 12, menu_start+1, prompt);
+    getch();
+    //refresh();
+*/
+}
+
+
+
+
+
+
+

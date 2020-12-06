@@ -16,23 +16,27 @@ class Entity
 
   public:
     Entity();  
-    ~Entity();  
+    virtual ~Entity();  
 
     int get_x();
     int get_y();
     void get_loc(int* &loc);  
     void set_loc(int x, int y);
+    bool compare_name(char* to_cmp);
+    string get_name();
 
+    virtual void init(int i);
+    virtual void init(int q, int x, int y);
 
   //set protoc so derived classes can set themselves
   // but clients can't touch
   protected:
+    int entity_x;
+    int entity_y;
 
     string name;
 
   private:
-    int entity_x;
-    int entity_y;
    // int * location;
     char type;
 
@@ -45,6 +49,9 @@ class Obstacle:public Entity
     Obstacle();
     Obstacle(int obs_type);
     ~Obstacle();
+
+    int get_energy();
+    bool is_tree();
 
     //creats an obstacle
     void init(int i);
@@ -75,6 +82,13 @@ class Clue: public Entity
     Clue();
     Clue(int type,string a_sentence);
     ~Clue();
+
+
+    string get_clue();
+
+    void init(int q, int royal_x,int royal_y);
+    void display_clue();
+
 
   private:
     int clue_type;  // 0 = false clue -- 1 = true clue

@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
   if(argc != 2)
   {
-      cout<<"\nTo run: ./frupal <MAP.txt> where MAP is the name of your map file"<<endl;
+      cout<<"\nTo run: ./frupal <map.txt> where map is the name of your map file"<<endl;
       exit(-1);
   }
 

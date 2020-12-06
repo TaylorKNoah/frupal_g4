@@ -19,4 +19,5 @@ class Menu
         ~Menu();
 
         void draw(int menu_start, WINDOW* &game_win);
+        void prompt_interaction(int menu_start, WINDOW* &game_win, Entity* temp);
 };
