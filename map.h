@@ -39,7 +39,7 @@ class Grovnik
     Type get_type();
     Entity* get_entity();
     void toggle_vis(bool vis);
-    void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0);
+    void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0,int x=0, int y=0);
     char get_char();
     Entity* get_ent();
     void clear(bool remove);

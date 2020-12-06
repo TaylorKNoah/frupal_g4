@@ -7,7 +7,7 @@
 
 #include "map.h"
 
-bool debug = false;  //TOGGLE THIS TO MAKE THE MAP VISIBLE
+bool debug = true;  //TOGGLE THIS TO MAKE THE MAP VISIBLE
 
 Grovnik::Grovnik(Type new_type)
 {
@@ -52,7 +52,7 @@ void Grovnik::toggle_vis(bool vis)
     }
 }
 
-void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
+void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y,int x, int y)
 {
  switch(ent)
   {
@@ -91,7 +91,8 @@ void Grovnik::build_ent(int ent,int i,int dia_x,int dia_y)
       break;
 
       case 'C':   //CLUE
-        entity = new Clue;
+        entity = new Clue();
+        entity->set_loc(x,y);
         entity->init(i, dia_x,dia_y);
         draw = CLUE;
       break;
@@ -244,7 +245,7 @@ void Map::build(string file_name)
             in.get(tempi,4,':');
             in.ignore(4,':');
             i = stoi(tempi);
-            map[y][x]->build_ent(new_type,dia_x,dia_y);
+            map[y][x]->build_ent(new_type,i,dia_x,dia_y,x,y);
             break;
       }
 
