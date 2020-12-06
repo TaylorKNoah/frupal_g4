@@ -101,7 +101,10 @@ bool Obstacle::is_tree()
 
 
 /***********ROYAL_DIAMOND**********************/
-Royal_Diamond::Royal_Diamond():game_end(false){}
+Royal_Diamond::Royal_Diamond():game_end(false)
+{
+    name = "Royal Diamond";
+}
 Royal_Diamond::Royal_Diamond(string a_thing,bool found_diamond):something(a_thing),game_end(found_diamond){}
 
 Royal_Diamond::~Royal_Diamond(){}

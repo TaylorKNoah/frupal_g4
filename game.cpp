@@ -13,7 +13,8 @@ Game::Game(string file)
   filename = file;
   //window = newwin(128, 128+25, 0, 0);
   initscr();
-  keypad(stdscr, TRUE);
+  noecho();
+  keypad(stdscr, true);
   window = stdscr;
   map.build(file);
   player.build(file);
@@ -32,14 +33,18 @@ Player Game::get_player() {
 }
 */
 
-int Game::draw() {
+int Game::draw() 
+{
   x = COLS;
   y = LINES;
 
+  // 0 - continue, 1 - win, 2
+  int win_cond = 0;
   
   menu_start = (x - 25);
 
-  if(COLS < 80 || LINES < 24) {
+  if(COLS < 80 || LINES < 24) 
+  {
     printf("\nTerminal too small please enlarge");
     printf("\nmenu start = %i, x = %i", menu_start, x);
     clear();
@@ -48,6 +53,7 @@ int Game::draw() {
     //return -1;
     
   }
+
   else
   {
     clear();
@@ -56,15 +62,16 @@ int Game::draw() {
     player.draw(menu_start, window);
     Entity* temp = map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
 
-    if(temp)
+    //inspect
+    if(temp && player.has_moved())
     {
 
         //check for diamond
         char RD[14] = "Royal Diamond";
         if(strcmp(temp->get_name().data(), RD) == 0)
         {
-            //win funcion
-            //exit
+            //set whiffles to - value
+            win_cond = 1;
         }
 
         //if clue
@@ -80,26 +87,45 @@ int Game::draw() {
         Obstacle* optr = dynamic_cast <Obstacle*> (temp);
         if(optr)
         {
-            menu.prompt_interaction(menu_start, window, temp);
+            //menu.prompt_interaction(menu_start, window, temp);
             int pointer_fate = player.clear_obstacle(menu_start, window, optr);
-            map.clear(player.get_x(), player.get_y(), pointer_fate);
+
+            if(pointer_fate > 0)
+                map.clear(player.get_x(), player.get_y(), true);
+            else
+            {
+                player.reset_location();
+                //map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
+            }
+
         }
 
         else
         {
+
             Item* iptr = dynamic_cast <Item*> (temp);
-            menu.prompt_interaction(menu_start, window, temp);
+            //menu.prompt_interaction(menu_start, window, temp);
             int pointer_fate = player.pickup_item(menu_start, window, iptr);
-            map.clear(player.get_x(), player.get_y(), pointer_fate);
+
+            if(pointer_fate == 1)
+                map.clear(player.get_x(), player.get_y(), true);
+
+            else if(pointer_fate == 2)
+                map.clear(player.get_x(), player.get_y(), false);
+
+            else
+                player.set_previous_location(player.get_x(), player.get_y());
         }
+        //end inspect
     }
   }
 
   //wrefresh(window);
   refresh();
 
-  return 0;
+  return win_cond;
 }
+
 
 void Game::update(int key) {
   switch (key) {
@@ -135,19 +161,10 @@ void Game::update(int key) {
     }
     break;
 
-  //View inventory
+    //toggle inventory
   case 'i':
-    if (!inventory_open)
-    {
-      inventory_open = true;
       player.display_inventory(menu_start, window);
-    }
-    else
-    {
-      inventory_open = false;
-      menu.draw(menu_start, window);
-    }
-    break;
+      break;
 
   //Move cursor up
   case KEY_UP:
@@ -182,6 +199,9 @@ void Game::update(int key) {
 
 
 bool Game::move_player(int to_x, int to_y, bool binocs, bool ship) {
+
+  player.set_previous_location(player.get_x(), player.get_y());
+
   switch (map.info(to_x, to_y)) {
   case MEADOW_VIS:
     player.add_energy(-1);

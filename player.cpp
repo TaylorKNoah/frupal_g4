@@ -114,7 +114,7 @@ void Player::draw(int menu_start, WINDOW* game_win)
 
 void Player::reset_location()
 {
-    Entity::set_loc(player_previous_x, player_previous_y);
+    set_loc(player_previous_x, player_previous_y);
 }
 
 
@@ -137,11 +137,14 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
     //Get item counts
     for(int i=0; i<10; ++i)
     {
+        if(my_items[i] == NULL)
+            continue;
+
         if(my_items[i]->compare_name(axe_cmp))
-            num_axe += my_items[i]->get_is_owned();
+            num_axe = my_items[i]->get_is_owned();
 
         else if(my_items[i]->compare_name(hammer_cmp))
-            num_hammer += my_items[i]->get_is_owned();
+            num_hammer = my_items[i]->get_is_owned();
     }
 
     //clear WASD
@@ -164,6 +167,25 @@ void Player::display_inventory(int menu_start, WINDOW* &game_win)
     mvwprintw(game_win, 12, menu_start+1, "Inventory");
     mvwprintw(game_win, 13, menu_start+1, axe);
     mvwprintw(game_win, 14, menu_start+1, hammer);
+
+    if(has_ship)
+        mvwprintw(game_win, 15, menu_start+1, "Ship");
+
+    if(has_binoculars)
+        mvwprintw(game_win, 16, menu_start+1, "Binoculars");
+
+
+
+    mvwprintw(game_win, 17, menu_start+1, "Press 'i' to return");
+
+    char input = 'o';
+    do
+    {
+        input = getch();
+
+    }while(input != 'i');
+
+
 }
 
 
@@ -306,6 +328,7 @@ bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
 
     //player does not want to clear obstacle
     mvwprintw(game_win, 15, menu_start+1, "Obstacle not cleared.");
+    refresh();
     return false;
 }
 
@@ -536,7 +559,10 @@ void Player::use_item(int i)
     }
 }
 
-int Player::get_whiffles()
+bool Player::has_moved()
 {
-    return my_whiffles;
+    if(entity_x == player_previous_x && entity_y == player_previous_y)
+        return false;
+
+    return true;
 }

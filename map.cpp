@@ -117,6 +117,8 @@ void Grovnik::clear(bool remove)
     delete entity;
 
   entity = NULL;
+
+  draw = ' ';
 }
 
 Map::Map()

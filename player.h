@@ -19,6 +19,7 @@ class Player: public Entity
     void display_inventory(int menu_start, WINDOW* &win);
     bool clear_obstacle(int menu_start, WINDOW* &win, Obstacle* optr);
     bool has_item(char* to_cmp);
+    bool has_moved();
     void reset_location();
     void set_previous_location(int x, int y);
     bool has_binocs();
