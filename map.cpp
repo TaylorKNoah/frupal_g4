@@ -7,7 +7,7 @@
 
 #include "map.h"
 
-bool debug = true;  //TOGGLE THIS TO MAKE THE MAP VISIBLE
+bool debug = false;  //TOGGLE THIS TO MAKE THE MAP VISIBLE
 
 Grovnik::Grovnik(Type new_type)
 {

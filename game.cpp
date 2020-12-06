@@ -252,7 +252,7 @@ void Game::lose()
 
 void Game::win()
 {
-  draw();
   nodelay(window, false);
+  player.draw(menu_start, window);
   getch();
 }
