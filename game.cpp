@@ -76,9 +76,9 @@ int Game::draw()
         Clue* cptr = dynamic_cast <Clue*> (temp);
         if(cptr != NULL)
         {
-            //cptr->display_clue();
-            string a_clue = cptr->get_clue();
-            mvwprintw(window, 6, menu_start+1, "%s", a_clue.data());
+            cptr->display_clue(menu_start,window);
+           // string a_clue = cptr->get_clue();
+           // mvwprintw(window, 6, menu_start+1, "%s", a_clue.data());
 
         }
 

@@ -111,74 +111,127 @@ Royal_Diamond::~Royal_Diamond(){}
 
 /****************CLUES**************************/
 Clue::Clue():clue_type(0){}
-Clue::Clue(int type,string a_sentence):clue_type(type),sentence(a_sentence){}
+Clue::Clue(int type,string a_sentence):clue_type(type),sentence1(a_sentence){}
 
 Clue::~Clue(){}
 
 
-string Clue::get_clue()
+void Clue::display_clue(int menu_start,WINDOW *& game_win)
 { 
+    mvwprintw(game_win, 12, menu_start+1, "%s",sentence1.data());
+    mvwprintw(game_win, 13, menu_start+1, "%s",sentence2.data());
+    mvwprintw(game_win, 14, menu_start+1, "%s",sentence3.data());
+    mvwprintw(game_win, 15, menu_start+1, "%s",sentence4.data());
+    mvwprintw(game_win, 16, menu_start+1, "            ");
 
-  return sentence;
+  return;
 
 }
 
 
 void Clue::init(int q,int royal_x,int royal_y)
 {
-  int x_dir, y_dir;
-
-  x_dir = royal_x - entity_x;
-  y_dir = royal_y - entity_y;
-  string begin = "The Royal Diamond is \n";
+  clue_type = q;
+  x_dir = royal_x - this->entity_x;
+  y_dir = royal_y - this->entity_y;
+  string begin = "The Royal Diamond is ";
   string andd = " and ";
   string go_x = to_string(x_dir);
   string go_y = to_string(y_dir);
   string south = " paces south ";
   string north = " paces north ";
-  string east = " paces east \n";
-  string west = " paces west \n";
-  string end = " of this clue\n";
+  string east = " paces east ";
+  string west = " paces west ";
+  string end = "of this clue.";
 
-  if(q == 0)
+  if(clue_type == 0)
   {
 
-    sentence = "Through the swampy marsh \n across the great plains at \n the foot of Mt. Doom the \n Royal Diamond awaits\n";
-
-
-    return;
-
+    sentence1 = "Through the swampy marsh";
+    sentence2 = "across the great plains"; 
+    sentence3 = "at the foot of Mt. Doom";
+    sentence4 = "the Royal Diamond awaits";
   }
   else
   {
     if(x_dir < 0 && y_dir < 0)
-      sentence = begin + go_x + west + andd + go_y + south + end;
-
+    {
+      x_dir = abs(x_dir);
+      y_dir = abs(y_dir);
+      go_x = to_string(x_dir);
+      go_y = to_string(y_dir);
+      sentence1 = begin; 
+      sentence2 = go_x + west + andd; 
+      sentence3 = go_y + north;
+      sentence4 = end;
+    }
     else if(x_dir < 0 && y_dir > 0)
-      sentence = begin + go_x + west + andd + go_y + north + end;
-
+    {
+      x_dir = abs(x_dir);
+      go_x = to_string(x_dir);
+      sentence1 = begin;
+      sentence2 = go_x + west + andd;
+      sentence3 = go_y + south;
+      sentence4 = end;
+    }
     else if(x_dir > 0 && y_dir < 0)
-      sentence = begin + go_x + east + andd + go_y + south + end;
-
+    {
+      y_dir = abs(y_dir);
+      go_y = to_string(y_dir);
+      sentence1 = begin; 
+      sentence1 = begin;
+      sentence2 = go_x + east + andd;
+      sentence3 = go_y + north;
+      sentence4 = end;
+    }
     else if(x_dir > 0 && y_dir > 0)
-      sentence = begin + go_x + east + andd + go_y + north + end;
-
+    {
+      sentence1 = begin;
+      sentence2 = go_x + east + andd;
+      sentence3 = go_y + south;
+      sentence4 = end;
+    }
     else if(x_dir > 0 && y_dir == 0)
-      sentence = begin + go_x + east + end;
-
+    {
+      sentence1 = begin;
+      sentence2 = go_x + east;
+      sentence3 = end;
+      sentence4 = "              ";
+    }
     else if(x_dir < 0 && y_dir == 0)
-      sentence = begin + go_x + west + end;
-
+    {
+      x_dir = abs(x_dir);
+      go_x = to_string(x_dir);
+      sentence1 = begin;
+      sentence2 = go_x + west;
+      sentence3 = end;
+      sentence4 = "              ";
+    }
     else if(x_dir == 0 && y_dir > 0)
-      sentence = begin + north + end;
-
+    {
+      sentence1 = begin;
+      sentence2 = go_y + south;
+      sentence3 = end;
+      sentence4 = "              ";
+    }
     else if(x_dir == 0 && y_dir < 0)
-      sentence = begin + south + end;
-
+    {
+      y_dir = abs(y_dir);
+      go_y = to_string(y_dir);
+      sentence1 = begin;
+      sentence2 = go_y + north;
+      sentence3 = end;
+      sentence4 = "              ";
+    }
     else
-      sentence = "You're at the Royal Diamond and a clue somehow.\n";
-
-    return;
+    {
+      sentence1 = "You're at the Royal";
+      sentence2 = "Diamond and a clue";
+      sentence3 = "somehow.       ";
+      sentence4 = "              ";
+    }
   }
+
+
 }
   
