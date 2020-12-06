@@ -42,7 +42,10 @@ int main(int argc, char* argv[])
       game.update(key);
       
       if (game.get_energy() <= 0)
+      {
         running = false;
+	game.lose();
+      }
     }
   }
   clear();
