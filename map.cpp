@@ -21,6 +21,11 @@ Type Grovnik::get_type()
   return type;
 }
 
+Entity* Grovnik::get_entity()
+{
+  return entity;
+}
+
 Grovnik::~Grovnik()
 {
 	if(entity)

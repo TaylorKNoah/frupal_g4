@@ -38,6 +38,7 @@ class Grovnik
     ~Grovnik();
 
     Type get_type();
+    Entity* get_entity();
     void toggle_vis(bool vis);
     void build_ent(int ent,int i=0,int dia_x=0,int dia_y=0);
     char get_char();
@@ -61,6 +62,7 @@ class Map
     Entity* get_item(int x, int y);
     bool clear(int x, int y, bool remove);
     void draw_info(Entity* entity,WINDOW* &game_win,int size_x);
+
     ~Map();
 
   private:
