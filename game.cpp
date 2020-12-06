@@ -166,7 +166,6 @@ void Game::update(int key) {
       player.display_inventory(menu_start, window);
       break;
 
-
   //Move cursor up
   case KEY_UP:
     if (cursor_y != 0) { //If cursor is not at the top of the screen
@@ -239,4 +238,16 @@ bool Game::move_player(int to_x, int to_y, bool binocs, bool ship) {
 int Game::get_energy()
 {
   return player.get_energy();
+}
+
+void Game::lose()
+{
+  clear();
+  mvprintw(0, 0, "With no energy left, you collapse onto the ground completely exhausted.");
+  mvprintw(1, 0, "Your journey ends here, where your body is left to perish and be eaten by grus.");
+  mvprintw(3, 0, "You died...");
+  mvprintw(4, 0, "Press any key to continue...");
+  nodelay(window, false);
+  refresh();
+  getch();
 }

@@ -45,13 +45,10 @@ int main(int argc, char* argv[])
 
   }while(win == 0);
 
-
-  /*
   if(win == 1)
       //win
   else
-      //lose
-  */
+     game.lose();
 
 
   clear();
