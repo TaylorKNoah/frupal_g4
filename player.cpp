@@ -274,9 +274,6 @@ bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
 
             do
             {
-                //get user input
-                if(input != 'Y' && input != 'N')
-                    mvwprintw(game_win, 14, menu_start+1, "Please answer with Y or N");
 
                 input = getch();
                 input = toupper(input);
@@ -307,10 +304,6 @@ bool Player::clear_obstacle(int menu_start, WINDOW* &game_win, Obstacle* optr)
 
         do
         {
-
-            //get user input
-            if(input != 'Y' && input != 'N')
-                mvwprintw(game_win, 14, menu_start+1, "Please answer with Y or N");
 
             input = getch();
             input = toupper(input);
@@ -403,14 +396,20 @@ int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
         
         if(input == 'Y')
         {
-            bool needs_map_pointer = false;
-            if(my_whiffles >= whif_temp)
-                needs_map_pointer = get_tool(tptr);
-            else
-              mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
           
-            if(needs_map_pointer)
-              pointer_fate = 2;
+            if(my_whiffles < whif_temp)
+              mvwprintw(win, 17, menu_start+1, "Not enough whiffles.");
+            else
+            {
+                bool delete_map_pointer = false;
+                delete_map_pointer = get_tool(tptr);
+
+                if(delete_map_pointer)
+                  pointer_fate = 1;
+                else
+                    pointer_fate = 2;
+
+            }
         }
 
     }
@@ -496,42 +495,56 @@ int Player::pickup_item(int menu_start, WINDOW* &win, Item* to_pickup)
 // decrements player money by tool cost
 bool Player::get_tool(Tools* &tptr)
 {
-    bool picked_up = false;
+    bool delete_map_pointer = false;
 
+    //when pickup is reported true, the pointer on the map should be deleted.
+
+    int slot = -1;
+    //see if item already exists in list
     for(int i=0; i<10; ++i)
     {
         if(my_items[i] != NULL && (strcmp(my_items[i]->get_name().data(), tptr->get_name().data())) == 0)
-        {
-           my_items[i]->change_is_owned(1); 
-           picked_up = true;
-           break;
-        }
+            slot = i;
+    }
 
-        if(my_items[i] == NULL)
+    //if it doesnt, use map pointer
+    if(slot == -1)
+    {
+        for(int i=0; i<10; ++i)
         {
-            my_items[i] = tptr;
-            my_items[i]->change_is_owned(1); 
-            break;
+            if(my_items[i] == NULL)
+            {
+                my_items[i] = tptr;
+                break;
+            }
         }
     }
 
+    //if it does, inc count, and delete map pointer
+    else
+    {
+        my_items[slot]->change_is_owned(1);
+        delete_map_pointer = true;
+    }
+
+    //cost of item
    my_whiffles -= tptr->get_whiffles();
 
    char binoc [11] = "Binoculars";
    if(strcmp(tptr->get_name().data(), binoc) == 0)
    {
        has_binoculars = true;;
-       picked_up = true;
+       delete_map_pointer = true;
    }
 
    char ship [5] = "Ship";
    if(strcmp(tptr->get_name().data(), ship) == 0)
    {
        has_ship = true;
-       picked_up = true;
+       delete_map_pointer = true;
    }
 
-   return picked_up;
+   return delete_map_pointer;
 }
 
 

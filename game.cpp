@@ -103,6 +103,9 @@ int Game::draw()
 
             Item* iptr = dynamic_cast <Item*> (temp);
             //menu.prompt_interaction(menu_start, window, temp);
+            //0 - do nothing
+            //1 - delete
+            //2 - null, do not delte
             int pointer_fate = player.pickup_item(menu_start, window, iptr);
 
             if(pointer_fate == 1)
