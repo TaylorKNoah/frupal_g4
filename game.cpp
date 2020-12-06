@@ -70,8 +70,8 @@ int Game::draw()
         char RD[14] = "Royal Diamond";
         if(strcmp(temp->get_name().data(), RD) == 0)
         {
+            //set whiffles to - value
             win_cond = 1;
-            //exit
         }
 
         //if clue
