@@ -22,9 +22,10 @@ class Player: public Entity
     void set_previous_location(int x, int y);
     bool has_binocs();
     bool has_boat();
-    bool get_tool(Tools* tptr);
+    bool get_tool(Tools* &tptr);
     void eat_food(Food* fptr);
     void get_treasure(Item* treasure);
+    void use_item(int i);
 
     //works for Tools, Food, and Items (aka treasure)
     //return int signals what to do with Item* pickup after use

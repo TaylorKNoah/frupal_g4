@@ -54,7 +54,45 @@ int Game::draw() {
     map.reveal(player.get_x(), player.get_y(), false);
     menu.draw(menu_start, window);
     player.draw(menu_start, window);
-    map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
+    Entity* temp = map.draw(window, cursor_x, cursor_y, player.get_x(), player.get_y());
+
+    if(temp)
+    {
+
+        //check for diamond
+        char RD[14] = "Royal Diamond";
+        if(strcmp(temp->get_name().data(), RD) == 0)
+        {
+            //win funcion
+            //exit
+        }
+
+        //if clue
+        Clue* cptr = dynamic_cast <Clue*> (temp);
+        if(cptr != NULL)
+        {
+            //cptr->display_clue();
+            string a_clue = cptr->get_clue();
+            mvwprintw(window, 6, menu_start+1, "%s", a_clue.data());
+
+        }
+
+        Obstacle* optr = dynamic_cast <Obstacle*> (temp);
+        if(optr)
+        {
+            menu.prompt_interaction(menu_start, window, temp);
+            int pointer_fate = player.clear_obstacle(menu_start, window, optr);
+            map.clear(player.get_x(), player.get_y(), pointer_fate);
+        }
+
+        else
+        {
+            Item* iptr = dynamic_cast <Item*> (temp);
+            menu.prompt_interaction(menu_start, window, temp);
+            int pointer_fate = player.pickup_item(menu_start, window, iptr);
+            map.clear(player.get_x(), player.get_y(), pointer_fate);
+        }
+    }
   }
 
   //wrefresh(window);

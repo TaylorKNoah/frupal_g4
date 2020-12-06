@@ -58,9 +58,10 @@ void Item::init(int z)
 }
 
 
-void Item::use()
+int Item::use()
 {
     --isOwned;
+    return isOwned;
 }
 
 
