@@ -46,6 +46,12 @@ int main(int argc, char* argv[])
         running = false;
 	game.lose();
       }
+
+      if (game.get_whiffles() < 0)
+      {
+        running = false;
+	game.win();
+      }
     }
   }
   clear();

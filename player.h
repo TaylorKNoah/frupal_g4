@@ -13,6 +13,7 @@ class Player: public Entity
 
     int get_energy();
     void add_energy(int energy);
+    int get_whiffles();
     void build(string file);
     void draw(int menu_start, WINDOW* win);
     void display_inventory(int menu_start, WINDOW* &win);

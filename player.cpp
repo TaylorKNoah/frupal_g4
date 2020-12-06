@@ -100,9 +100,13 @@ void Player::draw(int menu_start, WINDOW* game_win)
 
     mvwprintw(game_win, 5, menu_start+1, " Energy: ");
     mvwprintw(game_win, 5, menu_start+12, energy.data());
-
+    
     mvwprintw(game_win, 6, menu_start+1, " Whiffles: ");
-    mvwprintw(game_win, 6, menu_start+12, whiffles.data());
+    if (my_whiffles < 0)
+        mvwprintw(game_win, 6, menu_start+12, "one zillion zillion");
+    else
+        mvwprintw(game_win, 6, menu_start+12, whiffles.data());
+
 
 }
 
@@ -532,7 +536,7 @@ void Player::use_item(int i)
     }
 }
 
-
-
-
-
+int Player::get_whiffles()
+{
+    return my_whiffles;
+}
