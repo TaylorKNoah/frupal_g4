@@ -543,14 +543,14 @@ bool Player::get_tool(Tools* &tptr)
    if(strcmp(tptr->get_name().data(), binoc) == 0)
    {
        has_binoculars = true;;
-       delete_map_pointer = true;
+       //delete_map_pointer = true;
    }
 
    char ship [5] = "Ship";
    if(strcmp(tptr->get_name().data(), ship) == 0)
    {
        has_ship = true;
-       delete_map_pointer = true;
+       //delete_map_pointer = true;
    }
 
    return delete_map_pointer;
