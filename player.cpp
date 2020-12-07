@@ -504,19 +504,28 @@ bool Player::get_tool(Tools* &tptr)
     for(int i=0; i<10; ++i)
     {
         if(my_items[i] != NULL && (strcmp(my_items[i]->get_name().data(), tptr->get_name().data())) == 0)
+        {
             slot = i;
+            break;
+        }
     }
 
     //if it doesnt, use map pointer
     if(slot == -1)
     {
+        bool finished = false;
+
         for(int i=0; i<10; ++i)
         {
             if(my_items[i] == NULL)
             {
                 my_items[i] = tptr;
+                my_items[i]->change_is_owned(1);
                 break;
             }
+
+            if(finished)
+                break;
         }
     }
 
