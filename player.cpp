@@ -13,10 +13,27 @@
 //constructor
 Player::Player() 
 {
-  my_items = NULL;
+  my_items = new Item* [10];
+  for(int i=0; i<10; ++i)
+      my_items[i] = NULL;
+
   has_binoculars = false;
   has_ship = false;
   win = stdscr;
+}
+
+Player::~Player()
+{
+    for(int i=0; i<10; ++i)
+    {
+        if(my_items[i] != NULL)
+        {
+            delete my_items[i];
+            my_items[i] = NULL;
+        }
+    }
+
+    delete [] my_items;
 }
 
 bool Player::has_boat()
