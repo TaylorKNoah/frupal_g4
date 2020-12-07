@@ -255,7 +255,11 @@ void Game::lose()
 
 void Game::win()
 {
-  nodelay(window, false);
   player.draw(menu_start, window);
+  clear();
+  mvwprintw(window, LINES / 2, (COLS / 2) - 10, "!!!!!!!!!!! YOU WIN !!!!!!!!!!!");
+  nodelay(window, false);
+  refresh();
   getch();
+
 }
