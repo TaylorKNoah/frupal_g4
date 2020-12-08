@@ -57,3 +57,4 @@
 ### Additional Info
 - See our [Project page](https://github.com/TaylorKNoah/frupal_g4/projects/1) of this repo to see goal/task cards used for this project
 - See our [Presentation Video](https://pdx.zoom.us/rec/share/71Qdth31yayVI0c0TFSAjwGHuXqxNrOBfkcwLQCpdQS9mrmZtaymKntJobAp2kRw.h0kKzLbz9zK-kdFG?startTime=1607300358000) of the game!  
+- See our group meeting docs and diagrams at our shared [google docs folder](https://drive.google.com/drive/u/3/folders/1haQw_VFyOwbZbzS6dUEPPOUu0fd89LiD)
